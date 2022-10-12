@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "lint": "eslint --ext \".ts,.vue\""
   },
   "dependencies": {
     "@vue-leaflet/vue-leaflet": "^0.6.1",
@@ -23,6 +24,7 @@
     "@graphql-codegen/typescript": "^2.7.4",
     "@graphql-codegen/typescript-operations": "^2.5.4",
     "@nuxtjs/apollo": "^5.0.0-alpha.2",
+    "@nuxtjs/eslint-config-typescript": "^11.0.0",
     "@nuxtjs/tailwindcss": "^5.3.3",
     "eslint": "^8.24.0",
     "prettier": "^2.7.1"

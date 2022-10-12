@@ -10,3 +10,7 @@ query getPois {
     }
   }
 }
+
+mutation createPoi($input: CreateInput!) {
+  createPoi(input: $input)
+}

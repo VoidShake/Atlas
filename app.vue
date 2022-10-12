@@ -2,7 +2,7 @@
    <NuxtPage />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 useHead({
    title: 'Atlas'
 })

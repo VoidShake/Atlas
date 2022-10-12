@@ -1,5 +1,5 @@
 <template>
-  <div id="map-wrap">
+  <div id="map-wrap" @contextmenu.prevent="openMenu">
     <p v-if="pending">Loading....</p>
     <client-only v-else-if="map">
       <l-map v-model:zoom="zoom" v-model:center="center" :minZoom="minZoom" :maxZoom="maxZoom">
@@ -13,6 +13,7 @@
 <script lang="ts" setup>
 import { LMap } from "@vue-leaflet/vue-leaflet";
 import { World } from '~/types/World';
+import { CreatePoiDocument } from "~~/graphql/generated";
 
 const zoom = useState('zoom', () => 3)
 const center = useState('center', () => [0, 0])
@@ -43,6 +44,19 @@ const map = computed(() => {
 
 const minZoom = computed(() => map.value && (map.value.mapzoomin - 1))
 const maxZoom = computed(() => map.value && (map.value.mapzoomin + map.value.mapzoomout - 2))
+
+const { mutate: createMarker } = useMutation(CreatePoiDocument, { refetchQueries: ['getPois'] })
+
+function openMenu(e: PointerEvent) {
+  createMarker({
+    input: {
+      name: 'test',
+      world: 'overworld',
+      x: Math.floor(Math.random() * 200 - 100),
+      z: Math.floor(Math.random() * 200 - 100)
+    },
+  })
+}
 </script>
 
 <style>
