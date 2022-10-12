@@ -1,0 +1,12 @@
+query getPois {
+  pois {
+    id
+    name
+    slug
+    pos {
+      x
+      z
+      world
+    }
+  }
+}
