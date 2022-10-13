@@ -19,6 +19,16 @@ query getPois {
   }
 }
 
-mutation createPoi($input: CreateInput!) {
+query getPoi($slug: String!) {
+  poi: poiBySlug(slug: $slug) {
+    ...MapPOI
+    tales {
+      title
+      text
+    }
+  }
+}
+
+mutation createPoi($input: CreatePOIInput!) {
   createPoi(input: $input)
 }

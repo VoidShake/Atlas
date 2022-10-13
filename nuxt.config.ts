@@ -1,7 +1,5 @@
 export default defineNuxtConfig({
-  buildModules: ["@nuxtjs/tailwindcss"],
-
-  modules: ["@nuxtjs/apollo"],
+  modules: ["@nuxtjs/apollo", "@nuxtjs/color-mode", "@nuxtjs/tailwindcss"],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
@@ -12,6 +10,7 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         "/api/": "http://localhost:8080",
+        "/auth/": "http://localhost:8080",
         "/dynmap/": {
           target: "https://mc.westeroscraft.com",
           changeOrigin: true,

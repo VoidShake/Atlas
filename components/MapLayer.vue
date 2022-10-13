@@ -12,10 +12,10 @@
 
 <script lang="ts" setup>
 import { LTileLayer } from "@vue-leaflet/vue-leaflet";
-import type { Map } from '~/types/Map';
+import useMap from "~/store/useMap";
 import type { MapPos } from '~/types/Pos';
 
-const { map } = defineProps<{ map: Map }>()
+const map = useMap()
 
 function zoomedOut(pos: MapPos) {
   return Math.max(0, 10 - pos.z)

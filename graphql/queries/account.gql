@@ -1,0 +1,11 @@
+fragment User on Account {
+  email
+  username
+  avatar
+}
+
+query me {
+  me {
+    ...User
+  }
+}

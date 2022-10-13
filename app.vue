@@ -1,9 +1,16 @@
 <template>
-   <NuxtPage />
+   <NuxtLayout>
+      <NuxtPage />
+      <Dialog v-if="dialog" :x="dialog.x" :y="dialog.y" :options="dialog.options" />
+   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
+import useDialog from './store/useDialog';
+
 useHead({
-   title: 'Atlas'
+   titleTemplate: (s) => s ? `Atlas - ${s}` : 'Atlas'
 })
+
+const dialog = useDialog()
 </script>
