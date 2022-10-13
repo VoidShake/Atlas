@@ -1,10 +1,10 @@
 <template>
-  <div id="map-wrap" @contextmenu.prevent="openMenu">
+  <div id="map-wrap">
     <p v-if="pending">Loading....</p>
     <client-only v-else-if="map">
-      <l-map v-model:zoom="zoom" v-model:center="center" :minZoom="minZoom" :maxZoom="maxZoom">
+      <l-map v-model:zoom="zoom" @ready="ready" v-model:center="center" :minZoom="minZoom" :maxZoom="maxZoom">
         <MapLayer :map="map" />
-        <PointsLayer />
+        <PointsLayer :map="map" />
       </l-map>
     </client-only>
   </div>
@@ -12,8 +12,10 @@
 
 <script lang="ts" setup>
 import { LMap } from "@vue-leaflet/vue-leaflet";
+import { LeafletMouseEvent, Map } from 'leaflet';
+import { CreatePoiDocument } from "~/graphql/generated";
+import { toWorldPos } from '~/shared/projection';
 import { World } from '~/types/World';
-import { CreatePoiDocument } from "~~/graphql/generated";
 
 const zoom = useState('zoom', () => 3)
 const center = useState('center', () => [0, 0])
@@ -47,15 +49,18 @@ const maxZoom = computed(() => map.value && (map.value.mapzoomin + map.value.map
 
 const { mutate: createMarker } = useMutation(CreatePoiDocument, { refetchQueries: ['getPois'] })
 
-function openMenu(e: PointerEvent) {
+function openMenu(e: LeafletMouseEvent) {
   createMarker({
     input: {
       name: 'test',
       world: 'overworld',
-      x: Math.floor(Math.random() * 200 - 100),
-      z: Math.floor(Math.random() * 200 - 100)
+      ...toWorldPos(map.value, e.latlng),
     },
   })
+}
+
+function ready(map: Map) {
+  map.on('contextmenu', openMenu)
 }
 </script>
 

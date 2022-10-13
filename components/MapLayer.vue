@@ -1,5 +1,5 @@
 <template>
-  <l-tile-layer
+  <l-tile-layer noWrap
     :url="`https://mc.westeroscraft.com/tiles/WesterosNew/${map.name}/{scaledX}_{scaledY}/{zoom}_{X}_{Y}.${map['image-format']}`"
     :options="{
       zoom,
@@ -12,15 +12,10 @@
 
 <script lang="ts" setup>
 import { LTileLayer } from "@vue-leaflet/vue-leaflet";
-import { Map } from '~/types/Map';
-import { MapPos } from '~/types/Pos';
+import type { Map } from '~/types/Map';
+import type { MapPos } from '~/types/Pos';
 
-const { map } = defineProps({
-  map: {
-    type: Object as () => Map,
-    required: true,
-  }
-})
+const { map } = defineProps<{ map: Map }>()
 
 function zoomedOut(pos: MapPos) {
   return Math.max(0, 10 - pos.z)

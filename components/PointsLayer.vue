@@ -1,13 +1,20 @@
 <template>
   <div v-if="result">
-    <l-marker v-for="poi in result.pois" :lat-lng="[poi.pos.x, poi.pos.z]" :name="poi.name" :key="poi.id" />
+    <PoiMarker v-for="poi in result.pois" :key="poi.id" :poi="poi" :lat-lng="latLng(poi.pos)" />
   </div>
 
 </template>
 
 <script lang="ts" setup>
-import { LMarker } from '@vue-leaflet/vue-leaflet';
-import { GetPoisDocument } from '~/graphql/generated';
+import { LatLng } from 'leaflet';
+import { GetPoisDocument, PosFragment } from '~/graphql/generated';
+import { toMapPos } from '~/shared/projection';
+import type { Map } from '~/types/Map';
+const { map } = defineProps<{ map: Map }>()
+
+function latLng(pos: PosFragment) {
+  return new LatLng(...toMapPos(map, pos))
+}
 
 const { result } = useQuery(GetPoisDocument)
 </script>

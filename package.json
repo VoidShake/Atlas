@@ -12,6 +12,7 @@
     "lint": "eslint --ext \".ts,.vue\""
   },
   "dependencies": {
+    "@types/leaflet": "^1.8.0",
     "@vue-leaflet/vue-leaflet": "^0.6.1",
     "core-js": "^3.25.3",
     "graphql": "^16.6.0",

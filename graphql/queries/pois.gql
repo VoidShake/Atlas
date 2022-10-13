@@ -1,13 +1,21 @@
+fragment Pos on Point {
+  x
+  y
+  z
+}
+
+fragment MapPOI on POI {
+  id
+  name
+  slug
+  pos {
+    ...Pos
+  }
+}
+
 query getPois {
   pois {
-    id
-    name
-    slug
-    pos {
-      x
-      z
-      world
-    }
+    ...MapPOI
   }
 }
 
