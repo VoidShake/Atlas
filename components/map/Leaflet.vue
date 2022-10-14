@@ -3,8 +3,8 @@
     <l-map v-model:zoom="zoom" @ready="ready" zoomAnimation fadeAnimation v-model:center="center"
       :minZoom="context.minZoom" :maxZoom="context.maxZoom" @contextmenu=" emitWithPos('contextmenu', $event)"
       @click=" emitWithPos('click', $event)">
-      <MapLayer />
-      <PointsLayer @click="(p, e) => $emit('poiClick', p, e)" @contextmenu="(p, e) => $emit('poiContexmenu', p, e)" />
+      <MapTiles />
+      <MapPois @click="(p, e) => $emit('poiClick', p, e)" @contextmenu="(p, e) => $emit('poiContexmenu', p, e)" />
     </l-map>
   </client-only>
 </template>
@@ -26,7 +26,7 @@ const emit = defineEmits<{
 }>()
 
 function emitWithPos(e: 'click' | 'contextmenu', event: LeafletMouseEvent) {
-  emit(e, toWorldPos(context.value.map, event.latlng), event)
+  emit(e as any, toWorldPos(context.value.map, event.latlng), event)
 }
 
 const zoom = useState('zoom', () => 0)

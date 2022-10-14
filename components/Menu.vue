@@ -1,27 +1,32 @@
 <template>
    <div id="menu" :style="{ translate: `${x}px ${y}px` }">
-      <p v-if="options.title">{{ options.title }}</p>
-      <ul v-if="options.buttons">
-         <button v-for="button of options.buttons" @click="button.click">
-            {{ button.text}}
-         </button>
-      </ul>
+      <p class="p-1 text-center" v-if="options.title">{{ options.title }}</p>
+      <FormButton class="rounded-none last:rounded-b-lg first:rounded-t-lg" v-for="button of options.buttons"
+         @click="click(button)">
+         {{ button.text}}
+      </FormButton>
    </div>
 </template>
 
 <script lang="ts" setup>
-import { MenuOptions } from '~/store/useMenu';
+import useMenu, { MenuButton, MenuOptions } from '~/store/useMenu';
+const menu = useMenu()
 
 const { options } = defineProps<{
    x: number
    y: number
    options: MenuOptions
 }>()
+
+async function click(button: MenuButton) {
+   await button.click()
+   menu.value = null
+}
 </script>
 
 <style scoped>
 #menu {
-   @apply p-2 rounded bg-stone-800 shadow-lg;
+   @apply rounded-lg bg-stone-800 shadow-lg;
    position: absolute;
    z-index: 1000;
    top: 0;

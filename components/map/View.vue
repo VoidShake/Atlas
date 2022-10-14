@@ -1,12 +1,13 @@
 <template>
    <div class="grid grid-flow-col">
       <div id="map-wrap">
-         <TileMap @click="c" @contextmenu="mapMenu" @poiClick="selectPOI" @poiContexmenu="poiMenu" />
+         <MapLeaflet @click="c" @contextmenu="mapMenu" @poiClick="selectPOI" @poiContexmenu="poiMenu" />
       </div>
       <LorePanel>
          <slot />
       </LorePanel>
-      <DialogCreateTale v-if="selectedPOI?.action == 'add-lore'" :initialPois="[selectedPOI.poi]" />
+      <DialogCreateTale v-if="selectedPOI?.action == 'add-lore'" :initialPois="[selectedPOI.poi]"
+         @close="selectedPOI = null" />
    </div>
 </template>
 

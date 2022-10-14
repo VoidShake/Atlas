@@ -1,6 +1,6 @@
 <template>
    <DialogBase title="Write Lore" class="w-96">
-      <form @submit.prevent="() => mutate()">
+      <form @submit.prevent="submit">
          <ul class="pois">
             <li v-for="poi of pois" :key="poi.id">
                {{ poi.name }}
@@ -19,6 +19,7 @@
 
 <script lang="ts" setup>
 import { CreateTaleDocument, MapPoiFragment } from '~/graphql/generated';
+import { closeDialog } from '~~/store/useDialog';
 
 const { initialPois } = withDefaults(defineProps<{
    initialPois: MapPoiFragment[]
@@ -38,5 +39,10 @@ const { mutate } = useMutation(CreateTaleDocument, () => ({
    },
    refetchQueries: ['getPoi']
 }))
+
+async function submit() {
+   await mutate()
+   closeDialog()
+}
 
 </script>

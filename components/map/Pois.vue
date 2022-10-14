@@ -1,6 +1,6 @@
 <template>
   <div v-if="result">
-    <PoiMarker v-for="poi in result.pois" :key="poi.id" :poi="poi" :lat-lng="latLng(poi.pos)"
+    <MapPoiMarker v-for="poi in result.pois" :key="poi.id" :poi="poi" :lat-lng="latLng(poi.pos)"
       @click="$emit('click', poi, $event)" @mouseenter="$emit('mouseenter', poi, $event)"
       @contextmenu="$emit('contextmenu', poi, $event)" />
   </div>

@@ -1,9 +1,11 @@
+export interface MenuButton {
+  text: string;
+  click: () => unknown | Promise<unknown>;
+}
+
 export interface MenuOptions {
   title?: string;
-  buttons?: Array<{
-    text: string;
-    click: () => unknown | Promise<unknown>;
-  }>;
+  buttons?: MenuButton[];
 }
 
 export interface MenuContext {
