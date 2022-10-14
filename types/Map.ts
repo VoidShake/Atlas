@@ -28,4 +28,7 @@ export interface Map {
   protected: boolean;
   scale: number;
   tilescale?: number;
+  background?: string;
+  backgroundday?: string;
+  backgroundnight?: string;
 }

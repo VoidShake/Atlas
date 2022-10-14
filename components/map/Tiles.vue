@@ -1,5 +1,5 @@
 <template>
-  <l-tile-layer noWrap :tileSize="tileSize" @ready="ready" :url="url" :options="{
+  <l-tile-layer noWrap :tileSize="tileSize" :url="url" :options="{
     zoomPrefix,
     scaledX,
     scaledY,
@@ -10,7 +10,6 @@
 
 <script lang="ts" setup>
 import { LTileLayer } from "@vue-leaflet/vue-leaflet";
-import type { TileLayer } from "leaflet";
 import useMap from "~/store/useMap";
 import { PosFragment } from "~~/graphql/generated";
 
@@ -22,21 +21,6 @@ const url = computed(() => {
   //return 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
   return `/dynmap/tiles/${world.name}/${map.name}/{scaledX}_{scaledY}/{zoomPrefix}{X}_{Y}.${map['image-format']}`
 })
-
-function ready(layer: TileLayer) {
-  const testPos: PosFragment = { x: 23, y: 11, z: 2 }
-
-  console.log(
-    {
-      x: X(testPos),
-      y: Y(testPos),
-      scaledX: scaledX(testPos),
-      scaledY: scaledY(testPos),
-      zoom: zoomPrefix(testPos),
-    }
-  )
-  console.log('ready', layer.getTileUrl(testPos as any))
-}
 
 function zoomedOut(pos: PosFragment) {
   return Math.max(0, context.value.map.mapzoomout - pos.z + 2)

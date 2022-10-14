@@ -51,6 +51,10 @@ effect(() => refresh())
 
 const context = useMap()
 
+const background = computed(() => {
+  return context.value?.map.background ?? 'black'
+})
+
 watch(options, value => {
   if (!value || context.value) return
   const { defaultworld, defaultmap, worlds } = value
@@ -72,13 +76,11 @@ watch(options, value => {
   context.value = { map, world, minZoom, maxZoom }
 })
 
-watch(zoom, v => console.log('zoom', v))
-
 </script>
 
 <style>
 .leaflet-container {
-  background: transparent;
+  background: v-bind('background');
 }
 
 img.leaflet-tile {
