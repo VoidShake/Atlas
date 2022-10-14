@@ -60,8 +60,8 @@ watch(options, value => {
 
   if (!map) return
 
-  const minZoom = map.mapzoomin
-  const maxZoom = map.mapzoomin + map.mapzoomout
+  const minZoom = map.mapzoomin + 1
+  const maxZoom = minZoom + map.mapzoomout
 
   context.value = { map, world, minZoom, maxZoom }
 })

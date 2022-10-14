@@ -39,7 +39,7 @@ function ready(layer: TileLayer) {
 }
 
 function zoomedOut(pos: PosFragment) {
-  return Math.max(0, context.value.map.mapzoomout - pos.z + 1)
+  return Math.max(0, context.value.map.mapzoomout - pos.z + 2)
 }
 
 function zoomPrefix(pos: PosFragment) {
