@@ -1,34 +1,36 @@
 <template>
-  <div class="grid grid-flow-col">
-
-    <div id="map-wrap">
-      <p v-if="pending">Loading....</p>
-      <client-only v-else-if="map">
-        <l-map v-model:zoom="zoom" @ready="ready" v-model:center="center" :minZoom="minZoom" :maxZoom="maxZoom">
-          <MapLayer />
-          <PointsLayer @click="selectPOI" @contextmenu="poiMenu" />
-        </l-map>
-      </client-only>
-    </div>
-    <LorePanel>
-      <slot />
-    </LorePanel>
-  </div>
+  <client-only v-if="context">
+    <l-map v-model:zoom="zoom" @ready="ready" zoomAnimation
+      @contextmenu=" $emit('contextmenu', toWorldPos(context.map, $event.latlng), $event)" v-model:center="center"
+      :minZoom="context.minZoom" :maxZoom="context.maxZoom">
+      <MapLayer />
+      <PointsLayer @click="(p, e) => $emit('poiClick', p, e)" @contextmenu="(p, e) => $emit('poiContexmenu', p, e)" />
+    </l-map>
+  </client-only>
 </template>
 
 <script lang="ts" setup>
 import { LMap } from "@vue-leaflet/vue-leaflet";
-import { LeafletMouseEvent, Map } from 'leaflet';
-import { CreatePoiDocument, MapPoiFragment } from "~/graphql/generated";
-import { toWorldPos } from '~/shared/projection';
-import { openDialog } from "~/store/useDialog";
+import type { LeafletMouseEvent, Map } from 'leaflet';
+import { MapPoiFragment, PosFragment } from "~/graphql/generated";
+import { toWorldPos } from "~/shared/projection";
 import useMap from '~/store/useMap';
 import { World } from '~/types/World';
 
-const router = useRouter()
+defineEmits<{
+  (e: 'poiClick', poi: MapPoiFragment, event: LeafletMouseEvent)
+  (e: 'poiContexmenu', poi: MapPoiFragment, event: LeafletMouseEvent)
+  (e: 'contextmenu', pos: PosFragment, event: LeafletMouseEvent)
+}>()
 
-const zoom = useState('zoom', () => 3)
+const zoom = useState('zoom', () => 0)
 const center = useState('center', () => [0, 0])
+const bounds = [[-64, 531], [-704, -110]]
+
+function ready(map: Map) {
+  //map.fitBounds(bounds)
+  //console.log(map.getBounds())
+}
 
 interface Options {
   defaultmap: string
@@ -37,71 +39,43 @@ interface Options {
   worlds: World[]
 }
 
-const { data: options, pending, refresh } = await useFetch<Options>('/dynmap/standalone/dynmap_config.json')
+const { data: options, refresh } = await useFetch<Options>('/dynmap/up/configuration', { responseType: 'json' })
 
 effect(() => refresh())
 
-watch(options, value => {
-  if (!value || map.value) return
+const context = useMap()
 
-  const { defaultworld } = value
-  const defaultmap = 'flat'
-  const world = options.value?.worlds.find(
+watch(options, value => {
+  if (!value || context.value) return
+  const { defaultworld, defaultmap, worlds } = value
+
+  const world = worlds.find(
     (it) =>
       it.name.toLowerCase() === defaultworld.toLowerCase()
-  )
-  map.value = world?.maps.find(
+  ) ?? worlds[0]
+
+  const map = world?.maps.find(
     (it) => it.name.toLowerCase() === defaultmap.toLowerCase()
-  )
+  ) ?? world.maps[0]
+
+  if (!map) return
+
+  const minZoom = map.mapzoomin
+  const maxZoom = map.mapzoomin + map.mapzoomout
+
+  context.value = { map, world, minZoom, maxZoom }
 })
 
-const map = useMap()
+watch(zoom, v => console.log('zoom', v))
 
-const minZoom = computed(() => map.value && (map.value.mapzoomin - 1))
-const maxZoom = computed(() => map.value && (map.value.mapzoomin + map.value.mapzoomout - 2))
-
-const { mutate: createMarker } = useMutation(CreatePoiDocument, { refetchQueries: ['getPois'] })
-
-function selectPOI(poi: MapPoiFragment) {
-  router.push(`/poi/${poi.slug}`)
-}
-
-function poiMenu(poi: MapPoiFragment, e: LeafletMouseEvent) {
-  openDialog(e.originalEvent, {
-    buttons: [{
-      'text': 'Add Lore Entry',
-      click: () => { console.log('LORE!') }
-    }]
-  })
-}
-
-function openMenu(e: LeafletMouseEvent) {
-  openDialog(e.originalEvent, {
-    buttons: [{
-      text: 'Create Marker',
-      click: () => createMarker({
-        input: {
-          name: 'test',
-          world: 'overworld',
-          ...toWorldPos(map.value, e.latlng),
-        },
-      })
-    }]
-  })
-}
-
-function ready(map: Map) {
-  map.on('contextmenu', openMenu)
-}
 </script>
 
-<style scoped>
-#map-wrap {
-  height: 800px;
-  width: 1400px;
-}
-
+<style>
 .leaflet-container {
   background: transparent;
+}
+
+img.leaflet-tile {
+  image-rendering: pixelated;
 }
 </style>

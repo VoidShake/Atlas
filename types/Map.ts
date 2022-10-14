@@ -27,4 +27,5 @@ export interface Map {
   prefix: string;
   protected: boolean;
   scale: number;
+  tilescale?: number;
 }

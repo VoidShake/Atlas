@@ -1,0 +1,3 @@
+mutation createTale($input: CreateTaleInput!, $pois: [Int!]) {
+  createTale(input: $input, pois: $pois)
+}

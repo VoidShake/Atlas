@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         "/api/": "http://localhost:8080",
         "/auth/": "http://localhost:8080",
         "/dynmap/": {
-          target: "https://mc.westeroscraft.com",
+          target: "https://map.somethingcatchy.net/",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/dynmap/, ""),
         },

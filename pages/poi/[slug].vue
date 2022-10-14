@@ -1,5 +1,5 @@
 <template>
-  <TileMap>
+  <MapView>
     <template v-if="result">
       <H1>{{ result.poi.name }}</H1>
       <div v-for="tale of result.poi.tales">
@@ -8,7 +8,7 @@
       </div>
     </template>
     <p v-else>Loading...</p>
-  </TileMap>
+  </MapView>
 </template>
 
 <script lang="ts" setup>

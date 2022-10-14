@@ -1,5 +1,5 @@
 <template>
-   <div id="dialog" :style="{ translate: `${x}px ${y}px` }">
+   <div id="menu" :style="{ translate: `${x}px ${y}px` }">
       <p v-if="options.title">{{ options.title }}</p>
       <ul v-if="options.buttons">
          <button v-for="button of options.buttons" @click="button.click">
@@ -10,17 +10,17 @@
 </template>
 
 <script lang="ts" setup>
-import { DialogOptions } from '~/store/useDialog';
+import { MenuOptions } from '~/store/useMenu';
 
 defineProps<{
    x: number
    y: number
-   options: DialogOptions
+   options: MenuOptions
 }>()
 </script>
 
 <style scoped>
-#dialog {
+#menu {
    @apply p-2 rounded bg-stone-800;
    position: absolute;
    z-index: 1000;
@@ -28,7 +28,7 @@ defineProps<{
    left: 0;
 }
 
-.dark-mode #dialog {
+.dark-mode #menu {
    @apply bg-slate-700;
 }
 </style>

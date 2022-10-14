@@ -1,16 +1,16 @@
 <template>
    <NuxtLayout>
       <NuxtPage />
-      <Dialog v-if="dialog" :x="dialog.x" :y="dialog.y" :options="dialog.options" />
+      <Menu v-if="menu" :x="menu.x" :y="menu.y" :options="menu.options" />
    </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
-import useDialog from './store/useDialog';
+import useMenu from './store/useMenu';
 
 useHead({
    titleTemplate: (s) => s ? `Atlas - ${s}` : 'Atlas'
 })
 
-const dialog = useDialog()
+const menu = useMenu()
 </script>

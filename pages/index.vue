@@ -1,3 +1,3 @@
 <template>
-  <TileMap />
+  <MapView />
 </template>

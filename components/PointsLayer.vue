@@ -1,8 +1,8 @@
 <template>
   <div v-if="result">
     <PoiMarker v-for="poi in result.pois" :key="poi.id" :poi="poi" :lat-lng="latLng(poi.pos)"
-      @click="e =>$emit('click', poi, e)" @mouseenter="e =>$emit('mouseenter', poi, e)"
-      @contextmenu="e => $emit('contextmenu', poi, e)" />
+      @click="$emit('click', poi, $event)" @mouseenter="$emit('mouseenter', poi, $event)"
+      @contextmenu="$emit('contextmenu', poi, $event)" />
   </div>
 
 </template>
@@ -13,16 +13,16 @@ import { GetPoisDocument, MapPoiFragment, PosFragment } from '~/graphql/generate
 import { toMapPos } from '~/shared/projection';
 import useMap from "~/store/useMap";
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'click', poi: MapPoiFragment, event: LeafletMouseEvent): void
   (e: 'mouseenter', poi: MapPoiFragment, event: LeafletMouseEvent): void
   (e: 'contextmenu', poi: MapPoiFragment, event: LeafletMouseEvent): void
 }>()
 
-const map = useMap()
+const context = useMap()
 
 function latLng(pos: PosFragment) {
-  return new LatLng(...toMapPos(map.value, pos))
+  return new LatLng(...toMapPos(context.value.map, pos))
 }
 
 const { result } = useQuery(GetPoisDocument)
