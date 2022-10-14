@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { MenuOptions } from '~/store/useMenu';
 
-defineProps<{
+const { options } = defineProps<{
    x: number
    y: number
    options: MenuOptions
@@ -21,7 +21,7 @@ defineProps<{
 
 <style scoped>
 #menu {
-   @apply p-2 rounded bg-stone-800;
+   @apply p-2 rounded bg-stone-800 shadow-lg;
    position: absolute;
    z-index: 1000;
    top: 0;

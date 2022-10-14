@@ -14,6 +14,11 @@ export interface MenuContext {
 
 const useMenu = () => useState<MenuContext | null>("menu", () => null);
 
+export function closeMenu() {
+  const menu = useMenu();
+  menu.value = null;
+}
+
 export function openMenu(e: MouseEvent, options: MenuOptions) {
   const menu = useMenu();
   menu.value = {

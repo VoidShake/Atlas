@@ -1,7 +1,7 @@
 <template>
    <div class="grid grid-flow-col">
       <div id="map-wrap">
-         <TileMap @contextmenu="mapMenu" @poiClick="selectPOI" @poiContexmenu="poiMenu" />
+         <TileMap @click="c" @contextmenu="mapMenu" @poiClick="selectPOI" @poiContexmenu="poiMenu" />
       </div>
       <LorePanel>
          <slot />
@@ -15,7 +15,12 @@ import type { LeafletMouseEvent } from 'leaflet';
 import { CreatePoiDocument, MapPoiFragment, PosFragment } from '~/graphql/generated';
 import { toWorldPos } from '~/shared/projection';
 import useMap from '~/store/useMap';
-import { openMenu } from '~/store/useMenu';
+import { closeMenu, openMenu } from '~/store/useMenu';
+
+function c() {
+   console.log('close')
+   closeMenu()
+}
 
 const router = useRouter()
 const context = useMap()
@@ -33,7 +38,7 @@ function selectPOI(poi: MapPoiFragment) {
 
 function menuTitle(e: LeafletMouseEvent) {
    const pos = toWorldPos(context!.value.map, e.latlng)
-   return `${e.latlng.lat}/${e.latlng.lng} (${pos.x}/${pos.z})`
+   return `${Math.floor(pos.x)} / ${Math.floor(pos.z)}`
 }
 
 function poiMenu(poi: MapPoiFragment, e: LeafletMouseEvent) {

@@ -1,8 +1,8 @@
 <template>
   <client-only v-if="context">
-    <l-map v-model:zoom="zoom" @ready="ready" zoomAnimation
-      @contextmenu=" $emit('contextmenu', toWorldPos(context.map, $event.latlng), $event)" v-model:center="center"
-      :minZoom="context.minZoom" :maxZoom="context.maxZoom">
+    <l-map v-model:zoom="zoom" @ready="ready" zoomAnimation fadeAnimation v-model:center="center"
+      :minZoom="context.minZoom" :maxZoom="context.maxZoom" @contextmenu=" emitWithPos('contextmenu', $event)"
+      @click=" emitWithPos('click', $event)">
       <MapLayer />
       <PointsLayer @click="(p, e) => $emit('poiClick', p, e)" @contextmenu="(p, e) => $emit('poiContexmenu', p, e)" />
     </l-map>
@@ -17,11 +17,17 @@ import { toWorldPos } from "~/shared/projection";
 import useMap from '~/store/useMap';
 import { World } from '~/types/World';
 
-defineEmits<{
+
+const emit = defineEmits<{
   (e: 'poiClick', poi: MapPoiFragment, event: LeafletMouseEvent)
   (e: 'poiContexmenu', poi: MapPoiFragment, event: LeafletMouseEvent)
+  (e: 'click', pos: PosFragment, event: LeafletMouseEvent)
   (e: 'contextmenu', pos: PosFragment, event: LeafletMouseEvent)
 }>()
+
+function emitWithPos(e: 'click' | 'contextmenu', event: LeafletMouseEvent) {
+  emit(e, toWorldPos(context.value.map, event.latlng), event)
+}
 
 const zoom = useState('zoom', () => 0)
 const center = useState('center', () => [0, 0])

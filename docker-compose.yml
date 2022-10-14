@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  atheneum:
+    image: ghcr.io/voidshake/atheneum:main
+    container_name: atheneum
+    env_file: .env
+    ports:
+      - 8080:8080
+
+  atlas:
+    build: .
+    container_name: atlas
+    ports:
+      - 3000:3000
