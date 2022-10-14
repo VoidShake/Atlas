@@ -1,22 +1,25 @@
 <template>
    <div class="grid grid-flow-col">
       <div id="map-wrap">
-         <MapLeaflet @click="c" @contextmenu="mapMenu" @poiClick="selectPOI" @poiContexmenu="poiMenu" />
+         <MapLeaflet @click="c" @contextmenu="mapMenu" @poiClick="clickPoi" @poiContexmenu="poiMenu" />
       </div>
       <LorePanel>
          <slot />
       </LorePanel>
-      <DialogCreateTale v-if="selectedPOI?.action == 'add-lore'" :initialPois="[selectedPOI.poi]"
-         @close="selectedPOI = null" />
+      <DialogCreateTale v-if="selectedPoi?.action == 'add-lore'" :initialPois="[selectedPoi.poi]"
+         @close="selectedPoi = null" />
+      <DialogCreatePoi v-if="selectedPoint?.action == 'add-marker'" :x="selectedPoint.pos.x" :y="selectedPoint.pos.y"
+         :z="selectedPoint.pos.z" @close="selectedPoint = null" />
    </div>
 </template>
 
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet';
-import { CreatePoiDocument, MapPoiFragment, PosFragment } from '~/graphql/generated';
+import { MapPoiFragment, PosFragment } from '~/graphql/generated';
 import { toWorldPos } from '~/shared/projection';
 import useMap from '~/store/useMap';
 import { closeMenu, openMenu } from '~/store/useMenu';
+import { formatPos } from '~~/shared/spatial';
 
 function c() {
    console.log('close')
@@ -26,20 +29,23 @@ function c() {
 const router = useRouter()
 const context = useMap()
 
-const selectedPOI = ref<null | {
+const selectedPoi = ref<null | {
    poi: MapPoiFragment,
    action: 'add-lore'
 }>(null)
 
-const { mutate: createMarker } = useMutation(CreatePoiDocument, { refetchQueries: ['getPois'] })
+const selectedPoint = ref<null | {
+   pos: PosFragment,
+   action: 'add-marker',
+}>(null)
 
-function selectPOI(poi: MapPoiFragment) {
+function clickPoi(poi: MapPoiFragment) {
    router.push(`/poi/${poi.slug}`)
 }
 
 function menuTitle(e: LeafletMouseEvent) {
    const pos = toWorldPos(context!.value.map, e.latlng)
-   return `${Math.floor(pos.x)} / ${Math.floor(pos.z)}`
+   return formatPos(pos)
 }
 
 function poiMenu(poi: MapPoiFragment, e: LeafletMouseEvent) {
@@ -47,7 +53,7 @@ function poiMenu(poi: MapPoiFragment, e: LeafletMouseEvent) {
       title: menuTitle(e),
       buttons: [{
          'text': 'Add Lore Entry',
-         click: () => selectedPOI.value = { action: 'add-lore', poi }
+         click: () => selectedPoi.value = { action: 'add-lore', poi }
       }]
    })
 }
@@ -57,13 +63,7 @@ function mapMenu(pos: PosFragment, e: LeafletMouseEvent) {
       title: menuTitle(e),
       buttons: [{
          text: 'Create Marker',
-         click: () => createMarker({
-            input: {
-               ...pos,
-               name: 'test',
-               world: 'overworld',
-            },
-         })
+         click: () => selectedPoint.value = { action: 'add-marker', pos }
       }]
    })
 }

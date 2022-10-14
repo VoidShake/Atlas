@@ -1,25 +1,21 @@
 <template>
-   <DialogBase title="Write Lore" class="w-96">
-      <form @submit.prevent="submit">
-         <ul class="pois">
-            <li v-for="poi of pois" :key="poi.id">
-               {{ poi.name }}
-            </li>
-         </ul>
-         <FormGroup label="Title">
-            <FormTextInput v-model="title" placeholder="Title" />
-         </FormGroup>
-         <FormGroup label="Text">
-            <FormTextArea v-model="text" placeholder="Text" />
-         </FormGroup>
-         <button>Submit</button>
-      </form>
-   </DialogBase>
+   <DialogForm title="Write Lore" class="w-96" @submit="mutate">
+      <ul class="pois">
+         <li v-for="poi of pois" :key="poi.id">
+            {{ poi.name }}
+         </li>
+      </ul>
+      <FormGroup label="Title">
+         <FormTextInput v-model="title" placeholder="Title" />
+      </FormGroup>
+      <FormGroup label="Text">
+         <FormTextArea v-model="text" placeholder="Text" />
+      </FormGroup>
+   </DialogForm>
 </template>
 
 <script lang="ts" setup>
 import { CreateTaleDocument, MapPoiFragment } from '~/graphql/generated';
-import { closeDialog } from '~~/store/useDialog';
 
 const { initialPois } = withDefaults(defineProps<{
    initialPois: MapPoiFragment[]
@@ -39,10 +35,5 @@ const { mutate } = useMutation(CreateTaleDocument, () => ({
    },
    refetchQueries: ['getPoi']
 }))
-
-async function submit() {
-   await mutate()
-   closeDialog()
-}
 
 </script>

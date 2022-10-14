@@ -1,5 +1,5 @@
 <template>
-   <textarea class="py-1 px-2 bg-stone-500 dark:bg-slate-800" :placeholder="placeholder" :value="modelValue"
+   <textarea class="py-1 px-2 rounded bg-stone-500 dark:bg-slate-800" :placeholder="placeholder" :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)" />
 </template>
 

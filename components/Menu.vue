@@ -1,10 +1,9 @@
 <template>
    <div id="menu" :style="{ translate: `${x}px ${y}px` }">
       <p class="p-1 text-center" v-if="options.title">{{ options.title }}</p>
-      <FormButton class="rounded-none last:rounded-b-lg first:rounded-t-lg" v-for="button of options.buttons"
-         @click="click(button)">
+      <button v-for="button of options.buttons" @click="click(button)">
          {{ button.text}}
-      </FormButton>
+      </button>
    </div>
 </template>
 
@@ -24,16 +23,36 @@ async function click(button: MenuButton) {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #menu {
    @apply rounded-lg bg-stone-800 shadow-lg;
    position: absolute;
    z-index: 1000;
    top: 0;
    left: 0;
+
+   button {
+      @apply p-2 transition;
+
+      &:first-child {
+         @apply rounded-t-lg
+      }
+
+      &:last-child {
+         @apply rounded-b-lg
+      }
+   }
 }
 
 .dark-mode #menu {
    @apply bg-slate-700;
+
+   button {
+      @apply bg-slate-700;
+
+      &:hover {
+         @apply bg-slate-500;
+      }
+   }
 }
 </style>

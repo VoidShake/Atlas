@@ -12,8 +12,6 @@
     "lint": "eslint --ext \".ts,.vue\""
   },
   "devDependencies": {
-    "core-js": "^3.25.3",
-    "nuxt": "^3.0.0-rc.11",
     "@graphql-codegen/cli": "^2.13.6",
     "@graphql-codegen/typed-document-node": "^2.3.4",
     "@graphql-codegen/typescript": "^2.7.4",
@@ -25,9 +23,13 @@
     "@types/leaflet": "^1.8.0",
     "@types/node": "18.8.0",
     "@vue-leaflet/vue-leaflet": "^0.6.1",
+    "core-js": "^3.25.3",
+    "eslint": "^8.24.0",
     "graphql": "^16.6.0",
     "leaflet": "^1.9.2",
-    "eslint": "^8.24.0",
-    "prettier": "^2.7.1"
+    "nuxt": "^3.0.0-rc.11",
+    "prettier": "^2.7.1",
+    "sass": "^1.55.0",
+    "sass-loader": "^13.1.0"
   }
 }
