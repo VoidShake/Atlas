@@ -11,7 +11,7 @@
 import { LMap } from "@vue-leaflet/vue-leaflet";
 import { CRS, LeafletMouseEvent, Map } from 'leaflet';
 import { MapPoiFragment, PosFragment } from "~/graphql/generated";
-import { toWorldPos } from "~/shared/projection";
+import { toMapPos, toWorldPos } from "~/shared/projection";
 import useMap from '~/store/useMap';
 
 const emit = defineEmits<{
@@ -31,8 +31,8 @@ const context = useMap()
 
 const crs = CRS.Simple
 const zoom = useState('zoom', () => 0)
-//const center = useState('center', () => context.value && toWorldPos(context.value.map, context.value.world.center))
-const center = useState('center', () => [0, 0])
+const center = useState('center', () => toMapPos(context.value.map, context.value.world.center))
+//const center = useState('center', () => [0, 0])
 const bounds = [[-64, 531], [-704, -110]]
 
 function ready(map: Map) {
@@ -41,7 +41,7 @@ function ready(map: Map) {
 }
 
 const background = computed(() => {
-  return context.value?.map.background ?? 'black'
+  return context.value.map.background ?? 'black'
 })
 
 </script>
