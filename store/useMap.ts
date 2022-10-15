@@ -6,6 +6,7 @@ interface MapContext {
   world: World;
   minZoom: number;
   maxZoom: number;
+  maxNativeZoom: number;
 }
 
 const useMap = () => useState<MapContext | null>("map", () => null);

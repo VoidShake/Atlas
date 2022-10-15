@@ -1,11 +1,13 @@
 <template>
    <div class="grid grid-flow-col">
       <div id="map-wrap">
-         <MapLeaflet @click="c" @contextmenu="mapMenu" @poiClick="clickPoi" @poiContexmenu="poiMenu" />
+         <client-only v-if="context">
+            <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" @poiClick="clickPoi" @poiContexmenu="poiMenu" />
+         </client-only>
       </div>
-      <LorePanel>
+      <SidePanel>
          <slot />
-      </LorePanel>
+      </SidePanel>
       <DialogCreateTale v-if="selectedPoi?.action == 'add-lore'" :initialPois="[selectedPoi.poi]"
          @close="selectedPoi = null" />
       <DialogCreatePoi v-if="selectedPoint?.action == 'add-marker'" :x="selectedPoint.pos.x" :y="selectedPoint.pos.y"
@@ -17,14 +19,10 @@
 import type { LeafletMouseEvent } from 'leaflet';
 import { MapPoiFragment, PosFragment } from '~/graphql/generated';
 import { toWorldPos } from '~/shared/projection';
+import { formatPos } from '~/shared/spatial';
 import useMap from '~/store/useMap';
 import { closeMenu, openMenu } from '~/store/useMenu';
-import { formatPos } from '~~/shared/spatial';
-
-function c() {
-   console.log('close')
-   closeMenu()
-}
+import { World } from '~~/types/World';
 
 const router = useRouter()
 const context = useMap()
@@ -67,6 +65,39 @@ function mapMenu(pos: PosFragment, e: LeafletMouseEvent) {
       }]
    })
 }
+
+interface Options {
+   defaultmap: string
+   defaultworld: string
+   defaultzoom: number
+   worlds: World[]
+}
+
+const { data: options, refresh } = await useFetch<Options>('/dynmap/up/configuration', { responseType: 'json' })
+
+effect(() => refresh())
+
+watch(options, value => {
+   if (!value || context.value) return
+   const { defaultworld, defaultmap, worlds } = value
+
+   const world = worlds.find(
+      (it) =>
+         it.name.toLowerCase() === defaultworld.toLowerCase()
+   ) ?? worlds[0]
+
+   const map = world?.maps.find(
+      (it) => it.name.toLowerCase() === defaultmap.toLowerCase()
+   ) ?? world.maps[0]
+
+   if (!map) return
+
+   const minZoom = map.mapzoomin + 1
+   const maxZoom = minZoom + map.mapzoomout
+   const maxNativeZoom = map.mapzoomout
+
+   context.value = { map, world, minZoom, maxZoom, maxNativeZoom }
+})
 </script>
 
 
