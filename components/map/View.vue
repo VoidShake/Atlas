@@ -2,78 +2,47 @@
    <div class="grid grid-flow-col">
       <div id="map-wrap">
          <client-only v-if="context">
-            <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" @poiClick="clickPoi" @poiContexmenu="poiMenu" />
+            <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" />
          </client-only>
       </div>
       <SidePanel>
          <slot />
       </SidePanel>
-      <DialogCreateTale v-if="selectedPoi?.action == 'add-lore'" :initialPois="[selectedPoi.poi]"
-         @close="selectedPoi = null" />
-      <DialogCreatePoi v-if="selectedPoint?.action == 'add-marker'" :x="selectedPoint.pos.x" :y="selectedPoint.pos.y"
-         :z="selectedPoint.pos.z" @close="selectedPoint = null" />
+      <DialogCreateLocation v-if="selected?.action == 'add-marker'" :x="selected.pos.x" :y="selected.pos.y"
+         :z="selected.pos.z" @close="selected = null" />
    </div>
 </template>
 
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet';
-import { MapPoiFragment, PosFragment } from '~/graphql/generated';
-import { toWorldPos } from '~/shared/projection';
+import { Permission, PosFragment } from '~/graphql/generated';
+import { useSession } from '~/shared/auth';
 import { formatPos } from '~/shared/spatial';
 import useMap from '~/store/useMap';
-import { closeMenu, openMenu } from '~/store/useMenu';
-import { World } from '~~/types/World';
+import { closeMenu, MenuButton, openMenu } from '~/store/useMenu';
+import { DynmapOptions } from '~/types/options';
 
-const router = useRouter()
+const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', { responseType: 'json' })
+
+const { hasPermission } = useSession()
 const context = useMap()
 
-const selectedPoi = ref<null | {
-   poi: MapPoiFragment,
-   action: 'add-lore'
-}>(null)
-
-const selectedPoint = ref<null | {
+const selected = ref<null | {
    pos: PosFragment,
    action: 'add-marker',
 }>(null)
 
-function clickPoi(poi: MapPoiFragment) {
-   router.push(`/poi/${poi.slug}`)
-}
-
-function menuTitle(e: LeafletMouseEvent) {
-   const pos = toWorldPos(context!.value.map, e.latlng)
-   return formatPos(pos)
-}
-
-function poiMenu(poi: MapPoiFragment, e: LeafletMouseEvent) {
-   openMenu(e.originalEvent, {
-      title: menuTitle(e),
-      buttons: [{
-         'text': 'Add Lore Entry',
-         click: () => selectedPoi.value = { action: 'add-lore', poi }
-      }]
-   })
-}
-
 function mapMenu(pos: PosFragment, e: LeafletMouseEvent) {
-   openMenu(e.originalEvent, {
-      title: menuTitle(e),
-      buttons: [{
-         text: 'Create Marker',
-         click: () => selectedPoint.value = { action: 'add-marker', pos }
-      }]
+   const title = formatPos(pos)
+
+   const buttons: MenuButton[] = []
+   if (hasPermission(Permission.TellTale)) buttons.push({
+      text: 'Create Marker',
+      click: () => selected.value = { action: 'add-marker', pos }
    })
-}
 
-interface Options {
-   defaultmap: string
-   defaultworld: string
-   defaultzoom: number
-   worlds: World[]
+   openMenu(e.originalEvent, { title, buttons })
 }
-
-const { data: options, refresh } = await useFetch<Options>('/dynmap/up/configuration', { responseType: 'json' })
 
 effect(() => refresh())
 

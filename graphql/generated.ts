@@ -20,11 +20,20 @@ export type Account = {
   avatar?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   id: Scalars['Int'];
+  permissions: Array<Permission>;
   provider: Scalars['String'];
+  role: AccountRole;
   username: Scalars['String'];
 };
 
-export type CreatePoiInput = {
+export enum AccountRole {
+  Admin = 'ADMIN',
+  Editor = 'EDITOR',
+  SuperAdmin = 'SUPER_ADMIN',
+  User = 'USER'
+}
+
+export type CreateLocationInput = {
   name: Scalars['String'];
   world: Scalars['String'];
   x: Scalars['Int'];
@@ -37,7 +46,21 @@ export type CreateTaleInput = {
   title: Scalars['String'];
 };
 
-export type ModifyPoiInput = {
+export type Location = {
+  __typename?: 'Location';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  pos: Point;
+  slug: Scalars['String'];
+  tales: Array<Tale>;
+};
+
+
+export type LocationTalesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+export type ModifyLocationInput = {
   name?: InputMaybe<Scalars['String']>;
   world?: InputMaybe<Scalars['String']>;
   x?: InputMaybe<Scalars['Int']>;
@@ -53,38 +76,38 @@ export type ModifyTaleInput = {
 /** Mutation object */
 export type Mutation = {
   __typename?: 'Mutation';
-  addPoiToTale: Scalars['Boolean'];
-  createPoi: Scalars['Int'];
+  addLocationToTale: Scalars['Boolean'];
+  createLocation: Scalars['Int'];
   createTale: Scalars['Int'];
-  modifyPoi: Scalars['Boolean'];
+  modifyLocation: Scalars['Boolean'];
   modifyTale: Scalars['Boolean'];
 };
 
 
 /** Mutation object */
-export type MutationAddPoiToTaleArgs = {
-  poi: Scalars['Int'];
+export type MutationAddLocationToTaleArgs = {
+  location: Scalars['Int'];
   tale: Scalars['Int'];
 };
 
 
 /** Mutation object */
-export type MutationCreatePoiArgs = {
-  input: CreatePoiInput;
+export type MutationCreateLocationArgs = {
+  input: CreateLocationInput;
 };
 
 
 /** Mutation object */
 export type MutationCreateTaleArgs = {
   input: CreateTaleInput;
-  pois?: InputMaybe<Array<Scalars['Int']>>;
+  locations?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 
 /** Mutation object */
-export type MutationModifyPoiArgs = {
+export type MutationModifyLocationArgs = {
   id: Scalars['Int'];
-  input: ModifyPoiInput;
+  input: ModifyLocationInput;
 };
 
 
@@ -94,24 +117,18 @@ export type MutationModifyTaleArgs = {
   input: ModifyTaleInput;
 };
 
-export type Poi = {
-  __typename?: 'POI';
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  pos: Point;
-  slug: Scalars['String'];
-  tales: Array<Tale>;
-};
-
-
-export type PoiTalesArgs = {
-  pagination?: InputMaybe<Pagination>;
-};
-
 export type Pagination = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Long']>;
 };
+
+export enum Permission {
+  CreateLocation = 'CREATE_LOCATION',
+  PromoteAdmin = 'PROMOTE_ADMIN',
+  ProposeTale = 'PROPOSE_TALE',
+  TellTale = 'TELL_TALE',
+  ViewOtherPermissions = 'VIEW_OTHER_PERMISSIONS'
+}
 
 export type Point = {
   __typename?: 'Point';
@@ -126,10 +143,10 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   accounts: Array<Account>;
+  location: Location;
+  locationBySlug: Location;
+  locations: Array<Location>;
   me?: Maybe<Account>;
-  poi: Poi;
-  poiBySlug: Poi;
-  pois: Array<Poi>;
   tale: Tale;
   tales: Array<Tale>;
 };
@@ -148,19 +165,19 @@ export type QueryAccountsArgs = {
 
 
 /** Query object */
-export type QueryPoiArgs = {
+export type QueryLocationArgs = {
   id: Scalars['Int'];
 };
 
 
 /** Query object */
-export type QueryPoiBySlugArgs = {
+export type QueryLocationBySlugArgs = {
   slug: Scalars['String'];
 };
 
 
 /** Query object */
-export type QueryPoisArgs = {
+export type QueryLocationsArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
@@ -185,47 +202,50 @@ export type Tale = {
 
 export type UserFragment = { __typename?: 'Account', email: string, username: string, avatar?: string | null };
 
+export type SelfFragment = { __typename?: 'Account', permissions: Array<Permission>, email: string, username: string, avatar?: string | null };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'Account', email: string, username: string, avatar?: string | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'Account', permissions: Array<Permission>, email: string, username: string, avatar?: string | null } | null };
 
 export type PosFragment = { __typename?: 'Point', x: number, y?: number | null, z: number };
 
-export type MapPoiFragment = { __typename?: 'POI', id: number, name: string, slug: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+export type MapLocationFragment = { __typename?: 'Location', id: number, name: string, slug: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
 
-export type GetPoisQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetLocationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPoisQuery = { __typename?: 'Query', pois: Array<{ __typename?: 'POI', id: number, name: string, slug: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> };
+export type GetLocationsQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: number, name: string, slug: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> };
 
-export type GetPoiQueryVariables = Exact<{
+export type GetLocationQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type GetPoiQuery = { __typename?: 'Query', poi: { __typename?: 'POI', id: number, name: string, slug: string, tales: Array<{ __typename?: 'Tale', title: string, text: string }>, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
+export type GetLocationQuery = { __typename?: 'Query', location: { __typename?: 'Location', id: number, name: string, slug: string, tales: Array<{ __typename?: 'Tale', title: string, text: string }>, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
 
-export type CreatePoiMutationVariables = Exact<{
-  input: CreatePoiInput;
+export type CreateLocationMutationVariables = Exact<{
+  input: CreateLocationInput;
 }>;
 
 
-export type CreatePoiMutation = { __typename?: 'Mutation', createPoi: number };
+export type CreateLocationMutation = { __typename?: 'Mutation', createLocation: number };
 
 export type CreateTaleMutationVariables = Exact<{
   input: CreateTaleInput;
-  pois?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
+  locations?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
 }>;
 
 
 export type CreateTaleMutation = { __typename?: 'Mutation', createTale: number };
 
 export const UserFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}}]}}]} as unknown as DocumentNode<UserFragment, unknown>;
+export const SelfFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Self"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}},...UserFragmentDoc.definitions]} as unknown as DocumentNode<SelfFragment, unknown>;
 export const PosFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pos"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Point"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"x"}},{"kind":"Field","name":{"kind":"Name","value":"y"}},{"kind":"Field","name":{"kind":"Name","value":"z"}}]}}]} as unknown as DocumentNode<PosFragment, unknown>;
-export const MapPoiFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MapPOI"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"POI"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"pos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pos"}}]}}]}},...PosFragmentDoc.definitions]} as unknown as DocumentNode<MapPoiFragment, unknown>;
-export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}}]}},...UserFragmentDoc.definitions]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
-export const GetPoisDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPois"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pois"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPOI"}}]}}]}},...MapPoiFragmentDoc.definitions]} as unknown as DocumentNode<GetPoisQuery, GetPoisQueryVariables>;
-export const GetPoiDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPoi"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"poi"},"name":{"kind":"Name","value":"poiBySlug"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPOI"}},{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]}},...MapPoiFragmentDoc.definitions]} as unknown as DocumentNode<GetPoiQuery, GetPoiQueryVariables>;
-export const CreatePoiDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createPoi"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePOIInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPoi"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<CreatePoiMutation, CreatePoiMutationVariables>;
-export const CreateTaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTaleInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pois"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}},{"kind":"Argument","name":{"kind":"Name","value":"pois"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pois"}}}]}]}}]} as unknown as DocumentNode<CreateTaleMutation, CreateTaleMutationVariables>;
+export const MapLocationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MapLocation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"pos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pos"}}]}}]}},...PosFragmentDoc.definitions]} as unknown as DocumentNode<MapLocationFragment, unknown>;
+export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Self"}}]}}]}},...SelfFragmentDoc.definitions]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
+export const GetLocationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}}]}}]}},...MapLocationFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationsQuery, GetLocationsQueryVariables>;
+export const GetLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"location"},"name":{"kind":"Name","value":"locationBySlug"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}},{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]}},...MapLocationFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationQuery, GetLocationQueryVariables>;
+export const CreateLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<CreateLocationMutation, CreateLocationMutationVariables>;
+export const CreateTaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTaleInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locations"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}},{"kind":"Argument","name":{"kind":"Name","value":"locations"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locations"}}}]}]}}]} as unknown as DocumentNode<CreateTaleMutation, CreateTaleMutationVariables>;

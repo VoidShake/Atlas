@@ -1,0 +1,34 @@
+fragment Pos on Point {
+  x
+  y
+  z
+}
+
+fragment MapLocation on Location {
+  id
+  name
+  slug
+  pos {
+    ...Pos
+  }
+}
+
+query getLocations {
+  locations {
+    ...MapLocation
+  }
+}
+
+query getLocation($slug: String!) {
+  location: locationBySlug(slug: $slug) {
+    ...MapLocation
+    tales {
+      title
+      text
+    }
+  }
+}
+
+mutation createLocation($input: CreateLocationInput!) {
+  createLocation(input: $input)
+}

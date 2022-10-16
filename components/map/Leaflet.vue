@@ -3,20 +3,18 @@
     :minZoom="context.minZoom" :maxZoom="context.maxZoom" :maxNativeZoom="context.maxNativeZoom"
     @contextmenu=" emitWithPos('contextmenu', $event)" @click=" emitWithPos('click', $event)">
     <MapTiles />
-    <MapPois @click="(p, e) => $emit('poiClick', p, e)" @contextmenu="(p, e) => $emit('poiContexmenu', p, e)" />
+    <MapLocations />
   </l-map>
 </template>
 
 <script lang="ts" setup>
 import { LMap } from "@vue-leaflet/vue-leaflet";
 import { CRS, LeafletMouseEvent, Map } from 'leaflet';
-import { MapPoiFragment, PosFragment } from "~/graphql/generated";
+import { PosFragment } from "~/graphql/generated";
 import { toMapPos, toWorldPos } from "~/shared/projection";
 import useMap from '~/store/useMap';
 
 const emit = defineEmits<{
-  (e: 'poiClick', poi: MapPoiFragment, event: LeafletMouseEvent)
-  (e: 'poiContexmenu', poi: MapPoiFragment, event: LeafletMouseEvent)
   (e: 'click', pos: PosFragment, event: LeafletMouseEvent)
   (e: 'contextmenu', pos: PosFragment, event: LeafletMouseEvent)
 }>()

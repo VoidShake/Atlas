@@ -1,6 +1,6 @@
 import type { LatLng } from "leaflet";
+import { PosFragment } from "~/graphql/generated";
 import { Map } from "~/types/Map";
-import { PosFragment } from "~~/graphql/generated";
 
 export function toWorldPos(map: Map, point: LatLng): PosFragment {
   const matrix = map.maptoworld;
@@ -9,7 +9,7 @@ export function toWorldPos(map: Map, point: LatLng): PosFragment {
   const lat = point.lat * (1 << map.mapzoomout);
   const lng = point.lng * (1 << map.mapzoomout);
 
-  const y = 100;
+  const y = 0;
   const x = (matrix[0] * lng + matrix[1] * lat + matrix[2] * y) * map.scale;
   const z = (matrix[6] * lng + matrix[7] * lat + matrix[8] * y) * map.scale;
 

@@ -1,13 +1,13 @@
-import { Map } from './Map'
-import { Pos } from './Pos'
+import { PosFragment } from "~~/graphql/generated";
+import { Map } from "./Map";
 
 export interface World {
-  center: Pos
-  extrazoomout: number
-  name: string
-  title: string
-  protected: boolean
-  sealevel: number
-  worldheight: number
-  maps: Map[]
+  center: PosFragment;
+  extrazoomout: number;
+  name: string;
+  title: string;
+  protected: boolean;
+  sealevel: number;
+  worldheight: number;
+  maps: Map[];
 }

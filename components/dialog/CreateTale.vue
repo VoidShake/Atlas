@@ -1,8 +1,8 @@
 <template>
-   <DialogForm title="Write Lore" class="w-96" @submit="mutate">
-      <ul class="pois">
-         <li v-for="poi of pois" :key="poi.id">
-            {{ poi.name }}
+   <DialogForm title="Write Lore" @submit="mutate">
+      <ul class="location">
+         <li v-for="location of initialLocations" :key="location.id">
+            {{ location.name }}
          </li>
       </ul>
       <FormGroup label="Title">
@@ -15,15 +15,15 @@
 </template>
 
 <script lang="ts" setup>
-import { CreateTaleDocument, MapPoiFragment } from '~/graphql/generated';
+import { CreateTaleDocument, MapLocationFragment } from '~/graphql/generated';
 
-const { initialPois } = withDefaults(defineProps<{
-   initialPois: MapPoiFragment[]
+const { initialLocations } = withDefaults(defineProps<{
+   initialLocations: MapLocationFragment[]
 }>(), {
-   initialPois: () => []
+   initialLocations: () => []
 })
 
-const pois = ref(initialPois)
+const locations = ref(initialLocations)
 
 const title = ref('')
 const text = ref('')
@@ -31,9 +31,16 @@ const text = ref('')
 const { mutate } = useMutation(CreateTaleDocument, () => ({
    variables: {
       input: { title: title.value, text: text.value },
-      pois: pois.value.map(it => it.id)
+      locations: locations.value.map(it => it.id)
    },
-   refetchQueries: ['getPoi']
+   refetchQueries: ['getLocation']
 }))
 
 </script>
+
+<style  scoped>
+textarea {
+   min-height: 400px;
+   min-width: 600px;
+}
+</style>

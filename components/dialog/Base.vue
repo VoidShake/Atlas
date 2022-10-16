@@ -32,7 +32,7 @@ onUnmounted(() => closeDialog())
 }
 
 #dialog {
-   @apply p-8 rounded-lg bg-stone-800 text-center shadow-xl;
+   @apply px-8 py-6 rounded-lg bg-stone-800 text-center shadow-xl;
    position: fixed;
    z-index: 1002;
    top: 50%;

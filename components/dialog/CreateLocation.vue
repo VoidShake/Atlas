@@ -5,18 +5,18 @@
             <PosDisplay :x="x" :y="y" :z="z" />
          </p>
          <FormGroup label="Name">
-            <FormTextInput v-model="name" placeholder="Name" />
+            <FormTextInput autofocus v-model="name" placeholder="Name" />
          </FormGroup>
       </form>
    </DialogForm>
 </template>
 
 <script lang="ts" setup>
-import { CreatePoiDocument } from '~/graphql/generated';
+import { CreateLocationDocument, Maybe } from '~/graphql/generated';
 
 const pos = withDefaults(defineProps<{
    x: number
-   y?: number
+   y?: Maybe<number>
    z: number
 }>(), {
    y: undefined
@@ -24,11 +24,11 @@ const pos = withDefaults(defineProps<{
 
 const name = ref('')
 
-const { mutate, error } = useMutation(CreatePoiDocument, () => ({
+const { mutate, error } = useMutation(CreateLocationDocument, () => ({
    variables: {
       input: { ...pos, name: name.value, world: 'overworld' },
    },
-   refetchQueries: ['getPoi', 'getPois']
+   refetchQueries: ['getLocation', 'getLocations']
 }))
 
 watch(error, v => console.log(v))
