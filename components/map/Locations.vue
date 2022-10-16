@@ -1,7 +1,7 @@
 <template>
   <div v-if="result">
-    <MapLocationMarker v-for="it in result.locations" :key="it.id" :location="it" @click="click"
-      @mouseenter="$emit('mouseenter', it, $event)" @contextmenu="menu" />
+    <MapLocationMarker v-for="it in result.locations" :key="it.id" :location="it" @click="click(it, $event)"
+      @mouseenter="$emit('mouseenter', it, $event)" @contextmenu="menu(it, $event)" />
     <DialogCreateTale v-if="selected?.action == 'add-lore'" :initialLocations="[selected.location]"
       @close="selected = null" />
   </div>
@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { LeafletMouseEvent } from 'leaflet';
-import { GetLocationsDocument, MapLocationFragment } from '~/graphql/generated';
+import { GetLocationsDocument, MapLocationFragment, Permission } from '~/graphql/generated';
 import { openMenu } from '~/store/useMenu';
 
 const router = useRouter()
@@ -32,6 +32,7 @@ function menu(location: MapLocationFragment, event: LeafletMouseEvent) {
     title: location.name,
     buttons: [{
       'text': 'Add Lore Entry',
+      permission: Permission.TellTale,
       click: () => selected.value = { action: 'add-lore', location: location }
     }]
   })

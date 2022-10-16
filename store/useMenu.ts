@@ -1,5 +1,8 @@
+import { Permission } from "~~/graphql/generated";
+
 export interface MenuButton {
   text: string;
+  permission?: Permission;
   click: () => unknown | Promise<unknown>;
 }
 

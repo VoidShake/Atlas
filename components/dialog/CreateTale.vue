@@ -9,7 +9,7 @@
          <FormTextInput v-model="title" placeholder="Title" />
       </FormGroup>
       <FormGroup label="Text">
-         <FormTextArea v-model="text" placeholder="Text" />
+         <MarkdownEditor id="editor" v-model="text" placeholder="Text" />
       </FormGroup>
    </DialogForm>
 </template>
@@ -38,9 +38,9 @@ const { mutate } = useMutation(CreateTaleDocument, () => ({
 
 </script>
 
-<style  scoped>
-textarea {
+<style scoped>
+#editor {
    min-height: 400px;
-   min-width: 600px;
+   min-width: 800px;
 }
 </style>

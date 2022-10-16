@@ -1,5 +1,5 @@
 <template>
   <MapView>
-    <H1>Map</H1>
+    <h1>Map</h1>
   </MapView>
 </template>

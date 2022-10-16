@@ -1,6 +1,6 @@
 <template>
    <div id="dialog">
-      <H1 v-if="title">{{ title }}</H1>
+      <h1 v-if="title">{{ title }}</h1>
       <slot />
    </div>
 </template>

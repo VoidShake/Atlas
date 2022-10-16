@@ -19,7 +19,7 @@ useHead({
 const menu = useMenu()
 </script>
 
-<style  scoped>
+<style scoped>
 #backdrop {
    @apply transition-colors;
    pointer-events: none;

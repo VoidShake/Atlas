@@ -22,7 +22,6 @@ export const useToken = (): Ref<string | null> => useCookie("token");
 
 export function useSession(): Session {
   const { result } = useQuery(MeDocument);
-  //const result = { value: { me: null as SelfFragment | null } };
 
   const token = useToken();
   const account = computed(() => result.value?.me ?? null);

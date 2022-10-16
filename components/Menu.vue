@@ -3,7 +3,7 @@
       <p class="py-1 px-3 text-center" v-if="options.title">
          <i>{{ options.title }}</i>
       </p>
-      <button v-for="button of options.buttons" @click="click(button)">
+      <button v-for="button of buttons" @click="click(button)">
          {{ button.text}}
       </button>
    </div>
@@ -11,13 +11,18 @@
 
 <script lang="ts" setup>
 import useMenu, { MenuButton, MenuOptions } from '~/store/useMenu';
+import { useSession } from '~~/shared/auth';
 const menu = useMenu()
+
+const { hasPermission } = useSession()
 
 const { options } = defineProps<{
    x: number
    y: number
    options: MenuOptions
 }>()
+
+const buttons = computed(() => options.buttons?.filter(it => !it.permission || hasPermission(it.permission)))
 
 async function click(button: MenuButton) {
    await button.click()

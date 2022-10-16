@@ -16,15 +16,13 @@
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet';
 import { Permission, PosFragment } from '~/graphql/generated';
-import { useSession } from '~/shared/auth';
 import { formatPos } from '~/shared/spatial';
 import useMap from '~/store/useMap';
-import { closeMenu, MenuButton, openMenu } from '~/store/useMenu';
+import { closeMenu, openMenu } from '~/store/useMenu';
 import { DynmapOptions } from '~/types/options';
 
 const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', { responseType: 'json' })
 
-const { hasPermission } = useSession()
 const context = useMap()
 
 const selected = ref<null | {
@@ -33,15 +31,13 @@ const selected = ref<null | {
 }>(null)
 
 function mapMenu(pos: PosFragment, e: LeafletMouseEvent) {
-   const title = formatPos(pos)
-
-   const buttons: MenuButton[] = []
-   if (hasPermission(Permission.TellTale)) buttons.push({
-      text: 'Create Marker',
-      click: () => selected.value = { action: 'add-marker', pos }
+   openMenu(e.originalEvent, {
+      title: formatPos(pos), buttons: [{
+         text: 'Create Marker',
+         permission: Permission.CreateLocation,
+         click: () => selected.value = { action: 'add-marker', pos }
+      }]
    })
-
-   openMenu(e.originalEvent, { title, buttons })
 }
 
 effect(() => refresh())

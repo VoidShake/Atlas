@@ -1,10 +1,10 @@
 <template>
   <MapView>
     <template v-if="result">
-      <H1>{{ result.location.name }}</H1>
+      <h1>{{ result.location.name }}</h1>
       <div v-for="tale of result.location.tales">
-        <H3>{{ tale.title }}</H3>
-        <p>{{ tale.text }}</p>
+        <h3>{{ tale.title }}</h3>
+        <MarkdownPreview :value="tale.text" />
       </div>
     </template>
     <p v-else>Loading...</p>
