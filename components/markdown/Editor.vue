@@ -1,7 +1,10 @@
 <template>
    <div id="editor">
       <FormTextArea :placeholder="placeholder" :model-value="modelValue" @update:model-value="update" />
-      <MarkdownPreview :value="debouncedValue" />
+      <div id="preview">
+         <h5 class="my-2"><i>Preview</i></h5>
+         <MarkdownPreview :value="debouncedValue" />
+      </div>
    </div>
 </template>
 
@@ -34,8 +37,14 @@ function update(value: string) {
    @apply grid gap-2;
    grid-template-columns: 1fr 1fr;
 
-   #preview {
-      @apply p-2 text-start;
+   &>#preview {
+      @apply bg-stone-500/50 rounded;
+   }
+}
+
+.dark-mode #editor {
+   &>#preview {
+      @apply bg-slate-800/50
    }
 }
 </style>

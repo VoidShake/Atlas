@@ -1,8 +1,5 @@
 <template>
-   <div>
-      <h3>Preview</h3>
-      <div id="preview" v-html="rendered" />
-   </div>
+   <div id="preview" v-html="rendered" />
 </template>
 
 <script lang="ts" setup>
@@ -16,12 +13,7 @@ const rendered = computed(() => marked(props.value, { sanitize: true }))
 </script>
 
 <style lang="scss" scoped>
-#editor {
-   @apply grid gap-2;
-   grid-template-columns: 1fr 1fr;
-
-   #preview {
-      @apply p-2 text-start;
-   }
+#preview {
+   @apply p-2 text-start;
 }
 </style>

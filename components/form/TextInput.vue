@@ -1,5 +1,5 @@
 <template>
-   <input class="py-1 px-2 rounded bg-stone-500 dark:bg-slate-800" :autofocus="autofocus" :placeholder="placeholder"
+   <input class="p-2 rounded bg-stone-500 dark:bg-slate-800" :autofocus="autofocus" :placeholder="placeholder"
       :value="modelValue" @input="$emit('update:modelValue', $event.target!.value)" />
 </template>
 

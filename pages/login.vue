@@ -1,9 +1,15 @@
 <template>
-   <button @click="startLogin">Login</button>
+   <a href="/auth/discord">
+      <FormButton id="discord">Login via Discord</FormButton>
+   </a>
 </template>
 
 <script lang="ts" setup>
 import { login } from '~/shared/auth';
+
+definePageMeta({
+   layout: 'center'
+})
 
 const { query } = useActiveRoute()
 const router = useRouter()
@@ -14,9 +20,10 @@ onMounted(() => {
       router.replace('/me')
    }
 })
-
-function startLogin() {
-   router.push('/auth/discord')
-}
-
 </script>
+
+<style lang="scss" scoped>
+#discord {
+   background: #7289da;
+}
+</style>

@@ -36,3 +36,37 @@ const menu = useMenu()
    background: #0003;
 }
 </style>
+
+<style>
+body {
+   @apply bg-stone-200 text-black;
+}
+
+.dark-mode body {
+   @apply bg-slate-800 text-white;
+}
+
+h1 {
+   @apply text-e-5xl pb-5 font-bold;
+}
+
+h2 {
+   @apply text-e-4xl pb-4 font-bold;
+}
+
+h3 {
+   @apply text-e-3xl pb-3;
+}
+
+h4 {
+   @apply text-e-2xl pb-2;
+}
+
+h5 {
+   @apply text-e-xl pb-1;
+}
+
+h6 {
+   @apply text-e-base;
+}
+</style>
