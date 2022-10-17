@@ -1,16 +1,18 @@
 <template>
-   <div class="grid grid-flow-col">
-      <div id="map-wrap">
-         <client-only v-if="context">
-            <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" />
-         </client-only>
+   <NuxtLayout name="default">
+      <div class="grid grid-flow-col">
+         <div id="map-wrap">
+            <client-only v-if="context">
+               <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" />
+            </client-only>
+         </div>
+         <SidePanel>
+            <slot />
+         </SidePanel>
+         <DialogCreateLocation v-if="selected?.action == 'add-marker'" :x="selected.pos.x" :y="selected.pos.y"
+            :z="selected.pos.z" @close="selected = null" />
       </div>
-      <SidePanel>
-         <slot />
-      </SidePanel>
-      <DialogCreateLocation v-if="selected?.action == 'add-marker'" :x="selected.pos.x" :y="selected.pos.y"
-         :z="selected.pos.z" @close="selected = null" />
-   </div>
+   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>

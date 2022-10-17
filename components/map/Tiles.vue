@@ -1,5 +1,5 @@
 <template>
-  <l-tile-layer noWrap :tileSize="tileSize" :url="url" :options="{
+  <l-tile-layer noWrap :tileSize="tileSize" :url="url" attribution="  Dynmap" :options="{
     zoomPrefix,
     scaledX,
     scaledY,

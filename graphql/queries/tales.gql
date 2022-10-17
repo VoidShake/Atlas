@@ -1,3 +1,28 @@
-mutation createTale($input: CreateTaleInput!, $pois: [Int!]) {
-  createTale(input: $input, pois: $pois)
+fragment Summary on Tale {
+  id
+  title
+}
+
+fragment Lore on Tale {
+  ...Summary
+  text
+}
+
+query getTales {
+  tales {
+    totalCount
+    nodes {
+      ...Summary
+    }
+  }
+}
+
+query getTale($id: Int!) {
+  tale(id: $id) {
+    ...Lore
+  }
+}
+
+mutation createTale($input: CreateTaleInput!, $locations: [Int!]) {
+  createTale(input: $input, locations: $locations)
 }

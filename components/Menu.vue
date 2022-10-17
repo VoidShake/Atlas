@@ -1,7 +1,9 @@
 <template>
    <div id="menu" :style="{ translate: `${x}px ${y}px` }">
-      <p class="p-1 text-center" v-if="options.title">{{ options.title }}</p>
-      <button v-for="button of options.buttons" @click="click(button)">
+      <p class="py-1 px-3 text-center" v-if="options.title">
+         <i>{{ options.title }}</i>
+      </p>
+      <button v-for="button of buttons" @click="click(button)">
          {{ button.text}}
       </button>
    </div>
@@ -9,13 +11,18 @@
 
 <script lang="ts" setup>
 import useMenu, { MenuButton, MenuOptions } from '~/store/useMenu';
+import { useSession } from '~~/shared/auth';
 const menu = useMenu()
+
+const { hasPermission } = useSession()
 
 const { options } = defineProps<{
    x: number
    y: number
    options: MenuOptions
 }>()
+
+const buttons = computed(() => options.buttons?.filter(it => !it.permission || hasPermission(it.permission)))
 
 async function click(button: MenuButton) {
    await button.click()
@@ -25,14 +32,14 @@ async function click(button: MenuButton) {
 
 <style lang="scss" scoped>
 #menu {
-   @apply rounded-lg bg-stone-800 shadow-lg;
+   @apply rounded-lg bg-stone-800 shadow-lg cursor-default;
    position: absolute;
    z-index: 1000;
    top: 0;
    left: 0;
 
    button {
-      @apply p-2 transition;
+      @apply p-2 transition w-full;
 
       &:first-child {
          @apply rounded-t-lg

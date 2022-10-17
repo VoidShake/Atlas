@@ -4,8 +4,13 @@ fragment User on Account {
   avatar
 }
 
+fragment Self on Account {
+  ...User
+  permissions
+}
+
 query me {
   me {
-    ...User
+    ...Self
   }
 }

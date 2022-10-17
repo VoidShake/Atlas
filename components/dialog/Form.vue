@@ -25,3 +25,9 @@ async function submit() {
    closeDialog()
 }
 </script>
+
+<style scoped>
+button {
+   @apply mt-3 px-8;
+}
+</style>

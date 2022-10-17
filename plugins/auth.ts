@@ -1,8 +1,17 @@
-import { useSession } from "~~/shared/auth";
+import type { ServerError } from "@apollo/client";
+import { logout, useToken } from "~/shared/auth";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook("apollo:auth", ({ token }) => {
-    const session = useSession();
-    token.value = session.token;
+  nuxtApp.hook("apollo:auth", (req) => {
+    const token = useToken();
+    if (token.value) req.token.value = token.value;
+  });
+
+  nuxtApp.hook("apollo:error", (error) => {
+    if ((error.networkError as ServerError)?.statusCode === 401) {
+      console.warn("token expired, logging out");
+      console.warn((error.networkError as ServerError).result);
+      logout();
+    }
   });
 });
