@@ -15,7 +15,10 @@ fragment MapLocation on Location {
 
 query getLocations {
   locations {
-    ...MapLocation
+    totalCount
+    nodes {
+      ...MapLocation
+    }
   }
 }
 
@@ -23,8 +26,11 @@ query getLocation($slug: String!) {
   location: locationBySlug(slug: $slug) {
     ...MapLocation
     tales {
-      title
-      text
+      totalCount
+      nodes {
+        title
+        text
+      }
     }
   }
 }

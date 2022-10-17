@@ -2,7 +2,7 @@
   <section>
     <template v-if="result">
       <h1>{{ result.location.name }}</h1>
-      <div v-for="tale of result.location.tales">
+      <div v-for="tale of result.location.tales.nodes">
         <h3>{{ tale.title }}</h3>
         <MarkdownPreview :value="tale.text" />
       </div>

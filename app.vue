@@ -47,26 +47,26 @@ body {
 }
 
 h1 {
-   @apply text-5xl pb-5 font-bold;
+   @apply text-e-5xl pb-5 font-bold;
 }
 
 h2 {
-   @apply text-4xl pb-4 font-bold;
+   @apply text-e-4xl pb-4 font-bold;
 }
 
 h3 {
-   @apply text-3xl pb-3;
+   @apply text-e-3xl pb-3;
 }
 
 h4 {
-   @apply text-2xl pb-2;
+   @apply text-e-2xl pb-2;
 }
 
 h5 {
-   @apply text-xl pb-1;
+   @apply text-e-xl pb-1;
 }
 
 h6 {
-   @apply text-base;
+   @apply text-e-base;
 }
 </style>

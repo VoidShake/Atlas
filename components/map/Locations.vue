@@ -1,6 +1,6 @@
 <template>
   <div v-if="result">
-    <MapLocationMarker v-for="it in result.locations" :key="it.id" :location="it" @click="click(it, $event)"
+    <MapLocationMarker v-for="it in result.locations.nodes" :key="it.id" :location="it" @click="click(it, $event)"
       @mouseenter="$emit('mouseenter', it, $event)" @contextmenu="menu(it, $event)" />
     <DialogCreateTale v-if="selected?.action == 'add-lore'" :initialLocations="[selected.location]"
       @close="selected = null" />
