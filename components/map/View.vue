@@ -16,9 +16,6 @@
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet';
 import { Permission, PosFragment } from '~/graphql/generated';
-import { formatPos } from '~/shared/spatial';
-import useMap from '~/store/useMap';
-import { closeMenu, openMenu } from '~/store/useMenu';
 import { DynmapOptions } from '~/types/options';
 
 const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', { responseType: 'json' })

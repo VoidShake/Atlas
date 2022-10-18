@@ -3,8 +3,6 @@
 </template>
 
 <script lang="ts" setup>
-import { formatPos } from '~/shared/spatial';
-
 const pos = withDefaults(defineProps<{
    x: number
    y: number | null

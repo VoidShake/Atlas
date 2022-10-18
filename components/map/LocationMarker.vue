@@ -6,8 +6,6 @@
 import { LMarker } from '@vue-leaflet/vue-leaflet';
 import { LatLng } from 'leaflet';
 import { MapLocationFragment } from '~/graphql/generated';
-import { toMapPos } from '~~/shared/projection';
-import useMap from '~~/store/useMap';
 
 const context = useMap()
 
@@ -15,6 +13,6 @@ const { location } = defineProps<{
    location: MapLocationFragment,
 }>()
 
-const latLng = computed(() => new LatLng(...toMapPos(context.value.map, location.pos)))
+const latLng = computed(() => new LatLng(...toMapPos(context.value!.map, location.pos)))
 
 </script>

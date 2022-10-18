@@ -7,8 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import { closeDialog, useIsDialogOpen } from '~/store/useDialog';
-import useMenu from '~/store/useMenu';
 
 const showCurtain = useIsDialogOpen()
 

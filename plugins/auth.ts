@@ -1,5 +1,4 @@
 import type { ServerError } from "@apollo/client";
-import { logout, useToken } from "~/shared/auth";
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook("apollo:auth", (req) => {

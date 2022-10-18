@@ -11,7 +11,6 @@
 <script lang="ts" setup>
 import { LeafletMouseEvent } from 'leaflet';
 import { GetLocationsDocument, MapLocationFragment, Permission } from '~/graphql/generated';
-import { openMenu } from '~/store/useMenu';
 
 const router = useRouter()
 

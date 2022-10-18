@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts" setup>
-import useMenu, { MenuButton, MenuOptions } from '~/store/useMenu';
-import { useSession } from '~~/shared/auth';
+import type { MenuButton, MenuOptions } from '~/composables/useMenu';
+
 const menu = useMenu()
 
 const { hasPermission } = useSession()

@@ -1,12 +1,13 @@
 <template>
-   <div id="dialog">
-      <h1 v-if="title">{{ title }}</h1>
-      <slot />
-   </div>
+   <Teleport to="body">
+      <div id="dialog">
+         <h1 v-if="title">{{ title }}</h1>
+         <slot />
+      </div>
+   </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { closeDialog, openDialog } from '~/store/useDialog';
 
 defineProps<{
    title: string

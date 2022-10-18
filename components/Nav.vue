@@ -5,7 +5,5 @@
 </template>
 
 <script lang="ts" setup>
-import { useSession } from '~/shared/auth';
-
 const { loggedIn } = useSession()
 </script>

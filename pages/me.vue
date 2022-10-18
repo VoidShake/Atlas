@@ -9,9 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useSession } from '~/shared/auth';
-
-
 const router = useRouter()
 const { account, loggedIn } = useSession()
 

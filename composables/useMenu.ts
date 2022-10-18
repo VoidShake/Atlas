@@ -17,7 +17,7 @@ export interface MenuContext {
   y: number;
 }
 
-const useMenu = () => useState<MenuContext | null>("menu", () => null);
+export const useMenu = () => useState<MenuContext | null>("menu", () => null);
 
 export function closeMenu() {
   const menu = useMenu();
@@ -32,5 +32,3 @@ export function openMenu(e: MouseEvent, options: MenuOptions) {
     options,
   };
 }
-
-export default useMenu;

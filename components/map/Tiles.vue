@@ -10,7 +10,6 @@
 
 <script lang="ts" setup>
 import { LTileLayer } from "@vue-leaflet/vue-leaflet";
-import useMap from "~/store/useMap";
 import { PosFragment } from "~~/graphql/generated";
 
 const context = useMap()

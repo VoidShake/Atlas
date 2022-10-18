@@ -9,7 +9,6 @@
 
 
 <script lang="ts" setup>
-import { closeDialog } from '~/store/useDialog';
 
 defineProps<{
    title: string

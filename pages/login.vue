@@ -5,8 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-import { login } from '~/shared/auth';
-
 definePageMeta({
    layout: 'center'
 })
