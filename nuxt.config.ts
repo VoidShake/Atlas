@@ -14,7 +14,7 @@ export default defineNuxtConfig({
         "/dynmap/": {
           target: "https://map.somethingcatchy.net/",
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/dynmap/, ""),
+          rewrite: (path: string) => path.replace(/^\/dynmap/, ""),
         },
       },
     },

@@ -1,10 +1,10 @@
 <template>
    <div id="menu" :style="{ translate: `${x}px ${y}px` }">
-      <p class="py-1 px-3 text-center" v-if="options.title">
+      <p v-if="options.title" class="py-1 px-3 text-center">
          <i>{{ options.title }}</i>
       </p>
-      <button v-for="button of buttons" @click="click(button)">
-         {{ button.text}}
+      <button v-for="button, i of buttons" :key="i" @click="click(button)">
+         {{ button.text }}
       </button>
    </div>
 </template>
@@ -16,13 +16,13 @@ const menu = useMenu()
 
 const { hasPermission } = useSession()
 
-const { options } = defineProps<{
+const props = defineProps<{
    x: number
    y: number
    options: MenuOptions
 }>()
 
-const buttons = computed(() => options.buttons?.filter(it => !it.permission || hasPermission(it.permission)))
+const buttons = computed(() => props.options.buttons?.filter(it => !it.permission || hasPermission(it.permission)))
 
 async function click(button: MenuButton) {
    await button.click()

@@ -1,28 +1,21 @@
 {
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "extends": [
-    "@nuxtjs/eslint-config-typescript",
-    "plugin:nuxt/recommended",
-    "plugin:prettier/recommended"
-  ],
-  "plugins": [],
-  "rules": {
-    "vue/multi-word-component-names": "off",
-    "vue/no-multiple-template-root": "off",
-    "at-rule-no-unknown": [
-      true,
-      {
-        "ignoreAtRules": ["apply"]
-      }
-    ],
-    "scss/at-rule-no-unknown": [
-      true,
-      {
-        "ignoreAtRules": ["apply"]
-      }
-    ]
-  }
+   "env": {
+      "browser": true,
+      "node": true
+   },
+   "extends": ["@nuxtjs/eslint-config-typescript", "plugin:nuxt/recommended"],
+   "rules": {
+      "vue/multi-word-component-names": "off",
+      "vue/no-multiple-template-root": "off",
+      "vue/singleline-html-element-content-newline": "off",
+      "vue/html-indent": "off",
+      "eol-last": "off",
+      "semi": "off",
+      "indent": ["warn", 3],
+      "func-call-spacing": "off",
+      "space-before-function-paren": ["error", "never"],
+      "import/named": "off",
+      "comma-dangle": ["error", "always-multiline"],
+      "curly": ["error", "multi"]
+   }
 }

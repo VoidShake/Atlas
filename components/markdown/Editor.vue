@@ -44,7 +44,7 @@ function update(value: string) {
 
 .dark-mode #editor {
    &>#preview {
-      @apply bg-slate-800/50
+      @apply bg-slate-800/50;
    }
 }
 </style>

@@ -8,8 +8,8 @@ fragment Lore on Tale {
   text
 }
 
-query getTales {
-  tales {
+query getTales($offset: Long) {
+  tales(pagination: { offset: $offset }) {
     totalCount
     nodes {
       ...Summary

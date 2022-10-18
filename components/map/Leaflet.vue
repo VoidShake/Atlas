@@ -1,6 +1,6 @@
 <template>
   <l-map v-model:zoom="zoom" @ready="ready" zoomAnimation fadeAnimation v-model:center="center" :crs="crs"
-    :minZoom="context.minZoom" :maxZoom="context.maxZoom" :maxNativeZoom="context.maxNativeZoom"
+    :minZoom="context?.minZoom" :maxZoom="context?.maxZoom" :maxNativeZoom="context?.maxNativeZoom"
     @contextmenu=" emitWithPos('contextmenu', $event)" @click=" emitWithPos('click', $event)">
     <MapTiles />
     <MapLocations />

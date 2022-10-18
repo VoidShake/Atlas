@@ -20,7 +20,7 @@ import type { LeafletMouseEvent } from 'leaflet';
 import { Permission, PosFragment } from '~/graphql/generated';
 import { DynmapOptions } from '~/types/options';
 
-const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', { responseType: 'json' })
+const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', { transform: r => JSON.parse(r as unknown as string) })
 
 const context = useMap()
 
@@ -67,7 +67,7 @@ watch(options, value => {
 
 <style scoped>
 #map-wrap {
-   height: 800px;
-   width: 1400px;
+   height: 1000px;
+   width: 1200px;
 }
 </style>
