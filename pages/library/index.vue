@@ -1,12 +1,12 @@
 <template>
    <section>
-      <h1 class="text-center">Lore</h1>
+      <h1 class="text-center">Browse the Libary</h1>
       <template v-if="result">
          <p class="py-4 text-center">
             <i> Found {{ result.tales.totalCount }} total tales </i>
          </p>
          <div id="tales">
-            <NuxtLink v-for="tale in result.tales.nodes" :key="tale.id" :to="`/lore/${tale.id}`">
+            <NuxtLink v-for="tale in result.tales.nodes" :key="tale.id" :to="`/library/${tale.id}`">
                <TalePreview :key="tale.id" :tale="tale" />
             </NuxtLink>
          </div>
@@ -33,13 +33,19 @@ const { result } = useQuery(GetTalesDocument, () => ({ offset: offset.value }))
 <style scoped>
 #tales {
    @apply gap-3 grid mx-auto;
-   max-width: calc(120rem + theme(spacing.6));
    grid-template-columns: 1fr;
 }
 
 @media (min-width: 80rem) {
    #tales {
+      max-width: calc(80rem + theme(spacing.3));
       grid-template-columns: repeat(auto-fit, 40rem);
+   }
+}
+
+@media (min-width: 120rem) {
+   #tales {
+      max-width: calc(120rem + theme(spacing.6));
    }
 }
 </style>

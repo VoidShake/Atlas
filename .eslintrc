@@ -16,6 +16,7 @@
       "indent": "off",
       "import/named": "off",
       "comma-dangle": "off",
+      "arrow-parens": "off",
       "curly": "off"
    }
 }
