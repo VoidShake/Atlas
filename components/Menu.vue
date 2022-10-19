@@ -3,14 +3,14 @@
       <p v-if="options.title" class="py-1 px-3 text-center">
          <i>{{ options.title }}</i>
       </p>
-      <button v-for="button, i of buttons" :key="i" @click="click(button)">
+      <button v-for="(button, i) of buttons" :key="i" @click="click(button)">
          {{ button.text }}
       </button>
    </div>
 </template>
 
 <script lang="ts" setup>
-import type { MenuButton, MenuOptions } from '~/composables/useMenu';
+import type { MenuButton, MenuOptions } from '~/composables/useMenu'
 
 const menu = useMenu()
 
@@ -42,11 +42,11 @@ async function click(button: MenuButton) {
       @apply p-2 transition w-full;
 
       &:first-child {
-         @apply rounded-t-lg
+         @apply rounded-t-lg;
       }
 
       &:last-child {
-         @apply rounded-b-lg
+         @apply rounded-b-lg;
       }
    }
 }

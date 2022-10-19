@@ -12,15 +12,18 @@
 </template>
 
 <script lang="ts" setup>
-import { CreateLocationDocument, Maybe } from '~/graphql/generated';
+import { CreateLocationDocument, Maybe } from '~/graphql/generated'
 
-const pos = withDefaults(defineProps<{
-   x: number
-   y?: Maybe<number>
-   z: number
-}>(), {
-   y: undefined
-})
+const pos = withDefaults(
+   defineProps<{
+      x: number
+      y?: Maybe<number>
+      z: number
+   }>(),
+   {
+      y: undefined,
+   },
+)
 
 const name = ref('')
 
@@ -28,9 +31,8 @@ const { mutate, error } = useMutation(CreateLocationDocument, () => ({
    variables: {
       input: { ...pos, name: name.value, world: 'overworld' },
    },
-   refetchQueries: ['getLocation', 'getLocations']
+   refetchQueries: ['getLocation', 'getLocations'],
 }))
 
 watch(error, v => console.log(v))
-
 </script>

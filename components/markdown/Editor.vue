@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { debounce } from 'lodash';
+import { debounce } from 'lodash'
 
 defineProps<{
    placeholder: string
@@ -37,13 +37,13 @@ function update(value: string) {
    @apply grid gap-2;
    grid-template-columns: 1fr 1fr;
 
-   &>#preview {
+   & > #preview {
       @apply bg-stone-500/50 rounded;
    }
 }
 
 .dark-mode #editor {
-   &>#preview {
+   & > #preview {
       @apply bg-slate-800/50;
    }
 }

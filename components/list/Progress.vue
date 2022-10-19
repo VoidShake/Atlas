@@ -1,6 +1,6 @@
 <template>
    <div id="meter">
-      <div id="filled" :style="{ width: `${current / total * 100}%` }" />
+      <div id="filled" :style="{ width: `${(current / total) * 100}%` }" />
    </div>
 </template>
 

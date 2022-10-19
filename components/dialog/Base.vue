@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-
 defineProps<{
    title: string
 }>()
@@ -24,11 +23,11 @@ onUnmounted(() => closeDialog())
 <style scoped>
 @keyframes bounce-in {
    from {
-      translate: -50% 100%
+      translate: -50% 100%;
    }
 
    to {
-      translate: -50% -50%
+      translate: -50% -50%;
    }
 }
 

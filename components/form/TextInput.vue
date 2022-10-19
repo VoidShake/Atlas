@@ -1,11 +1,16 @@
 <template>
-   <input class="p-2 rounded bg-stone-500 dark:bg-slate-800" :autofocus="autofocus" :placeholder="placeholder"
-      :value="modelValue" @input="$emit('update:modelValue', $event.target!.value)" />
+   <input
+      class="p-2 rounded bg-stone-500 dark:bg-slate-800"
+      :autofocus="autofocus"
+      :placeholder="placeholder"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target!.value)"
+   />
 </template>
 
 <script lang="ts" setup>
 defineProps<{
-   placeholder: string,
+   placeholder: string
    modelValue?: string
    autofocus?: boolean
 }>()

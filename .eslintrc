@@ -11,11 +11,11 @@
       "vue/html-indent": "off",
       "eol-last": "off",
       "semi": "off",
-      "indent": ["warn", 3],
       "func-call-spacing": "off",
-      "space-before-function-paren": ["error", "never"],
+      "space-before-function-paren": "off",
+      "indent": "off",
       "import/named": "off",
-      "comma-dangle": ["error", "always-multiline"],
-      "curly": ["error", "multi"]
+      "comma-dangle": "off",
+      "curly": "off"
    }
 }

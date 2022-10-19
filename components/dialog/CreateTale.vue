@@ -15,13 +15,16 @@
 </template>
 
 <script lang="ts" setup>
-import { CreateTaleDocument, MapLocationFragment } from '~/graphql/generated';
+import { CreateTaleDocument, MapLocationFragment } from '~/graphql/generated'
 
-const { initialLocations } = withDefaults(defineProps<{
-   initialLocations: MapLocationFragment[]
-}>(), {
-   initialLocations: () => []
-})
+const { initialLocations } = withDefaults(
+   defineProps<{
+      initialLocations: MapLocationFragment[]
+   }>(),
+   {
+      initialLocations: () => [],
+   },
+)
 
 const locations = ref(initialLocations)
 
@@ -31,11 +34,10 @@ const text = ref('')
 const { mutate } = useMutation(CreateTaleDocument, () => ({
    variables: {
       input: { title: title.value, text: text.value },
-      locations: locations.value.map(it => it.id)
+      locations: locations.value.map(it => it.id),
    },
-   refetchQueries: ['getLocation']
+   refetchQueries: ['getLocation'],
 }))
-
 </script>
 
 <style scoped>

@@ -9,33 +9,43 @@
          <SidePanel>
             <slot />
          </SidePanel>
-         <DialogCreateLocation v-if="selected?.action == 'add-marker'" :x="selected.pos.x" :y="selected.pos.y"
-            :z="selected.pos.z" @close="selected = null" />
+         <DialogCreateLocation
+            v-if="selected?.action == 'add-marker'"
+            :x="selected.pos.x"
+            :y="selected.pos.y"
+            :z="selected.pos.z"
+            @close="selected = null"
+         />
       </div>
    </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
-import type { LeafletMouseEvent } from 'leaflet';
-import { Permission, PosFragment } from '~/graphql/generated';
-import { DynmapOptions } from '~/types/options';
+import type { LeafletMouseEvent } from 'leaflet'
+import { Permission, PosFragment } from '~/graphql/generated'
+import { DynmapOptions } from '~/types/options'
 
-const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', { transform: r => JSON.parse(r as unknown as string) })
+const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', {
+   transform: r => JSON.parse(r as unknown as string),
+})
 
 const context = useMap()
 
 const selected = ref<null | {
-   pos: PosFragment,
-   action: 'add-marker',
+   pos: PosFragment
+   action: 'add-marker'
 }>(null)
 
 function mapMenu(pos: PosFragment, e: LeafletMouseEvent) {
    openMenu(e.originalEvent, {
-      title: formatPos(pos), buttons: [{
-         text: 'Create Marker',
-         permission: Permission.CreateLocation,
-         click: () => selected.value = { action: 'add-marker', pos }
-      }]
+      title: formatPos(pos),
+      buttons: [
+         {
+            text: 'Create Marker',
+            permission: Permission.CreateLocation,
+            click: () => (selected.value = { action: 'add-marker', pos }),
+         },
+      ],
    })
 }
 
@@ -45,14 +55,9 @@ watch(options, value => {
    if (!value || context.value) return
    const { defaultworld, defaultmap, worlds } = value
 
-   const world = worlds.find(
-      (it) =>
-         it.name.toLowerCase() === defaultworld.toLowerCase()
-   ) ?? worlds[0]
+   const world = worlds.find(it => it.name.toLowerCase() === defaultworld.toLowerCase()) ?? worlds[0]
 
-   const map = world?.maps.find(
-      (it) => it.name.toLowerCase() === defaultmap.toLowerCase()
-   ) ?? world.maps[0]
+   const map = world?.maps.find(it => it.name.toLowerCase() === defaultmap.toLowerCase()) ?? world.maps[0]
 
    if (!map) return
 
@@ -63,7 +68,6 @@ watch(options, value => {
    context.value = { map, world, minZoom, maxZoom, maxNativeZoom }
 })
 </script>
-
 
 <style scoped>
 #map-wrap {

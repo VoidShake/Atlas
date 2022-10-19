@@ -7,11 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-
 const showCurtain = useIsDialogOpen()
 
 useHead({
-   titleTemplate: (s) => s ? `Atlas - ${s}` : 'Atlas'
+   titleTemplate: s => (s ? `Atlas - ${s}` : 'Atlas'),
 })
 
 const menu = useMenu()

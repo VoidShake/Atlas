@@ -1,12 +1,12 @@
 <template>
    <a href="/auth/discord">
-      <FormButton id="discord">Login via Discord</FormButton>
+      <FormButton id="discord"> Login via Discord </FormButton>
    </a>
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
-   layout: 'center'
+   layout: 'center',
 })
 
 const { query } = useActiveRoute()

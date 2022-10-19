@@ -13,7 +13,6 @@ const router = useRouter()
 const { account, loggedIn } = useSession()
 
 watch(loggedIn, value => {
-   if (!value) router.push("/login")
+   if (!value) router.push('/login')
 })
-
 </script>

@@ -25,7 +25,7 @@ const hasPrevious = computed(() => true)
 <style lang="scss" scoped>
 #list-controls {
    @apply grid gap-10 justify-center py-3 items-center;
-   grid-template-areas: "prev progress next";
+   grid-template-areas: 'prev progress next';
 
    #meter {
       grid-area: progress;
