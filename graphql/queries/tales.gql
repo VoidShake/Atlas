@@ -1,11 +1,19 @@
 fragment Summary on Tale {
    id
    title
+   locations {
+      totalCount
+   }
 }
 
 fragment Lore on Tale {
    ...Summary
    text
+   locations {
+      nodes {
+         ...MapLocation
+      }
+   }
 }
 
 query getTales($pagination: Pagination) {
@@ -15,11 +23,7 @@ query getTales($pagination: Pagination) {
          ...Summary
       }
       pageInfo {
-         hasPreviousPage
-         hasNextPage
-         startCursor
-         endCursor
-         offset
+         ...PageInfo
       }
    }
 }

@@ -1,6 +1,9 @@
 <template>
    <div id="panel">
       <h3>{{ tale.title }}</h3>
+      <p>
+         <i>{{ tale.locations.totalCount }} referenced locations </i>
+      </p>
    </div>
 </template>
 

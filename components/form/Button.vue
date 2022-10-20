@@ -7,7 +7,7 @@
 <style lang="scss" scoped>
 button {
    @apply py-2 px-3;
-   @apply rounded;
+   @apply rounded select-none;
    @apply transition;
 }
 

@@ -11,8 +11,7 @@
             </NuxtLink>
          </div>
          <ListControls
-            :total="result.connection.totalCount"
-            :page-info="result.connection.pageInfo"
+            :connection="result.connection"
             :page-size="result.connection.nodes.length"
             @next="next"
             @previous="previous"
@@ -24,7 +23,7 @@
 <script lang="ts" setup>
 import { GetTalesDocument } from '~/graphql/generated'
 
-const limit = ref(30)
+const limit = ref(10)
 
 const { result, next, previous } = usePagination(GetTalesDocument, limit)
 </script>

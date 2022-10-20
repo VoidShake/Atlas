@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { CreateTaleDocument, MapLocationFragment } from '~/graphql/generated'
 
-const { initialLocations } = withDefaults(
+const props = withDefaults(
    defineProps<{
       initialLocations: MapLocationFragment[]
    }>(),
@@ -26,7 +26,7 @@ const { initialLocations } = withDefaults(
    },
 )
 
-const locations = ref(initialLocations)
+const locations = ref(props.initialLocations)
 
 const title = ref('')
 const text = ref('')

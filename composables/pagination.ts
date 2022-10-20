@@ -2,12 +2,14 @@ import { TypedDocumentNode } from '@graphql-typed-document-node/core'
 import type { Ref } from 'vue'
 import { Exact, PageInfo, Pagination } from '~/graphql/generated'
 
-interface ConnectionQuery<T> {
-   connection: {
-      nodes: T[]
-      totalCount?: number
-      pageInfo: Pick<PageInfo, 'startCursor' | 'endCursor'>
-   }
+export interface Connection<T> {
+   nodes: T[]
+   totalCount?: number
+   pageInfo: Partial<PageInfo>
+}
+
+export interface ConnectionQuery<T> {
+   connection: Connection<T>
 }
 
 type PaginationVariables = Exact<{
@@ -16,11 +18,15 @@ type PaginationVariables = Exact<{
 
 export function usePagination<T, Q extends ConnectionQuery<T>>(
    document: TypedDocumentNode<Q, PaginationVariables>,
-   limit?: Ref<number>,
+   limit: Ref<number>,
 ) {
    const pagination = useState<Pagination>('pagination', () => ({ first: limit?.value }))
 
    const { result } = useQuery(document, variables)
+
+   watch(limit, () => {
+      pagination.value = { first: limit?.value }
+   })
 
    function previous() {
       pagination.value = {
