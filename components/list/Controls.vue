@@ -1,30 +1,29 @@
 <template>
    <div id="list-controls">
-      <FormButton v-if="hasPrevious" id="prev" @click="$emit('previous')">Previous</FormButton>
-      <ListProgress :total="total" :current="current" />
-      <FormButton v-if="hasNext" id="next" @click="$emit('next')">Next</FormButton>
+      <FormButton v-if="pageInfo.hasPreviousPage" id="prev" @click="$emit('previous')"> Previous </FormButton>
+      <ListProgress v-if="pageInfo.offset !== null" :total="total" :current="pageInfo.offset + pageSize" />
+      <FormButton v-if="pageInfo.hasNextPage" id="next" @click="$emit('next')"> Next </FormButton>
    </div>
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
+import { PageInfo } from '~~/graphql/generated'
+
+defineProps<{
    total: number
-   current: number
    pageSize: number
+   pageInfo: Partial<PageInfo>
 }>()
 
 defineEmits<{
    (e: 'next'): void
    (e: 'previous'): void
 }>()
-
-const hasNext = computed(() => props.current < props.total)
-const hasPrevious = computed(() => true)
 </script>
 
 <style lang="scss" scoped>
 #list-controls {
-   @apply grid gap-10 justify-center py-3 items-center;
+   @apply grid gap-10 justify-center py-5 items-center;
    grid-template-areas: 'prev progress next';
 
    #meter {

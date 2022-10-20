@@ -1,28 +1,35 @@
 fragment Summary on Tale {
-  id
-  title
+   id
+   title
 }
 
 fragment Lore on Tale {
-  ...Summary
-  text
+   ...Summary
+   text
 }
 
-query getTales($offset: Long) {
-  tales(pagination: { offset: $offset }) {
-    totalCount
-    nodes {
-      ...Summary
-    }
-  }
+query getTales($pagination: Pagination) {
+   connection: tales(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...Summary
+      }
+      pageInfo {
+         hasPreviousPage
+         hasNextPage
+         startCursor
+         endCursor
+         offset
+      }
+   }
 }
 
 query getTale($id: Int!) {
-  tale(id: $id) {
-    ...Lore
-  }
+   tale(id: $id) {
+      ...Lore
+   }
 }
 
 mutation createTale($input: CreateTaleInput!, $locations: [Int!]) {
-  createTale(input: $input, locations: $locations)
+   createTale(input: $input, locations: $locations)
 }

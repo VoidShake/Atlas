@@ -3,19 +3,19 @@
       <h1 class="text-center">Browse the Libary</h1>
       <template v-if="result">
          <p class="py-4 text-center">
-            <i> Found {{ result.tales.totalCount }} total tales </i>
+            <i> Found {{ result.connection.totalCount }} total tales </i>
          </p>
          <div id="tales">
-            <NuxtLink v-for="tale in result.tales.nodes" :key="tale.id" :to="`/library/${tale.id}`">
+            <NuxtLink v-for="tale in result.connection.nodes" :key="tale.id" :to="`/library/${tale.id}`">
                <TalePreview :key="tale.id" :tale="tale" />
             </NuxtLink>
          </div>
          <ListControls
-            :total="result.tales.totalCount"
-            :page-size="limit"
-            :current="result.tales.nodes.length + offset"
-            @next="offset += limit"
-            @previous="offset -= limit"
+            :total="result.connection.totalCount"
+            :page-info="result.connection.pageInfo"
+            :page-size="result.connection.nodes.length"
+            @next="next"
+            @previous="previous"
          />
       </template>
    </section>
@@ -24,10 +24,9 @@
 <script lang="ts" setup>
 import { GetTalesDocument } from '~/graphql/generated'
 
-const limit = 30
-const offset = useState('offset', () => 0)
+const limit = ref(30)
 
-const { result } = useQuery(GetTalesDocument, () => ({ offset: offset.value }))
+const { result, next, previous } = usePagination(GetTalesDocument, limit)
 </script>
 
 <style scoped>

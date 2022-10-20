@@ -10,9 +10,13 @@
 <script lang="ts" setup>
 import { GetTaleDocument } from '~/graphql/generated'
 
-const { params } = useActiveRoute()
+const route = useActiveRoute()
 
-const { result } = useQuery(GetTaleDocument, {
-   id: Number.parseInt(params.id as string),
+const { result } = useQuery(GetTaleDocument, () => ({
+   id: Number.parseInt(route.params.id as string),
+}))
+
+definePageMeta({
+   layout: 'confined',
 })
 </script>
