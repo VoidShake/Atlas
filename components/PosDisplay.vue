@@ -1,7 +1,7 @@
 <template>
-   <span class="py-1 px-3 bg-black/10 rounded-lg">
+   <Pill>
       {{ formatPos(pos) }}
-   </span>
+   </Pill>
 </template>
 
 <script lang="ts" setup>

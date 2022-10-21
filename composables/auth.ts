@@ -21,11 +21,10 @@ interface Session {
 export const useToken = (): Ref<string | null> => useCookie('token')
 
 export function useSession(): Session {
-   const { result } = useQuery(MeDocument)
-
    const token = useToken()
-   const account = computed(() => result.value?.me ?? null)
    const loggedIn = computed(() => !!token.value)
+   const { result } = useQuery(MeDocument, undefined, () => ({ enabled: loggedIn.value }))
+   const account = computed(() => result.value?.me ?? null)
 
    return {
       loggedIn,
