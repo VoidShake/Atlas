@@ -10,6 +10,6 @@
 <style scoped>
 main {
    @apply p-5;
-   height: calc(100vh - theme(spacing.6));
+   height: calc(100vh - theme(spacing.20));
 }
 </style>

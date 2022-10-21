@@ -20,7 +20,7 @@ definePageMeta({
 
 const route = useActiveRoute()
 
-const { result } = useQuery(GetLocationDocument, {
+const { result } = useQuery(GetLocationDocument, () => ({
    slug: route.params.slug as string,
-})
+}))
 </script>

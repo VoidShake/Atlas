@@ -1,6 +1,6 @@
 <template>
    <NuxtLayout name="default">
-      <div class="grid grid-flow-col">
+      <div class="grid grid-flow-col gap-5">
          <div id="map-wrap">
             <client-only v-if="context">
                <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" />
