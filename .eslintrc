@@ -17,6 +17,17 @@
       "import/named": "off",
       "comma-dangle": "off",
       "arrow-parens": "off",
-      "curly": "off"
+      "curly": "off",
+      "vue/html-self-closing": [
+         "error",
+         {
+            "html": {
+               "void": "always",
+               "normal": "never",
+               "component": "always"
+            },
+            "slot": "any"
+         }
+      ]
    }
 }

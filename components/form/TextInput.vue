@@ -1,6 +1,5 @@
 <template>
    <input
-      class="p-2 rounded bg-stone-500 dark:bg-slate-800"
       :autofocus="autofocus"
       :placeholder="placeholder"
       :value="modelValue"
@@ -19,3 +18,17 @@ defineEmits<{
    (e: 'update:modelValue', value: string): void
 }>()
 </script>
+
+<style lang="scss" scoped>
+input {
+   @apply p-2 rounded bg-stone-500 outline-0 transition;
+}
+
+.dark-mode input {
+   @apply bg-slate-800 ring-purple-500 ring-0;
+
+   &:focus-visible {
+      @apply ring-2;
+   }
+}
+</style>

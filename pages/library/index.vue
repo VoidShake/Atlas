@@ -3,7 +3,7 @@
       <h1 class="text-center">Browse the Libary</h1>
       <template v-if="result">
          <p class="py-4 text-center">
-            <i> Found {{ result.connection.totalCount }} total tales </i>
+            <em> Found {{ result.connection.totalCount }} total tales </em>
          </p>
          <div id="tales">
             <NuxtLink v-for="tale in result.connection.nodes" :key="tale.id" :to="`/library/${tale.id}`">
@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import { GetTalesDocument } from '~/graphql/generated'
 
-const limit = ref(10)
+const limit = ref(24)
 
 const { result, next, previous } = usePagination(GetTalesDocument, limit)
 </script>

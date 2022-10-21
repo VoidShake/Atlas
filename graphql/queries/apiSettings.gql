@@ -1,0 +1,5 @@
+query apiSettings {
+   settings {
+      development
+   }
+}

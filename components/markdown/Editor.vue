@@ -2,7 +2,7 @@
    <div id="editor">
       <FormTextArea :placeholder="placeholder" :model-value="modelValue" @update:model-value="update" />
       <div id="preview">
-         <h5 class="my-2"><i>Preview</i></h5>
+         <h5 class="my-2"><em>Preview </em></h5>
          <MarkdownPreview :value="debouncedValue" />
       </div>
    </div>

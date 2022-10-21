@@ -1,7 +1,7 @@
 <template>
    <div id="menu" :style="{ translate: `${x}px ${y}px` }">
       <p v-if="options.title" class="py-1 px-3 text-center">
-         <i>{{ options.title }}</i>
+         <em> {{ options.title }} </em>
       </p>
       <button v-for="(button, i) of buttons" :key="i" @click="click(button)">
          {{ button.text }}

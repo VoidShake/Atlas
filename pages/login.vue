@@ -1,16 +1,28 @@
 <template>
-   <a href="/auth/discord">
-      <FormButton id="discord"> Login via Discord </FormButton>
-   </a>
+   <div id="buttons">
+      <a href="/auth/discord">
+         <FormButton id="discord"> Login via Discord </FormButton>
+      </a>
+      <div v-if="result?.settings.development">
+         <label> Login as seeded user </label>
+         <div class="grid grid-flow-col gap-2 mt-1">
+            <FormTextInput v-model="seededEmail" placeholder="E-Mail" />
+            <FormButton @click="seededLogin"> Login </FormButton>
+         </div>
+      </div>
+   </div>
 </template>
 
 <script lang="ts" setup>
+import { ApiSettingsDocument, ImpersonateDocument } from '~/graphql/generated'
+
 definePageMeta({
    layout: 'center',
 })
 
 const { query } = useActiveRoute()
 const router = useRouter()
+const { result } = useQuery(ApiSettingsDocument)
 
 onMounted(() => {
    if (query.token && typeof query.token === 'string') {
@@ -18,10 +30,30 @@ onMounted(() => {
       router.replace('/me')
    }
 })
+
+const seededEmail = ref()
+const impersonate = useMutation(ImpersonateDocument)
+
+async function seededLogin() {
+   const reponse = await impersonate.mutate({ email: seededEmail.value })
+   const token = reponse?.data?.impersonate?.token
+   if (token) {
+      login(token)
+      router.push('/me')
+   }
+}
 </script>
 
 <style lang="scss" scoped>
-#discord {
-   background: #7289da;
+#buttons {
+   @apply grid gap-4;
+
+   button {
+      @apply w-full;
+
+      &#discord {
+         background: #7289da;
+      }
+   }
 }
 </style>
