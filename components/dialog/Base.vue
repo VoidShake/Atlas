@@ -1,7 +1,7 @@
 <template>
    <Teleport to="body">
       <div id="dialog">
-         <h1 v-if="title">{{ title }}</h1>
+         <h1 class="text-center" v-if="title">{{ title }}</h1>
          <slot />
       </div>
    </Teleport>
@@ -32,7 +32,7 @@ onUnmounted(() => closeDialog())
 }
 
 #dialog {
-   @apply px-8 py-6 rounded-lg bg-stone-800 text-center shadow-xl;
+   @apply px-8 py-6 rounded-lg bg-stone-800 shadow-xl;
    position: fixed;
    z-index: 1002;
    top: 50%;
@@ -42,6 +42,6 @@ onUnmounted(() => closeDialog())
 }
 
 .dark-mode #dialog {
-   @apply bg-slate-700;
+   @apply bg-slate-700 shadow-slate-900;
 }
 </style>

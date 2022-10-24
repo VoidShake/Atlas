@@ -9,7 +9,6 @@ export default defineNuxtPlugin(nuxtApp => {
    nuxtApp.hook('apollo:error', error => {
       if ((error.networkError as ServerError)?.statusCode === 401) {
          console.warn('token expired, logging out')
-         console.warn((error.networkError as ServerError).result)
          logout()
       }
    })

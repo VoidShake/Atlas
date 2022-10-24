@@ -1,8 +1,8 @@
 <template>
    <span class="pill">
-      <span class="icon">
+      <InlineIcon>
          <slot name="icon" />
-      </span>
+      </InlineIcon>
       <span class="text">
          <slot />
       </span>
@@ -17,13 +17,6 @@
 
 .text {
    @apply pl-1;
-}
-
-.icon:deep(svg) {
-   @apply inline-block;
-   align-self: start;
-   height: 1em;
-   margin-top: -0.2em;
 }
 
 .dark-mode .pill {

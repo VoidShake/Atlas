@@ -15,7 +15,7 @@ interface Session {
    loggedIn: Ref<boolean>
    token: Ref<string | null>
    account: Ref<SelfFragment | null>
-   hasPermission: (permission: Permission) => boolean
+   hasPermission: (permission: Permission, ...alternatives: Permission[]) => boolean
 }
 
 export const useToken = (): Ref<string | null> => useCookie('token')
@@ -30,6 +30,6 @@ export function useSession(): Session {
       loggedIn,
       token,
       account,
-      hasPermission: it => account.value?.permissions.includes(it) ?? false,
+      hasPermission: (...permissions) => permissions.some(it => account.value?.permissions.includes(it)),
    }
 }

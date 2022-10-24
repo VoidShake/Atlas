@@ -10,7 +10,7 @@
       />
       <DialogCreateTale
          v-if="selected?.action == 'add-lore'"
-         :initialLocations="[selected.location]"
+         :initialLocations="[selected.location.id]"
          @close="selected = null"
       />
    </div>

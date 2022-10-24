@@ -21,14 +21,14 @@ defineEmits<{
 
 <style lang="scss" scoped>
 input {
-   @apply p-2 rounded bg-stone-500 outline-0 transition;
-}
-
-.dark-mode input {
-   @apply bg-slate-800 ring-purple-500 ring-0;
+   @apply p-2 rounded bg-stone-500 outline-0 transition ring-0 border-2;
 
    &:focus-visible {
       @apply ring-2;
    }
+}
+
+.dark-mode input {
+   @apply bg-slate-800 ring-purple-500  border-slate-700;
 }
 </style>

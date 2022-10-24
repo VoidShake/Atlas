@@ -1,6 +1,11 @@
 <template>
    <section>
       <h1 class="text-center">Browse the Libary</h1>
+      <NuxtLink v-if="hasPermission(Permission.TellTale, Permission.ProposeTale)" to="/library/write">
+         <StyledActionButton>
+            <PencilIcon />
+         </StyledActionButton>
+      </NuxtLink>
       <template v-if="result">
          <p class="py-4 text-center">
             <em> Found {{ result.connection.totalCount }} total tales </em>
@@ -21,7 +26,10 @@
 </template>
 
 <script lang="ts" setup>
-import { GetTalesDocument } from '~/graphql/generated'
+import { PencilIcon } from '@heroicons/vue/24/solid'
+import { GetTalesDocument, Permission } from '~/graphql/generated'
+
+const { hasPermission } = useSession()
 
 const limit = ref(24)
 

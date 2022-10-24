@@ -35,5 +35,5 @@ query getTale($id: Int!) {
 }
 
 mutation createTale($input: CreateTaleInput!, $locations: [Int!]) {
-   createTale(input: $input, locations: $locations)
+   created: createTale(input: $input, locations: $locations)
 }

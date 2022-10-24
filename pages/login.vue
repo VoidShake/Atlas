@@ -1,13 +1,13 @@
 <template>
    <div id="buttons">
       <a href="/auth/discord">
-         <FormButton id="discord"> Login via Discord </FormButton>
+         <StyledButton id="discord"> Login via Discord </StyledButton>
       </a>
       <div v-if="result?.settings.development">
          <label> Login as seeded user </label>
          <div class="grid grid-flow-col gap-2 mt-1">
-            <FormTextInput v-model="seededEmail" placeholder="E-Mail" />
-            <FormButton @click="seededLogin"> Login </FormButton>
+            <StyledTextInput v-model="seededEmail" placeholder="E-Mail" />
+            <StyledButton @click="seededLogin"> Login </StyledButton>
          </div>
       </div>
    </div>

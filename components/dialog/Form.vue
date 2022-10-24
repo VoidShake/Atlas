@@ -2,7 +2,9 @@
    <DialogBase :title="title" @close="$emit('close')">
       <form @submit.prevent="submit">
          <slot />
-         <FormButton>Submit</FormButton>
+         <slot name="submit">
+            <StyledButton> Submit </StyledButton>
+         </slot>
       </form>
    </DialogBase>
 </template>

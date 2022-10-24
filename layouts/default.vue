@@ -9,7 +9,7 @@
 
 <style scoped>
 main {
-   @apply p-5;
+   @apply p-5 relative;
    height: calc(100vh - theme(spacing.20));
 }
 </style>

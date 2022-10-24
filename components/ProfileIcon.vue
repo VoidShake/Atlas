@@ -1,6 +1,6 @@
 <template>
    <NuxtLink to="/me" class="w-12 h-12 justify-self-end">
-      <img v-if="result?.me" alt="your user icon" :src="result.me.avatar!!" class="bg-gray-500/20 rounded-full" />
+      <img v-if="result?.me" alt="your avatar" :src="result.me.avatar!!" class="rounded-full" />
    </NuxtLink>
 </template>
 

@@ -5,7 +5,7 @@
             <PosDisplay :x="x" :y="y" :z="z" />
          </p>
          <FormGroup label="Name">
-            <FormTextInput autofocus v-model="name" placeholder="Name" />
+            <StyledTextInput autofocus v-model="name" placeholder="Name" />
          </FormGroup>
       </form>
    </DialogForm>

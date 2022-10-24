@@ -4,12 +4,13 @@
 
 <script lang="ts" setup>
 import { marked } from 'marked'
+import sanitize from 'sanitize-html'
 
 const props = defineProps<{
    value: string
 }>()
 
-const rendered = computed(() => marked(props.value, { sanitize: true }))
+const rendered = computed(() => sanitize(marked(props.value)))
 </script>
 
 <style lang="scss" scoped>

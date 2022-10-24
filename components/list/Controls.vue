@@ -1,18 +1,21 @@
 <template>
    <div id="list-controls">
-      <FormButton v-if="connection.pageInfo.hasPreviousPage" id="prev" @click="$emit('previous')">
-         Previous
-      </FormButton>
+      <StyledButton v-if="connection.pageInfo.hasPreviousPage" id="prev" @click="$emit('previous')">
+         <ArrowLeftIcon />
+      </StyledButton>
       <ListProgress
          v-if="connection.pageInfo.offset !== null && connection.totalCount"
          :total="connection.totalCount"
          :current="connection.pageInfo.offset + pageSize"
       />
-      <FormButton v-if="connection.pageInfo.hasNextPage" id="next" @click="$emit('next')"> Next </FormButton>
+      <StyledButton v-if="connection.pageInfo.hasNextPage" id="next" @click="$emit('next')">
+         <ArrowRightIcon />
+      </StyledButton>
    </div>
 </template>
 
 <script lang="ts" setup>
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/solid'
 import type { Connection } from '~~/composables/pagination'
 
 defineProps<{
@@ -31,7 +34,7 @@ defineEmits<{
    @apply grid gap-10 justify-center py-5 items-center;
    grid-template:
       'prev progress next'
-      / 8rem auto 8rem;
+      / 3rem auto 3rem;
 
    #meter {
       grid-area: progress;
