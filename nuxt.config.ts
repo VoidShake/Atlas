@@ -23,6 +23,10 @@ export default defineNuxtConfig({
       },
    },
 
+   build: {
+      transpile: ['graphql', '@heroicons/vue'],
+   },
+
    apollo: {
       clients: {
          default: {
