@@ -12,14 +12,14 @@
 <style scoped>
 .pill {
    @apply py-1 px-2 rounded-lg mx-1;
-   @apply bg-stone-400;
+   @apply bg-solid-600;
 }
 
 .text {
    @apply pl-1;
 }
 
-.dark-mode .pill {
-   @apply bg-slate-900;
+.dark-meode .pill {
+   @apply bg-solid-dark-900;
 }
 </style>

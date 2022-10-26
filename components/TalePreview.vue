@@ -17,18 +17,18 @@ defineProps<{
 
 <style lang="scss" scoped>
 #panel {
-   @apply p-3 rounded bg-stone-900 transition-colors;
+   @apply p-3 rounded bg-solid-600 transition-colors;
 
    &:hover {
-      @apply bg-stone-700;
+      @apply bg-solid-700;
    }
 }
 
 .dark-mode #panel {
-   @apply bg-slate-900;
+   @apply bg-solid-700;
 
    &:hover {
-      @apply bg-slate-700;
+      @apply bg-solid-600;
    }
 }
 </style>

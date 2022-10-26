@@ -32,16 +32,13 @@ onUnmounted(() => closeDialog())
 }
 
 #dialog {
-   @apply px-8 py-6 rounded-lg bg-stone-800 shadow-xl;
+   @apply px-8 py-6 rounded-lg shadow-xl;
+   @apply bg-solid-700 shadow-[#0003];
    position: fixed;
    z-index: 1002;
    top: 50%;
    left: 50%;
 
    animation: bounce-in 0.25s cubic-bezier(0, 0, 0.4, 1.4) forwards;
-}
-
-.dark-mode #dialog {
-   @apply bg-slate-700 shadow-slate-900;
 }
 </style>

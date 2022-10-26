@@ -1,12 +1,13 @@
 <template>
-   <div>
+   <section>
       <div class="profile" v-if="account">
          <h2>{{ account.username }}</h2>
          <p>{{ account.email }}</p>
          <img v-if="account.avatar" :src="account.avatar" class="rounded-full" :alt="`avatar of ${account.username}`" />
       </div>
       <p v-else>Loading...</p>
-   </div>
+      <ThemeChooser />
+   </section>
 </template>
 
 <script lang="ts" setup>
@@ -18,7 +19,7 @@ watch(loggedIn, value => {
 })
 
 definePageMeta({
-   layout: 'confined',
+   layout: 'center',
 })
 </script>
 

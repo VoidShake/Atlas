@@ -36,11 +36,33 @@ const menu = useMenu()
 
 <style>
 body {
-   @apply bg-stone-200 text-black;
+   @apply bg-solid-800 transition-colors;
+
+   @apply text-black;
+
+   --solid-50: theme(colors.solid.light-50);
+   @for $i from 100 to 900 by 100 {
+      --solid-$(i): theme(colors.solid.light-$(i));
+      --accent-$(i): theme(colors.accent.light-$(i));
+   }
 }
 
 .dark-mode body {
-   @apply bg-slate-800 text-white;
+   @apply text-white;
+   --solid-50: theme(colors.solid.dark-50);
+   @for $i from 100 to 900 by 100 {
+      --solid-$(i): theme(colors.solid.dark-$(i));
+      --accent-$(i): theme(colors.accent.dark-$(i));
+   }
+}
+
+.sepia-mode body {
+   @apply text-white;
+   --solid-50: theme(colors.solid.sepia-50);
+   @for $i from 100 to 900 by 100 {
+      --solid-$(i): theme(colors.solid.sepia-$(i));
+      --accent-$(i): theme(colors.accent.sepia-$(i));
+   }
 }
 
 h1 {

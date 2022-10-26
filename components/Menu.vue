@@ -32,14 +32,21 @@ async function click(button: MenuButton) {
 
 <style lang="scss" scoped>
 #menu {
-   @apply rounded-lg bg-stone-800 shadow-lg cursor-default;
+   @apply rounded-lg bg-solid-light-800 shadow-lg cursor-default;
    position: absolute;
    z-index: 1000;
    top: 0;
    left: 0;
 
+   @apply bg-solid-700;
+
    button {
-      @apply p-2 transition w-full;
+      @apply p-2 transition-colors w-full;
+      @apply bg-solid-700;
+
+      &:hover {
+         @apply bg-solid-500;
+      }
 
       &:first-child {
          @apply rounded-t-lg;
@@ -47,18 +54,6 @@ async function click(button: MenuButton) {
 
       &:last-child {
          @apply rounded-b-lg;
-      }
-   }
-}
-
-.dark-mode #menu {
-   @apply bg-slate-700;
-
-   button {
-      @apply bg-slate-700;
-
-      &:hover {
-         @apply bg-slate-500;
       }
    }
 }

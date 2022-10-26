@@ -8,14 +8,12 @@
 button {
    @apply py-2 px-3;
    @apply rounded select-none;
-   @apply transition;
-}
-
-.dark-mode button {
-   @apply bg-slate-500 ring-purple-500 ring-0;
+   @apply transition ring-0;
+   @apply bg-solid-600 ring-accent-400;
 
    &:hover {
-      @apply bg-purple-800 ring-2;
+      @apply ring-2;
+      @apply bg-accent-600 text-white;
    }
 }
 </style>

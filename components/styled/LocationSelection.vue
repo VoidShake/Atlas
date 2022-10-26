@@ -37,28 +37,27 @@ defineEmits<{
 </script>
 
 <style scoped>
-.dark-mode .multiselect {
+.multiselect {
    @apply transition;
 
-   --ms-bg: theme(colors.slate.900);
+   --ms-bg: theme(colors.solid.900);
 
-   --ms-ring-color: theme(colors.purple.500);
+   --ms-ring-color: theme(colors.accent.500);
    --ms-ring-width: theme(ringWidth.2);
 
-   --ms-border-color: theme(colors.slate.600);
+   --ms-border-color: theme(colors.solid.600);
    --ms-dropdown-border-color: var(--ms-border-color);
 
    border-color: var(--ms-border-color);
 
-   --ms-dropdown-bg: theme(colors.slate.800);
+   --ms-dropdown-bg: theme(colors.solid.800);
 
-   --ms-option-bg-pointed: theme(colors.slate.700);
-   --ms-option-color-pointed: theme(colors.white);
+   --ms-option-bg-pointed: theme(colors.solid.700);
 
-   --ms-tag-bg: theme(colors.purple.600);
+   --ms-tag-bg: theme(colors.accent.600);
 }
 
-.dark-mode .search {
-   background: red;
+.dark-mode .multiselect {
+   --ms-option-color-pointed: theme(colors.white);
 }
 </style>

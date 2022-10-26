@@ -38,13 +38,7 @@ function update(value: string) {
    grid-template-columns: 1fr 1fr;
 
    & > #preview {
-      @apply bg-stone-500/50 rounded border-2;
-   }
-}
-
-.dark-mode #editor {
-   & > #preview {
-      @apply bg-slate-800/50 border-slate-700;
+      @apply bg-solid-800 border-solid-700 rounded border-2 transition-colors;
    }
 }
 </style>

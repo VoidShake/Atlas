@@ -4,7 +4,10 @@
          <component class="icon" :is="link.icon" />
          <span> {{ link.display }} </span>
       </NuxtLink>
-      <ProfileIcon v-if="loggedIn" />
+      <section class="flex gap-4 justify-self-end">
+         <ThemeButton />
+         <ProfileIcon v-if="loggedIn" />
+      </section>
    </nav>
 </template>
 
@@ -31,6 +34,8 @@ nav {
    @apply grid items-center;
    grid-template-columns: repeat(v-bind('linkCount'), auto) 1fr;
 
+   @apply bg-solid-700;
+
    .tab {
       @apply w-max py-4 px-6 transition-colors;
       @apply grid grid-flow-col;
@@ -38,17 +43,15 @@ nav {
       .icon {
          @apply h-6 mr-2;
       }
+
+      &:hover,
+      &.active {
+         @apply bg-solid-800;
+      }
    }
 }
 
 .dark-mode nav {
-   @apply bg-slate-900;
-
-   .tab {
-      &:hover,
-      &.active {
-         @apply bg-slate-800;
-      }
-   }
+   @apply bg-solid-dark-900;
 }
 </style>

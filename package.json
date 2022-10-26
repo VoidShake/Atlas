@@ -42,6 +42,7 @@
       "marked": "^4.1.1",
       "mini-svg-data-uri": "^1.4.4",
       "nuxt": "^3.0.0-rc.11",
+      "postcss-for": "^2.1.1",
       "postcss-html": "^1.5.0",
       "prettier": "^2.7.1",
       "sanitize-html": "^2.7.2",

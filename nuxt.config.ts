@@ -1,8 +1,11 @@
 export default defineNuxtConfig({
    modules: ['@nuxtjs/apollo', '@nuxtjs/color-mode', '@nuxtjs/tailwindcss'],
 
-   // Build Configuration: https://go.nuxtjs.dev/config-build
-   build: {},
+   postcss: {
+      plugins: {
+         'postcss-for': {},
+      },
+   },
 
    css: ['leaflet/dist/leaflet.css', '@vueform/multiselect/themes/default.css'],
 

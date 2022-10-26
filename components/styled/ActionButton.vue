@@ -6,21 +6,17 @@
 
 <style lang="scss" scoped>
 button {
-   @apply bg-purple-700 transition-colors;
+   @apply bg-accent-600 transition-colors text-white;
    @apply absolute right-5 top-5;
-   @apply rounded-full grid justify-center items-center h-16 w-16 shadow-lg;
+   @apply rounded-full grid justify-center items-center h-16 w-16 shadow-lg shadow-[#0003];
 
    &:hover {
-      @apply bg-purple-600;
+      @apply bg-accent-500;
    }
 
    &:deep(svg) {
       @apply text-2xl;
       height: 1em;
    }
-}
-
-.dark-mode button {
-   @apply shadow-slate-900;
 }
 </style>
