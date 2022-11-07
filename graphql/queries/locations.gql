@@ -7,9 +7,11 @@ fragment Pos on Point {
 fragment MapLocation on AbstractLocation {
    id
    name
-   slug
    pos {
       ...Pos
+   }
+   ... on Location {
+      slug
    }
 }
 

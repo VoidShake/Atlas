@@ -1,0 +1,21 @@
+query getLocationDrafts($pagination: Pagination) {
+   connection: locationDrafts(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...MapLocation
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getLocationDraft($id: Int!) {
+   locationDraft: locationDraft(id: $id) {
+      ...MapLocation
+   }
+}
+
+mutation createLocationDraft($input: CreateLocationInput!) {
+   createLocationDraft(input: $input)
+}

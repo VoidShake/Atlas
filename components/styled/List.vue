@@ -1,10 +1,8 @@
-
 <template>
    <div class="list">
       <slot />
    </div>
 </template>
-
 
 <style scoped>
 .list {

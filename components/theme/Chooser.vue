@@ -2,9 +2,7 @@
    <client-only>
       <div>
          <label for="color-chooser" class="mr-5"> Color Theme </label>
-         <select id="color-chooser" v-model="
-         $colorMode.preference
-         ">
+         <select id="color-chooser" v-model="$colorMode.preference">
             <option value="system">System</option>
             <option value="light">Light</option>
             <option value="dark">Dark</option>

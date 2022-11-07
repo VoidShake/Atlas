@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-import { MapPinIcon } from '@heroicons/vue/24/solid';
-import { GetTaleDraftDocument } from '~/graphql/generated';
+import { MapPinIcon } from '@heroicons/vue/24/solid'
+import { GetTaleDraftDocument } from '~/graphql/generated'
 
 const route = useActiveRoute()
 

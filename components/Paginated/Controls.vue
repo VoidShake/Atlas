@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/solid';
-import type { Connection } from '~~/composables/pagination';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/solid'
+import type { Connection } from '~~/composables/pagination'
 
 defineProps<{
    pageSize: number

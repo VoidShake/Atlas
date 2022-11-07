@@ -1,9 +1,7 @@
 <template>
    <NuxtLayout name="confined">
       <section id="layout">
-         <ProfileSidebar v-if="
-         loggedIn
-         " />
+         <ProfileSidebar v-if="loggedIn" />
          <slot />
       </section>
    </NuxtLayout>
