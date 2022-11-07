@@ -15,5 +15,9 @@ button {
       @apply ring-2;
       @apply bg-accent-600 text-white;
    }
+
+   &:disabled {
+      @apply bg-solid-700 opacity-75 ring-0 cursor-not-allowed;
+   }
 }
 </style>

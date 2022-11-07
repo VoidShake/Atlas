@@ -7,6 +7,7 @@
       <section class="flex gap-4 justify-self-end">
          <ThemeButton />
          <ProfileIcon v-if="loggedIn" />
+         <NuxtLink v-else to="/login" class="px-2"> Login </NuxtLink>
       </section>
    </nav>
 </template>

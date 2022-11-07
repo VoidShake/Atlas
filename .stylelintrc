@@ -1,11 +1,7 @@
 {
-   "extends": [
-      "stylelint-config-standard-scss",
-      "stylelint-config-recommended-vue",
-      "stylelint-config-prettier"
-   ],
+   "extends": ["stylelint-config-standard-scss", "stylelint-config-recommended-vue", "stylelint-config-prettier"],
    "rules": {
-      "at-rule-no-unknown": [true, { "ignoreAtRules": ["apply"] }],
+      "at-rule-no-unknown": [true, { "ignoreAtRules": ["apply", "for"] }],
       "scss/at-rule-no-unknown": [true, { "ignoreAtRules": ["apply"] }],
       "function-no-unknown": [true, { "ignoreFunctions": ["theme", "v-bind"] }],
       "declaration-empty-line-before": null,

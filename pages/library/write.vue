@@ -1,5 +1,7 @@
 <template>
-   <FormCreateTale @saved="redirect" />
+   <FormCreateTale @saved="
+   redirect
+   " />
 </template>
 
 <script lang="ts" setup>
@@ -11,13 +13,9 @@ definePageMeta({
    layout: 'confined',
 })
 
-function redirect(data: CreateTaleMutation) {
-   router.push(`/library/${data.created}`)
+function redirect(data: CreateTaleMutation, draft: boolean) {
+   console.log('DRAFT', { draft })
+   if (draft) router.push(`/me/drafts/tales/${data.created}`)
+   else router.push(`/library/${data.created}`)
 }
 </script>
-
-<style scoped>
-ul {
-   background: red;
-}
-</style>

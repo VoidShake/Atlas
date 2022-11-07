@@ -1,0 +1,21 @@
+query getTaleDrafts($pagination: Pagination) {
+   connection: taleDrafts(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...Summary
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getTaleDraft($id: Int!) {
+   taleDraft(id: $id) {
+      ...Lore
+   }
+}
+
+mutation createTaleDraft($input: CreateTaleInput!, $locations: [Int!]) {
+   created: createTaleDraft(input: $input, locations: $locations)
+}

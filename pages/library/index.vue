@@ -1,33 +1,24 @@
 <template>
    <section>
-      <h1 class="text-center">Browse the Libary</h1>
+      <StyledTitle> Browse the Libary </StyledTitle>
+
       <NuxtLink v-if="hasPermission(Permission.TellTale, Permission.ProposeTale)" to="/library/write">
          <StyledActionButton>
             <PencilIcon />
          </StyledActionButton>
       </NuxtLink>
-      <template v-if="result">
-         <p class="py-4 text-center">
-            <em> Found {{ result.connection.totalCount }} total tales </em>
-         </p>
-         <div id="tales">
-            <NuxtLink v-for="tale in result.connection.nodes" :key="tale.id" :to="`/library/${tale.id}`">
-               <TalePreview :key="tale.id" :tale="tale" />
-            </NuxtLink>
-         </div>
-         <ListControls
-            :connection="result.connection"
-            :page-size="result.connection.nodes.length"
-            @next="next"
-            @previous="previous"
-         />
-      </template>
+
+      <PaginatedList v-if="result" :connection="result.connection" verb="tales" @next="next" @previous="previous">
+         <NuxtLink v-for="tale in result.connection.nodes" :key="tale.id" :to="`/library/${tale.id}`">
+            <TalePreview :key="tale.id" :tale="tale" />
+         </NuxtLink>
+      </PaginatedList>
    </section>
 </template>
 
 <script lang="ts" setup>
-import { PencilIcon } from '@heroicons/vue/24/solid'
-import { GetTalesDocument, Permission } from '~/graphql/generated'
+import { PencilIcon } from '@heroicons/vue/24/solid';
+import { GetTalesDocument, Permission } from '~/graphql/generated';
 
 const { hasPermission } = useSession()
 
@@ -35,23 +26,3 @@ const limit = ref(24)
 
 const { result, next, previous } = usePagination(GetTalesDocument, limit)
 </script>
-
-<style scoped>
-#tales {
-   @apply gap-3 grid mx-auto;
-   grid-template-columns: 1fr;
-}
-
-@media (min-width: 80rem) {
-   #tales {
-      max-width: calc(80rem + theme(spacing.3));
-      grid-template-columns: repeat(auto-fit, 40rem);
-   }
-}
-
-@media (min-width: 120rem) {
-   #tales {
-      max-width: calc(120rem + theme(spacing.6));
-   }
-}
-</style>

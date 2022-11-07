@@ -1,3 +1,5 @@
+import introspectionResult from './graphql/generated'
+
 export default defineNuxtConfig({
    modules: ['@nuxtjs/apollo', '@nuxtjs/color-mode', '@nuxtjs/tailwindcss'],
 
@@ -31,6 +33,9 @@ export default defineNuxtConfig({
       clients: {
          default: {
             httpEndpoint: '/api/graphql',
+            inMemoryCacheOptions: {
+               possibleTypes: introspectionResult.possibleTypes,
+            },
          },
       },
    },

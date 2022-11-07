@@ -1,10 +1,19 @@
-import { mapKeys, mapValues } from 'lodash'
 import { Config } from 'tailwindcss'
 import colors from 'tailwindcss/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
 const colorKeys = Object.keys(colors.red)
 const reversedColorKeys = [...colorKeys].reverse()
+
+function mapKeys<T extends object, R extends string>(value: T, mapper: (value: T[keyof T], key: keyof T) => R) {
+   const entries = Object.entries(value).map(([key, value]) => [mapper(value, key as keyof T), value])
+   return Object.fromEntries(entries) as Record<R, T[keyof T]>
+}
+
+function mapValues<T extends object, R>(value: T, mapper: (value: T[keyof T], key: keyof T) => R) {
+   const entries = Object.entries(value).map(([key, value]) => [key, mapper(value, key as keyof T)])
+   return Object.fromEntries(entries) as Record<keyof T, R>
+}
 
 function prefix<T extends object>(value: T, prefix: string) {
    return mapKeys(value, (_, key) => `${prefix}-${key}`)

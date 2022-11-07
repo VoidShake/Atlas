@@ -3,7 +3,7 @@
       <StyledButton v-if="connection.pageInfo.hasPreviousPage" id="prev" @click="$emit('previous')">
          <ArrowLeftIcon />
       </StyledButton>
-      <ListProgress
+      <PaginatedProgress
          v-if="connection.pageInfo.offset !== null && connection.totalCount"
          :total="connection.totalCount"
          :current="connection.pageInfo.offset + pageSize"
@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/solid'
-import type { Connection } from '~~/composables/pagination'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/solid';
+import type { Connection } from '~~/composables/pagination';
 
 defineProps<{
    pageSize: number

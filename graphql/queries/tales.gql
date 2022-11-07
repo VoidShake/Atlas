@@ -1,17 +1,33 @@
-fragment Summary on Tale {
+fragment Summary on AbstractTale {
    id
    title
-   locations {
-      totalCount
+   ... on Tale {
+      locations {
+         totalCount
+      }
+   }
+   ... on TaleDraft {
+      locations {
+         totalCount
+      }
    }
 }
 
-fragment Lore on Tale {
+fragment Lore on AbstractTale {
    ...Summary
    text
-   locations {
-      nodes {
-         ...MapLocation
+   ... on Tale {
+      locations {
+         nodes {
+            ...MapLocation
+         }
+      }
+   }
+   ... on TaleDraft {
+      locations {
+         nodes {
+            ...MapLocation
+         }
       }
    }
 }
