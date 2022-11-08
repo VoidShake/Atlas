@@ -14,7 +14,7 @@ defineEmits<{
 
 <style lang="scss" scoped>
 input {
-   @apply p-2 rounded bg-solid-light-500 outline-0 transition ring-0 border-2;
+   @apply p-2 rounded outline-0 transition ring-0 border-2;
    @apply bg-solid-800 ring-accent-500 border-solid-700;
 
    &:focus-visible {
