@@ -1,3 +1,6 @@
 {
-   "workbench.colorTheme": "GitHub Dark"
+   "workbench.colorTheme": "GitHub Dark",
+   "editor.codeActionsOnSave": {
+      "source.organizeImports": false
+   }
 }
