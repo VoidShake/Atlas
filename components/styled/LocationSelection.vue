@@ -1,5 +1,5 @@
 <template>
-   <div>
+   <div class="my-2">
       <multi-select
          :modelValue="modelValue"
          placeholder="Linked Locations"

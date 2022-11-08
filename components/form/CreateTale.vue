@@ -1,15 +1,28 @@
 <template>
-   <FormKit type="form" :actions="false" #default="{ value, state: { valid } }" :errors="errors">
-      <FormKit name="title" validation="required" label="Title" type="text" />
-      <StyledLocationSelection v-model="locations" />
-      <FormKit name="text" label="Text" type="textarea" />
-      <FormKit v-if="!onlyDraft" type="submit" :disabled="!valid" @click.prevent="test(value, false)" />
-      <FormKit type="submit" :disabled="!valid" @click.prevent="test(value, true)"> Save as Draft </FormKit>
-   </FormKit>
+   <section>
+      <FormKit type="form" :actions="false" #default="{ value, state: { valid } }" :errors="errors">
+         <FormKit name="title" validation="required" label="Title" type="text" />
+
+         <StyledLocationSelection v-model="locations" />
+
+         <MarkdownEditor name="text" label="Text" validation="required" />
+
+         <div id="buttons">
+            <FormKit v-if="!onlyDraft" type="submit" :disabled="!valid" @click.prevent="test(value, false)" />
+            <FormKit
+               type="submit"
+               :disabled="!valid"
+               @click.prevent="test(value, true)"
+               :classes="{ input: 'bg-solid-600' }"
+            >
+               Save as Draft
+            </FormKit>
+         </div>
+      </FormKit>
+   </section>
 </template>
 
 <script lang="ts" setup>
-import { ApolloError } from '@apollo/client'
 import {
    CreateTaleDocument,
    CreateTaleDraftDocument,
@@ -36,18 +49,6 @@ const props = defineProps<{
 
 const locations = useState<number[]>('linked-locations', () => props.initialLocations ?? [])
 
-// TODO remove
-function notNull<T>(value: T | undefined | null): value is T {
-   return value !== null && value !== undefined
-}
-
-function extractMessages(error: ApolloError) {
-   if (error.networkError && 'result' in error.networkError) {
-      return error.networkError.result.message
-   }
-   return error.message
-}
-
 const refetchQueries = ['getLocation']
 const { mutate: createTale, error } = useMutation(CreateTaleDocument, { refetchQueries })
 const { mutate: createTaleDraft, error: draftError } = useMutation(CreateTaleDraftDocument, { refetchQueries })
@@ -55,7 +56,7 @@ const errors = computed(() =>
    [error, draftError]
       .map(it => it.value)
       .filter(notNull)
-      .map(extractMessages),
+      .flatMap(extractMessages),
 )
 
 async function test(input: CreateTaleInput, draft: boolean) {
@@ -68,10 +69,8 @@ async function test(input: CreateTaleInput, draft: boolean) {
 
 <style lang="scss" scoped>
 form {
-   min-width: 800px;
-
-   #editor {
-      min-height: 300px;
+   #buttons {
+      @apply flex gap-2;
    }
 }
 </style>

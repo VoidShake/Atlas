@@ -32,7 +32,7 @@ const { loggedIn } = useSession()
 <style lang="scss" scoped>
 nav {
    @apply pr-2;
-   @apply grid items-center;
+   @apply grid items-center grid-flow-col;
    grid-template-columns: repeat(v-bind('linkCount'), auto) 1fr;
 
    @apply bg-solid-700;
