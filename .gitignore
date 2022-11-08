@@ -92,3 +92,5 @@ sw.*
 .output/
 
 #graphql/generated.ts
+
+public

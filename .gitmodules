@@ -1,0 +1,3 @@
+[submodule "assets/emblem"]
+	path = assets/emblem
+	url = https://github.com/VoidShake/Emblem.git

@@ -1,7 +1,7 @@
 import introspectionResult from './graphql/generated'
 
 export default defineNuxtConfig({
-   modules: ['@nuxtjs/apollo', '@nuxtjs/color-mode', '@nuxtjs/tailwindcss'],
+   modules: ['@nuxtjs/apollo', '@nuxtjs/color-mode', '@nuxtjs/tailwindcss', './modules/assets'],
 
    postcss: {
       plugins: {
