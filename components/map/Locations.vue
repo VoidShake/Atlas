@@ -10,7 +10,7 @@
       />
       <DialogCreateTale
          v-if="selected?.action == 'add-lore'"
-         :initialLocations="[selected.location.id]"
+         :initial-locations="[selected.location.id]"
          @close="selected = null"
       />
    </div>
@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { LeafletMouseEvent } from 'leaflet'
-import { GetLocationsDocument, MapLocationFragment, Permission } from '~/graphql/generated'
+import { MapLocationsDocument, MapLocationFragment, Permission } from '~/graphql/generated'
 
 const router = useRouter()
 
@@ -41,7 +41,7 @@ function menu(location: MapLocationFragment, event: LeafletMouseEvent) {
          {
             text: 'Add Lore Entry',
             permission: Permission.TellTale,
-            click: () => (selected.value = { action: 'add-lore', location: location }),
+            click: () => (selected.value = { action: 'add-lore', location }),
          },
       ],
    })
@@ -49,8 +49,10 @@ function menu(location: MapLocationFragment, event: LeafletMouseEvent) {
 
 function click(location: MapLocationFragment, event: LeafletMouseEvent) {
    emit('click', location, event)
-   router.push(`/location/${location.slug}`)
+   if (location.__typename === 'Location') {
+      router.push(`/map/${location.slug}`)
+   }
 }
 
-const { result } = useQuery(GetLocationsDocument)
+const { result } = useQuery(MapLocationsDocument)
 </script>

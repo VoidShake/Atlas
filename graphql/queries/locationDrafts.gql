@@ -17,5 +17,5 @@ query getLocationDraft($id: Int!) {
 }
 
 mutation createLocationDraft($input: CreateLocationInput!) {
-   createLocationDraft(input: $input)
+   created: createLocationDraft(input: $input)
 }

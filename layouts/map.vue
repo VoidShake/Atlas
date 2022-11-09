@@ -9,13 +9,7 @@
          <SidePanel>
             <slot />
          </SidePanel>
-         <DialogCreateLocation
-            v-if="selected?.action == 'add-marker'"
-            :x="selected.pos.x"
-            :y="selected.pos.y"
-            :z="selected.pos.z"
-            @close="selected = null"
-         />
+         <DialogCreateLocation v-if="selected?.action == 'add-marker'" :pos="selected.pos" @close="selected = null" />
       </div>
    </NuxtLayout>
 </template>

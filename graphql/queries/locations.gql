@@ -1,43 +1,48 @@
-fragment Pos on Point {
-   x
-   y
-   z
-}
-
-fragment MapLocation on AbstractLocation {
-   id
-   name
-   pos {
-      ...Pos
-   }
+fragment LocationSummary on AbstractLocation {
+   ...MapLocation
    ... on Location {
-      slug
+      tales {
+         totalCount
+      }
    }
 }
 
-query getLocations {
-   locations {
+fragment Location on Location {
+   ...LocationSummary
+   tales {
       totalCount
       nodes {
-         ...MapLocation
+         id
+         title
+         text
+      }
+   }
+}
+
+query getLocations($pagination: Pagination) {
+   connection: locations(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...LocationSummary
+      }
+      pageInfo {
+         ...PageInfo
       }
    }
 }
 
 query getLocation($slug: String!) {
    location: locationBySlug(slug: $slug) {
-      ...MapLocation
-      tales {
-         totalCount
-         nodes {
-            id
-            title
-            text
-         }
-      }
+      ...Location
+   }
+}
+
+query getLocationById($id: Int!) {
+   location: location(id: $id) {
+      ...Location
    }
 }
 
 mutation createLocation($input: CreateLocationInput!) {
-   createLocation(input: $input)
+   created: createLocation(input: $input)
 }

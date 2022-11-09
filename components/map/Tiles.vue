@@ -1,7 +1,7 @@
 <template>
    <l-tile-layer
-      noWrap
-      :tileSize="tileSize"
+      no-wrap
+      :tile-size="tileSize"
       :url="url"
       attribution="  Dynmap"
       :options="{
@@ -24,7 +24,7 @@ const tileSize = computed(() => 128 << (context.value?.map.tilescale ?? 0))
 const url = computed(() => {
    if (!context.value) return null
    const { world, map } = context.value
-   //return 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+   // return 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
    return `/dynmap/tiles/${world.name}/${map.name}/{scaledX}_{scaledY}/{zoomPrefix}{X}_{Y}.${map['image-format']}`
 })
 

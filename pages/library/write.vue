@@ -12,7 +12,6 @@ definePageMeta({
 })
 
 function redirect(data: CreateTaleMutation, draft: boolean) {
-   console.log('DRAFT', { draft })
    if (draft) router.push(`/me/drafts/tales/${data.created}`)
    else router.push(`/library/${data.created}`)
 }

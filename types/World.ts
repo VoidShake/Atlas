@@ -1,5 +1,5 @@
-import { PosFragment } from '~~/graphql/generated'
 import { Map } from './Map'
+import { PosFragment } from '~~/graphql/generated'
 
 export interface World {
    center: PosFragment

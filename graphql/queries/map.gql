@@ -1,0 +1,25 @@
+fragment Pos on Point {
+   x
+   y
+   z
+}
+
+fragment MapLocation on AbstractLocation {
+   id
+   name
+   pos {
+      ...Pos
+   }
+   ... on Location {
+      slug
+   }
+}
+
+query mapLocations {
+   locations {
+      totalCount
+      nodes {
+         ...MapLocation
+      }
+   }
+}

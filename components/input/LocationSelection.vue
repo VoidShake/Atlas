@@ -1,15 +1,15 @@
 <template>
-   <div>
+   <div class="my-2">
       <multi-select
-         :modelValue="modelValue"
+         :model-value="modelValue"
          placeholder="Linked Locations"
-         @update:modelValue="$emit('update:modelValue', $event)"
          mode="tags"
          searchable
          :close-on-select="false"
          :loading="!result"
          :options="options"
          :classes="{ tagsSearch: 'multiselect-tags-search bg-transparent text-white' }"
+         @update:modelValue="$emit('update:modelValue', $event)"
       />
    </div>
 </template>
@@ -21,7 +21,7 @@ import { GetLocationsDocument } from '~/graphql/generated'
 const { result } = useQuery(GetLocationsDocument)
 
 const options = computed(() =>
-   result.value?.locations.nodes.map(it => ({
+   result.value?.connection.nodes.map(it => ({
       value: it.id,
       label: it.name,
    })),

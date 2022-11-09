@@ -1,7 +1,7 @@
 <template>
    <Teleport to="body">
       <div id="dialog">
-         <h1 class="text-center" v-if="title">{{ title }}</h1>
+         <h2 v-if="title" class="text-center">{{ title }}</h2>
          <slot />
       </div>
    </Teleport>

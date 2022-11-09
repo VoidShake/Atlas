@@ -9,9 +9,9 @@ import { MapLocationFragment } from '~/graphql/generated'
 
 const context = useMap()
 
-const { location } = defineProps<{
+const props = defineProps<{
    location: MapLocationFragment
 }>()
 
-const latLng = computed(() => new LatLng(...toMapPos(context.value!.map, location.pos)))
+const latLng = computed(() => new LatLng(...toMapPos(context.value!.map, props.location.pos)))
 </script>

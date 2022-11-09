@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
@@ -641,32 +642,46 @@ export type CreateLocationDraftMutationVariables = Exact<{
    input: CreateLocationInput
 }>
 
-export type CreateLocationDraftMutation = { __typename?: 'Mutation'; createLocationDraft: number }
+export type CreateLocationDraftMutation = { __typename?: 'Mutation'; created: number }
 
-export type PosFragment = { __typename?: 'Point'; x: number; y?: number | null; z: number }
-
-type MapLocation_Location_Fragment = {
+type LocationSummary_Location_Fragment = {
    __typename?: 'Location'
    slug: string
    id: number
    name: string
+   tales: { __typename?: 'TaleConnection'; totalCount: any }
    pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
 }
 
-type MapLocation_LocationDraft_Fragment = {
+type LocationSummary_LocationDraft_Fragment = {
    __typename?: 'LocationDraft'
    id: number
    name: string
    pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
 }
 
-export type MapLocationFragment = MapLocation_Location_Fragment | MapLocation_LocationDraft_Fragment
+export type LocationSummaryFragment = LocationSummary_Location_Fragment | LocationSummary_LocationDraft_Fragment
 
-export type GetLocationsQueryVariables = Exact<{ [key: string]: never }>
+export type LocationFragment = {
+   __typename?: 'Location'
+   slug: string
+   id: number
+   name: string
+   tales: {
+      __typename?: 'TaleConnection'
+      totalCount: any
+      nodes: Array<{ __typename?: 'Tale'; id: number; title: string; text: string }>
+   }
+   pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
+}
+
+export type GetLocationsQueryVariables = Exact<{
+   pagination?: InputMaybe<Pagination>
+}>
 
 export type GetLocationsQuery = {
    __typename?: 'Query'
-   locations: {
+   connection: {
       __typename?: 'LocationConnection'
       totalCount: any
       nodes: Array<{
@@ -674,8 +689,17 @@ export type GetLocationsQuery = {
          slug: string
          id: number
          name: string
+         tales: { __typename?: 'TaleConnection'; totalCount: any }
          pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
       }>
+      pageInfo: {
+         __typename?: 'PageInfo'
+         hasPreviousPage: boolean
+         hasNextPage: boolean
+         startCursor?: string | null
+         endCursor?: string | null
+         offset: any
+      }
    }
 }
 
@@ -699,11 +723,67 @@ export type GetLocationQuery = {
    }
 }
 
+export type GetLocationByIdQueryVariables = Exact<{
+   id: Scalars['Int']
+}>
+
+export type GetLocationByIdQuery = {
+   __typename?: 'Query'
+   location: {
+      __typename?: 'Location'
+      slug: string
+      id: number
+      name: string
+      tales: {
+         __typename?: 'TaleConnection'
+         totalCount: any
+         nodes: Array<{ __typename?: 'Tale'; id: number; title: string; text: string }>
+      }
+      pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
+   }
+}
+
 export type CreateLocationMutationVariables = Exact<{
    input: CreateLocationInput
 }>
 
-export type CreateLocationMutation = { __typename?: 'Mutation'; createLocation: number }
+export type CreateLocationMutation = { __typename?: 'Mutation'; created: number }
+
+export type PosFragment = { __typename?: 'Point'; x: number; y?: number | null; z: number }
+
+type MapLocation_Location_Fragment = {
+   __typename?: 'Location'
+   slug: string
+   id: number
+   name: string
+   pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
+}
+
+type MapLocation_LocationDraft_Fragment = {
+   __typename?: 'LocationDraft'
+   id: number
+   name: string
+   pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
+}
+
+export type MapLocationFragment = MapLocation_Location_Fragment | MapLocation_LocationDraft_Fragment
+
+export type MapLocationsQueryVariables = Exact<{ [key: string]: never }>
+
+export type MapLocationsQuery = {
+   __typename?: 'Query'
+   locations: {
+      __typename?: 'LocationConnection'
+      totalCount: any
+      nodes: Array<{
+         __typename?: 'Location'
+         slug: string
+         id: number
+         name: string
+         pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
+      }>
+   }
+}
 
 export type PageInfoFragment = {
    __typename?: 'PageInfo'
@@ -772,23 +852,23 @@ export type CreateTaleDraftMutationVariables = Exact<{
 
 export type CreateTaleDraftMutation = { __typename?: 'Mutation'; created: number }
 
-type Summary_Tale_Fragment = {
+type TaleSummary_Tale_Fragment = {
    __typename?: 'Tale'
    id: number
    title: string
    locations: { __typename?: 'LocationConnection'; totalCount: any }
 }
 
-type Summary_TaleDraft_Fragment = {
+type TaleSummary_TaleDraft_Fragment = {
    __typename?: 'TaleDraft'
    id: number
    title: string
    locations: { __typename?: 'LocationConnection'; totalCount: any }
 }
 
-export type SummaryFragment = Summary_Tale_Fragment | Summary_TaleDraft_Fragment
+export type TaleSummaryFragment = TaleSummary_Tale_Fragment | TaleSummary_TaleDraft_Fragment
 
-type Lore_Tale_Fragment = {
+type Tale_Tale_Fragment = {
    __typename?: 'Tale'
    text: string
    id: number
@@ -806,7 +886,7 @@ type Lore_Tale_Fragment = {
    }
 }
 
-type Lore_TaleDraft_Fragment = {
+type Tale_TaleDraft_Fragment = {
    __typename?: 'TaleDraft'
    text: string
    id: number
@@ -824,7 +904,7 @@ type Lore_TaleDraft_Fragment = {
    }
 }
 
-export type LoreFragment = Lore_Tale_Fragment | Lore_TaleDraft_Fragment
+export type TaleFragment = Tale_Tale_Fragment | Tale_TaleDraft_Fragment
 
 export type GetTalesQueryVariables = Exact<{
    pagination?: InputMaybe<Pagination>
@@ -920,77 +1000,6 @@ export const SelfFragmentDoc = {
       ...UserFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<SelfFragment, unknown>
-export const PageInfoFragmentDoc = {
-   kind: 'Document',
-   definitions: [
-      {
-         kind: 'FragmentDefinition',
-         name: { kind: 'Name', value: 'PageInfo' },
-         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PageInfo' } },
-         selectionSet: {
-            kind: 'SelectionSet',
-            selections: [
-               { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
-               { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
-               { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
-               { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
-               { kind: 'Field', name: { kind: 'Name', value: 'offset' } },
-            ],
-         },
-      },
-   ],
-} as unknown as DocumentNode<PageInfoFragment, unknown>
-export const SummaryFragmentDoc = {
-   kind: 'Document',
-   definitions: [
-      {
-         kind: 'FragmentDefinition',
-         name: { kind: 'Name', value: 'Summary' },
-         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AbstractTale' } },
-         selectionSet: {
-            kind: 'SelectionSet',
-            selections: [
-               { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-               { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-               {
-                  kind: 'InlineFragment',
-                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tale' } },
-                  selectionSet: {
-                     kind: 'SelectionSet',
-                     selections: [
-                        {
-                           kind: 'Field',
-                           name: { kind: 'Name', value: 'locations' },
-                           selectionSet: {
-                              kind: 'SelectionSet',
-                              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'totalCount' } }],
-                           },
-                        },
-                     ],
-                  },
-               },
-               {
-                  kind: 'InlineFragment',
-                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'TaleDraft' } },
-                  selectionSet: {
-                     kind: 'SelectionSet',
-                     selections: [
-                        {
-                           kind: 'Field',
-                           name: { kind: 'Name', value: 'locations' },
-                           selectionSet: {
-                              kind: 'SelectionSet',
-                              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'totalCount' } }],
-                           },
-                        },
-                     ],
-                  },
-               },
-            ],
-         },
-      },
-   ],
-} as unknown as DocumentNode<SummaryFragment, unknown>
 export const PosFragmentDoc = {
    kind: 'Document',
    definitions: [
@@ -1043,17 +1052,161 @@ export const MapLocationFragmentDoc = {
       ...PosFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<MapLocationFragment, unknown>
-export const LoreFragmentDoc = {
+export const LocationSummaryFragmentDoc = {
    kind: 'Document',
    definitions: [
       {
          kind: 'FragmentDefinition',
-         name: { kind: 'Name', value: 'Lore' },
+         name: { kind: 'Name', value: 'LocationSummary' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AbstractLocation' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MapLocation' } },
+               {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Location' } },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'tales' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'totalCount' } }],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...MapLocationFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<LocationSummaryFragment, unknown>
+export const LocationFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'Location' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Location' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LocationSummary' } },
+               {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tales' },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'nodes' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [
+                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                 { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                 { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                              ],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...LocationSummaryFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<LocationFragment, unknown>
+export const PageInfoFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'PageInfo' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PageInfo' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'offset' } },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<PageInfoFragment, unknown>
+export const TaleSummaryFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'TaleSummary' },
          typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AbstractTale' } },
          selectionSet: {
             kind: 'SelectionSet',
             selections: [
-               { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Summary' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+               {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tale' } },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'locations' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'totalCount' } }],
+                           },
+                        },
+                     ],
+                  },
+               },
+               {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'TaleDraft' } },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'locations' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'totalCount' } }],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<TaleSummaryFragment, unknown>
+export const TaleFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'Tale' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AbstractTale' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               { kind: 'FragmentSpread', name: { kind: 'Name', value: 'TaleSummary' } },
                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
                {
                   kind: 'InlineFragment',
@@ -1114,10 +1267,10 @@ export const LoreFragmentDoc = {
             ],
          },
       },
-      ...SummaryFragmentDoc.definitions,
+      ...TaleSummaryFragmentDoc.definitions,
       ...MapLocationFragmentDoc.definitions,
    ],
-} as unknown as DocumentNode<LoreFragment, unknown>
+} as unknown as DocumentNode<TaleFragment, unknown>
 export const MeDocument = {
    kind: 'Document',
    definitions: [
@@ -1321,6 +1474,7 @@ export const CreateLocationDraftDocument = {
             selections: [
                {
                   kind: 'Field',
+                  alias: { kind: 'Name', value: 'created' },
                   name: { kind: 'Name', value: 'createLocationDraft' },
                   arguments: [
                      {
@@ -1342,12 +1496,27 @@ export const GetLocationsDocument = {
          kind: 'OperationDefinition',
          operation: 'query',
          name: { kind: 'Name', value: 'getLocations' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'pagination' } },
+               type: { kind: 'NamedType', name: { kind: 'Name', value: 'Pagination' } },
+            },
+         ],
          selectionSet: {
             kind: 'SelectionSet',
             selections: [
                {
                   kind: 'Field',
+                  alias: { kind: 'Name', value: 'connection' },
                   name: { kind: 'Name', value: 'locations' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'pagination' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'pagination' } },
+                     },
+                  ],
                   selectionSet: {
                      kind: 'SelectionSet',
                      selections: [
@@ -1357,7 +1526,17 @@ export const GetLocationsDocument = {
                            name: { kind: 'Name', value: 'nodes' },
                            selectionSet: {
                               kind: 'SelectionSet',
-                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MapLocation' } }],
+                              selections: [
+                                 { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LocationSummary' } },
+                              ],
+                           },
+                        },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'pageInfo' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageInfo' } }],
                            },
                         },
                      ],
@@ -1366,7 +1545,8 @@ export const GetLocationsDocument = {
             ],
          },
       },
-      ...MapLocationFragmentDoc.definitions,
+      ...LocationSummaryFragmentDoc.definitions,
+      ...PageInfoFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<GetLocationsQuery, GetLocationsQueryVariables>
 export const GetLocationDocument = {
@@ -1399,39 +1579,54 @@ export const GetLocationDocument = {
                   ],
                   selectionSet: {
                      kind: 'SelectionSet',
-                     selections: [
-                        { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MapLocation' } },
-                        {
-                           kind: 'Field',
-                           name: { kind: 'Name', value: 'tales' },
-                           selectionSet: {
-                              kind: 'SelectionSet',
-                              selections: [
-                                 { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
-                                 {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'nodes' },
-                                    selectionSet: {
-                                       kind: 'SelectionSet',
-                                       selections: [
-                                          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                                          { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-                                       ],
-                                    },
-                                 },
-                              ],
-                           },
-                        },
-                     ],
+                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Location' } }],
                   },
                },
             ],
          },
       },
-      ...MapLocationFragmentDoc.definitions,
+      ...LocationFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<GetLocationQuery, GetLocationQueryVariables>
+export const GetLocationByIdDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'query',
+         name: { kind: 'Name', value: 'getLocationById' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'location' },
+                  name: { kind: 'Name', value: 'location' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'id' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Location' } }],
+                  },
+               },
+            ],
+         },
+      },
+      ...LocationFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<GetLocationByIdQuery, GetLocationByIdQueryVariables>
 export const CreateLocationDocument = {
    kind: 'Document',
    definitions: [
@@ -1454,6 +1649,7 @@ export const CreateLocationDocument = {
             selections: [
                {
                   kind: 'Field',
+                  alias: { kind: 'Name', value: 'created' },
                   name: { kind: 'Name', value: 'createLocation' },
                   arguments: [
                      {
@@ -1468,6 +1664,40 @@ export const CreateLocationDocument = {
       },
    ],
 } as unknown as DocumentNode<CreateLocationMutation, CreateLocationMutationVariables>
+export const MapLocationsDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'query',
+         name: { kind: 'Name', value: 'mapLocations' },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'locations' },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'nodes' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MapLocation' } }],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...MapLocationFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<MapLocationsQuery, MapLocationsQueryVariables>
 export const GetTaleDraftsDocument = {
    kind: 'Document',
    definitions: [
@@ -1505,7 +1735,7 @@ export const GetTaleDraftsDocument = {
                            name: { kind: 'Name', value: 'nodes' },
                            selectionSet: {
                               kind: 'SelectionSet',
-                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Summary' } }],
+                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'TaleSummary' } }],
                            },
                         },
                         {
@@ -1522,7 +1752,7 @@ export const GetTaleDraftsDocument = {
             ],
          },
       },
-      ...SummaryFragmentDoc.definitions,
+      ...TaleSummaryFragmentDoc.definitions,
       ...PageInfoFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<GetTaleDraftsQuery, GetTaleDraftsQueryVariables>
@@ -1555,13 +1785,13 @@ export const GetTaleDraftDocument = {
                   ],
                   selectionSet: {
                      kind: 'SelectionSet',
-                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Lore' } }],
+                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Tale' } }],
                   },
                },
             ],
          },
       },
-      ...LoreFragmentDoc.definitions,
+      ...TaleFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<GetTaleDraftQuery, GetTaleDraftQueryVariables>
 export const CreateTaleDraftDocument = {
@@ -1651,7 +1881,7 @@ export const GetTalesDocument = {
                            name: { kind: 'Name', value: 'nodes' },
                            selectionSet: {
                               kind: 'SelectionSet',
-                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Summary' } }],
+                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'TaleSummary' } }],
                            },
                         },
                         {
@@ -1668,7 +1898,7 @@ export const GetTalesDocument = {
             ],
          },
       },
-      ...SummaryFragmentDoc.definitions,
+      ...TaleSummaryFragmentDoc.definitions,
       ...PageInfoFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<GetTalesQuery, GetTalesQueryVariables>
@@ -1701,13 +1931,13 @@ export const GetTaleDocument = {
                   ],
                   selectionSet: {
                      kind: 'SelectionSet',
-                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Lore' } }],
+                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Tale' } }],
                   },
                },
             ],
          },
       },
-      ...LoreFragmentDoc.definitions,
+      ...TaleFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<GetTaleQuery, GetTaleQueryVariables>
 export const CreateTaleDocument = {

@@ -1,4 +1,4 @@
-fragment Summary on AbstractTale {
+fragment TaleSummary on AbstractTale {
    id
    title
    ... on Tale {
@@ -13,8 +13,8 @@ fragment Summary on AbstractTale {
    }
 }
 
-fragment Lore on AbstractTale {
-   ...Summary
+fragment Tale on AbstractTale {
+   ...TaleSummary
    text
    ... on Tale {
       locations {
@@ -36,7 +36,7 @@ query getTales($pagination: Pagination) {
    connection: tales(pagination: $pagination) {
       totalCount
       nodes {
-         ...Summary
+         ...TaleSummary
       }
       pageInfo {
          ...PageInfo
@@ -46,7 +46,7 @@ query getTales($pagination: Pagination) {
 
 query getTale($id: Int!) {
    tale(id: $id) {
-      ...Lore
+      ...Tale
    }
 }
 

@@ -2,7 +2,7 @@ query getTaleDrafts($pagination: Pagination) {
    connection: taleDrafts(pagination: $pagination) {
       totalCount
       nodes {
-         ...Summary
+         ...TaleSummary
       }
       pageInfo {
          ...PageInfo
@@ -12,7 +12,7 @@ query getTaleDrafts($pagination: Pagination) {
 
 query getTaleDraft($id: Int!) {
    taleDraft(id: $id) {
-      ...Lore
+      ...Tale
    }
 }
 
