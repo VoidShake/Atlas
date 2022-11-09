@@ -21,7 +21,8 @@ const config: DefaultConfigOptions = {
             messages: 'list-none p-0 mt-1 mb-0',
             message: 'mb-1 text-xs text-red-500 dark:text-red-400',
          },
-         text: extend({ input: 'h-10' }),
+         text: extend({ input: 'h-8' }),
+         number: extend({ input: 'h-8' }),
          textarea: extend({ input: 'resize-none' }),
          submit: {
             input: `
@@ -29,7 +30,7 @@ const config: DefaultConfigOptions = {
                py-2 px-3
                bg-accent-600 ring-accent-400 ring-0 text-white
                hover:ring-2 hover:bg-accent-500
-               disabled:bg-solid-700 disabled:opacity-75 disabled:ring-0 disabled:cursor-not-allowed
+               disabled:bg-solid-600 disabled:opacity-75 disabled:ring-0 disabled:cursor-not-allowed
             `,
          },
       }),

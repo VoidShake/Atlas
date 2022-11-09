@@ -13,13 +13,14 @@
 </template>
 
 <script lang="ts" setup>
-import { BookOpenIcon, MapIcon } from '@heroicons/vue/24/solid'
+import { BookOpenIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 
 const route = useActiveRoute()
 
 const links = ref([
-   { display: 'Map', to: '/', icon: MapIcon },
+   { display: 'Map', to: '/map', icon: MapIcon },
    { display: 'Libary', to: '/library', icon: BookOpenIcon },
+   { display: 'Locations', to: '/locations', icon: MapPinIcon },
 ])
 
 const active = computed(() => [...links.value].reverse().find(it => route.path.startsWith(it.to))?.to)

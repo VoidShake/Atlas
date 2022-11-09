@@ -2,6 +2,12 @@
    <section>
       <StyledTitle> Your Location Drafts </StyledTitle>
 
+      <NuxtLink v-if="hasPermission(Permission.DraftLocation)" to="/locations/create?draft">
+         <StyledActionButton>
+            <PencilIcon />
+         </StyledActionButton>
+      </NuxtLink>
+
       <PaginatedList
          v-if="result"
          :connection="result.connection"
@@ -14,16 +20,15 @@
             :key="location.id"
             :to="`/me/drafts/locations/${location.id}`"
          >
-            <StyledPanel>
-               <h3>{{ location.name }}</h3>
-            </StyledPanel>
+            <LocationPreview :location="location" />
          </NuxtLink>
       </PaginatedList>
    </section>
 </template>
 
 <script lang="ts" setup>
-import { GetLocationDraftsDocument } from '~~/graphql/generated'
+import { GetLocationDraftsDocument, Permission } from '~~/graphql/generated'
+import { PencilIcon } from '@heroicons/vue/24/solid'
 
 const { hasPermission } = useSession()
 
@@ -31,4 +36,6 @@ const limit = ref(24)
 const { result, next, previous } = usePagination(GetLocationDraftsDocument, limit)
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

@@ -21,7 +21,7 @@ import { GetLocationsDocument } from '~/graphql/generated'
 const { result } = useQuery(GetLocationsDocument)
 
 const options = computed(() =>
-   result.value?.locations.nodes.map(it => ({
+   result.value?.connection.nodes.map(it => ({
       value: it.id,
       label: it.name,
    })),

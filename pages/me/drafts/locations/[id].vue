@@ -2,6 +2,7 @@
    <div>
       <template v-if="result">
          <h1>{{ result.locationDraft.name }}</h1>
+         <PosDisplay v-bind="result.locationDraft.pos" />
       </template>
    </div>
 </template>

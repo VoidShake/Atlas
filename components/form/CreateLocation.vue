@@ -1,11 +1,11 @@
 <template>
    <section>
       <FormKit type="form" :actions="false" #default="{ value, state: { valid } }" :errors="errors">
-         <FormKit name="title" validation="required" label="Title" type="text" />
+         <FormKit name="world" validation="required" type="hidden" value="overworld" />
 
-         <InputLocationSelection v-model="locations" />
+         <InputPos :initial="initialPos" />
 
-         <MarkdownEditor name="text" label="Text" validation="required" />
+         <FormKit name="name" validation="required" label="Name" type="text" />
 
          <div id="buttons">
             <FormKit v-if="!onlyDraft" type="submit" :disabled="!valid" @click.prevent="save(value, false)" />
@@ -24,11 +24,12 @@
 
 <script lang="ts" setup>
 import {
-   CreateTaleDocument,
-   CreateTaleDraftDocument,
-   CreateTaleInput,
-   CreateTaleMutation,
+   CreateLocationDocument,
+   CreateLocationDraftDocument,
+   CreateLocationInput,
+   CreateLocationMutation,
    Permission,
+   PosFragment,
 } from '~~/graphql/generated'
 
 const { hasPermission } = useSession()
@@ -36,22 +37,20 @@ const { query } = useActiveRoute()
 
 const onlyDraft = computed(() => {
    if ('draft' in query) return true
-   return !hasPermission(Permission.TellTale)
+   return !hasPermission(Permission.CreateLocation)
 })
 
 const emit = defineEmits<{
-   (e: 'saved', data: CreateTaleMutation, draft: boolean): void
+   (e: 'saved', data: CreateLocationMutation, draft: boolean): void
 }>()
 
-const props = defineProps<{
-   initialLocations?: number[]
+defineProps<{
+   initialPos?: PosFragment
 }>()
 
-const locations = useState<number[]>('linked-locations', () => props.initialLocations ?? [])
-
-const refetchQueries = ['getLocation']
-const { mutate: createTale, error } = useMutation(CreateTaleDocument, { refetchQueries })
-const { mutate: createTaleDraft, error: draftError } = useMutation(CreateTaleDraftDocument, { refetchQueries })
+const refetchQueries = ['getLocation', 'getLocations']
+const { mutate: createLocation, error } = useMutation(CreateLocationDocument, { refetchQueries })
+const { mutate: createLocationDraft, error: draftError } = useMutation(CreateLocationDraftDocument, { refetchQueries })
 const errors = computed(() =>
    [error, draftError]
       .map(it => it.value)
@@ -59,9 +58,9 @@ const errors = computed(() =>
       .flatMap(extractMessages),
 )
 
-async function save(input: CreateTaleInput, draft: boolean) {
-   const create = draft ? createTaleDraft : createTale
-   const response = await create({ input, locations: locations.value })
+async function save(input: CreateLocationInput, draft: boolean) {
+   const create = draft ? createLocationDraft : createLocation
+   const response = await create({ input })
    const data = response?.data
    if (data) emit('saved', data, draft)
 }
