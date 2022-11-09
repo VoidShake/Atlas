@@ -20,8 +20,6 @@ const { result } = useQuery(GetLocationDocument, () => ({
    slug: route.params.slug as string,
 }))
 
-watch(result, console.log)
-
 definePageMeta({
    layout: 'confined',
 })

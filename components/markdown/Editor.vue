@@ -2,11 +2,11 @@
    <div id="editor">
       <FormKit
          type="textarea"
-         @input="update"
          :classes="{ input: 'min-h-64' }"
          :name="name"
          :label="label"
          :validation="validation"
+         @input="update"
       />
       <div id="preview">
          <label for="preview" class="mt-1 ml-1 font-xs text-sm font-bold"> Preview </label>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import debounce from 'debounce'
+import { debounce } from 'debounce'
 
 defineProps<{
    name: string

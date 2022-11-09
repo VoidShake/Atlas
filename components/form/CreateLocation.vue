@@ -1,6 +1,6 @@
 <template>
    <section>
-      <FormKit type="form" :actions="false" #default="{ value, state: { valid } }" :errors="errors">
+      <FormKit v-slot="{ value, state: { valid } }" type="form" :actions="false" :errors="errors">
          <FormKit name="world" validation="required" type="hidden" value="overworld" />
 
          <InputPos :initial="initialPos" />
@@ -12,8 +12,8 @@
             <FormKit
                type="submit"
                :disabled="!valid"
-               @click.prevent="save(value, true)"
                :classes="{ input: 'bg-solid-600' }"
+               @click.prevent="save(value, true)"
             >
                Save as Draft
             </FormKit>

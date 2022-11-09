@@ -1,14 +1,14 @@
 <template>
    <section>
       <StyledTitle> Your Profile </StyledTitle>
-      <div class="profile" v-if="account">
+      <div v-if="account" class="profile">
          <h2>{{ account.username }}</h2>
          <p>{{ account.email }}</p>
          <img v-if="account.avatar" :src="account.avatar" class="rounded-full" :alt="`avatar of ${account.username}`" />
          <StyledButton @click="logout"> Logout </StyledButton>
       </div>
       <p v-else-if="loggedIn">Loading...</p>
-      <NuxtLink class="mx-auto" v-else to="/login">
+      <NuxtLink v-else class="mx-auto" to="/login">
          <StyledButton> Login </StyledButton>
       </NuxtLink>
    </section>

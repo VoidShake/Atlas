@@ -2,7 +2,7 @@
    <section>
       <template v-if="result">
          <h1>{{ result.location.name }}</h1>
-         <StyledPanel class="tale" v-for="tale of result.location.tales.nodes" :key="tale.id">
+         <StyledPanel v-for="tale of result.location.tales.nodes" :key="tale.id" class="tale">
             <h3>
                <NuxtLink class="hover:underline underline-offset-4" :to="`/library/${tale.id}`">
                   {{ tale.title }}

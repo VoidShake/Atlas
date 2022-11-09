@@ -1,6 +1,6 @@
 <template>
    <div class="my-2 grid gap-1">
-      <label class="text-start" v-if="label">{{ label }}</label>
+      <label v-if="label" class="text-start">{{ label }}</label>
       <slot />
    </div>
 </template>

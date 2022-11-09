@@ -10,13 +10,14 @@
       "postinstall": "nuxt prepare",
       "codegen": "graphql-codegen",
       "format": "prettier --write **/*.{vue,ts}",
-      "lint:code": "eslint --ext .ts,.vue",
+      "lint:code": "eslint **/*.{vue,ts}",
       "lint:style": "stylelint **/*.vue",
       "lint": "yarn lint:code && yarn lint:style"
    },
    "devDependencies": {
       "@formkit/nuxt": "^1.0.0-beta.11",
       "@formkit/themes": "^1.0.0-beta.11",
+      "@graphql-codegen/add": "^3.2.1",
       "@graphql-codegen/cli": "^2.13.7",
       "@graphql-codegen/fragment-matcher": "^3.3.1",
       "@graphql-codegen/typed-document-node": "^2.3.4",

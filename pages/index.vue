@@ -3,7 +3,7 @@
       <img src="~/assets/emblem/icon.svg" alt="The Atlas" />
       <div>
          <StyledTitle> Atlas </StyledTitle>
-         <NuxtLink v-for="link in links" :to="link.to">
+         <NuxtLink v-for="link in links" :key="link.label" :to="link.to">
             <StyledPanel class="my-3 text-3xl">
                <InlineIcon> <component :is="link.icon" /> </InlineIcon>
                <span class="ml-5"> {{ link.label }} </span>

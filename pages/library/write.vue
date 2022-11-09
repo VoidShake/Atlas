@@ -1,7 +1,5 @@
 <template>
-   <FormCreateTale @saved="
-   redirect
-   " />
+   <FormCreateTale @saved="redirect" />
 </template>
 
 <script lang="ts" setup>

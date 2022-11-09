@@ -1,7 +1,7 @@
 <template>
    <nav>
       <NuxtLink v-for="(link, i) of links" :key="i" :class="['tab', { active: link.to === active }]" :to="link.to">
-         <component class="icon" :is="link.icon" />
+         <component :is="link.icon" class="icon" />
          <span> {{ link.display }} </span>
       </NuxtLink>
       <section class="flex gap-4 justify-self-end">

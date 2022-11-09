@@ -1,7 +1,5 @@
 <template>
-   <FormCreateLocation @saved="
-   redirect
-   " />
+   <FormCreateLocation @saved="redirect" />
 </template>
 
 <script lang="ts" setup>

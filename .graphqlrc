@@ -10,3 +10,5 @@ extensions:
                - typescript-operations
                - typed-document-node
                - fragment-matcher
+               - add:
+                    content: /* eslint-disable */

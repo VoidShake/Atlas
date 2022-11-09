@@ -1,5 +1,5 @@
-import { defineNuxtModule } from '@nuxt/kit'
 import { copyFileSync, existsSync, mkdirSync } from 'fs'
+import { defineNuxtModule } from '@nuxt/kit'
 
 export default defineNuxtModule({
    setup(_, nuxt) {

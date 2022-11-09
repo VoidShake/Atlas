@@ -22,7 +22,7 @@ export function toMapPos(map: Map, { x, y, z }: PosFragment): [number, number] {
    const lat = matrix[3] * x + matrix[4] * (y ?? 0) + matrix[5] * z
    const lng = matrix[0] * x + matrix[1] * (y ?? 0) + matrix[2] * z
 
-   //const scaledLat = -(((128 << map.tilescale) - lat) / (1 << map.mapzoomout)) / map.scale;
+   // const scaledLat = -(((128 << map.tilescale) - lat) / (1 << map.mapzoomout)) / map.scale;
    const scaledLat = lat / (1 << map.mapzoomout) / map.scale
    const scaledLng = lng / (1 << map.mapzoomout) / map.scale
 

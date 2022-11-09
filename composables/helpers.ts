@@ -5,7 +5,6 @@ export function notNull<T>(value: T | undefined | null): value is T {
 }
 
 export function extractMessages(error: ApolloError) {
-   console.log({ ...error })
    if (error.graphQLErrors.length) return error.graphQLErrors.map(it => it.message)
    return [error.message]
 }

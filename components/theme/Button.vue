@@ -1,7 +1,12 @@
 <template>
    <client-only>
       <template v-for="(icon, mode) in themes">
-         <button v-if="colorMode.value !== mode" :title="`${mode} mode`" @click="colorMode.preference = mode">
+         <button
+            v-if="colorMode.value !== mode"
+            :key="mode"
+            :title="`${mode} mode`"
+            @click="colorMode.preference = mode"
+         >
             <component :is="icon" class="h-5" />
          </button>
       </template>

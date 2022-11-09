@@ -2,7 +2,7 @@
    <NuxtLayout>
       <NuxtPage />
       <Menu v-if="menu" :x="menu.x" :y="menu.y" :options="menu.options" />
-      <div :class="{ visible: showCurtain }" id="backdrop" @click="closeDialog" />
+      <div id="backdrop" :class="{ visible: showCurtain }" @click="closeDialog" />
    </NuxtLayout>
 </template>
 

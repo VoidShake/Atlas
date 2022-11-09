@@ -10,7 +10,7 @@
       />
       <DialogCreateTale
          v-if="selected?.action == 'add-lore'"
-         :initialLocations="[selected.location.id]"
+         :initial-locations="[selected.location.id]"
          @close="selected = null"
       />
    </div>
@@ -41,7 +41,7 @@ function menu(location: MapLocationFragment, event: LeafletMouseEvent) {
          {
             text: 'Add Lore Entry',
             permission: Permission.TellTale,
-            click: () => (selected.value = { action: 'add-lore', location: location }),
+            click: () => (selected.value = { action: 'add-lore', location }),
          },
       ],
    })
