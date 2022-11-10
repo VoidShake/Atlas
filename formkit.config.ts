@@ -1,6 +1,6 @@
 import { generateClasses } from '@formkit/themes'
 import { DefaultConfigOptions } from '@formkit/vue'
-import { mapValues } from 'lodash'
+import { mapValues } from 'lodash-es'
 
 const base: Record<string, string> = {
    inner: 'p-2 rounded outline-0 transition ring-0 border-2 bg-solid-800 ring-accent-500 border-solid-700 overflow-hidden focus-within:ring-2',

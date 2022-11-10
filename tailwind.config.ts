@@ -2,7 +2,7 @@ import formKitTailwind from '@formkit/themes/tailwindcss'
 import { Config } from 'tailwindcss'
 import colors from 'tailwindcss/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
-import { mapKeys, mapValues } from 'lodash'
+import { mapKeys, mapValues } from 'lodash-es'
 
 const colorKeys = Object.keys(colors.red)
 const reversedColorKeys = [...colorKeys].reverse()

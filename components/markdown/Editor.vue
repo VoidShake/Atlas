@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 
 defineProps<{
    name: string

@@ -11,16 +11,13 @@ export default defineNuxtConfig({
 
    css: ['leaflet/dist/leaflet.css', '@vueform/multiselect/themes/default.css'],
 
-   vite: {
-      server: {
-         proxy: {
-            '/api/': 'http://localhost:8080',
-            '/auth/': 'http://localhost:8080',
-            '/dynmap/': {
-               target: 'https://map.somethingcatchy.net/',
-               changeOrigin: true,
-               rewrite: (path: string) => path.replace(/^\/dynmap/, ''),
-            },
+   nitro: {
+      devProxy: {
+         '/api/': 'http://localhost:8080/api',
+         '/auth/': 'http://localhost:8080/auth',
+         '/dynmap/': {
+            target: 'https://map.somethingcatchy.net/',
+            changeOrigin: true,
          },
       },
    },

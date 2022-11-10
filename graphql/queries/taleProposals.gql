@@ -1,0 +1,36 @@
+fragment TaleProposalPreview on TaleProposal {
+   submitter {
+      id
+      email
+      username
+   }
+   draft {
+      id
+      title
+      original {
+         id
+         title
+      }
+   }
+}
+
+query getTaleProposals($pagination: Pagination) {
+   connection: taleProposals(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...TaleProposalPreview
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getTaleProposal($draft: Int!) {
+   proposal: taleProposal(draftId: $draft) {
+      ...TaleProposalPreview
+      draft {
+         text
+      }
+   }
+}
