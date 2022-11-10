@@ -1,4 +1,4 @@
-# Atlas
+# Atlas <img src="https://raw.githubusercontent.com/VoidShake/Emblem/main/icon.svg" align="right" height="100" />
 
 ## Build Setup
 
