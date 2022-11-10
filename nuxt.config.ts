@@ -2,7 +2,14 @@ import introspectionResult from './graphql/generated'
 import typePolicies from './graphql/typePolicies'
 
 export default defineNuxtConfig({
-   modules: ['@nuxtjs/apollo', '@nuxtjs/color-mode', '@nuxtjs/tailwindcss', './modules/assets', '@formkit/nuxt'],
+   modules: [
+      './modules/assets',
+      '@nuxtjs/apollo',
+      '@nuxtjs/color-mode',
+      '@nuxtjs/tailwindcss',
+      '@formkit/nuxt',
+      '@nuxtjs/i18n',
+   ],
 
    postcss: {
       plugins: {
@@ -37,6 +44,25 @@ export default defineNuxtConfig({
             },
          },
       },
+   },
+
+   i18n: {
+      locales: [
+         {
+            code: 'en',
+            file: 'en_us.json',
+            name: 'English',
+         },
+         {
+            code: 'de',
+            file: 'de_de.json',
+            name: 'Deutsch',
+         },
+      ],
+      strategy: 'no_prefix',
+      lazy: true,
+      langDir: 'lang',
+      defaultLocale: 'en',
    },
 
    typescript: {

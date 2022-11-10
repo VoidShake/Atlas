@@ -2,6 +2,7 @@
    <section>
       <StyledTitle> Settings </StyledTitle>
       <ThemeChooser />
+      <LangChooser />
    </section>
 </template>
 
