@@ -1,0 +1,8 @@
+{
+   "result": {
+      "location": "no locations | one location | {n} locations",
+      "tale": "no tales | one tale | {n} tales",
+      "location_draft": "no location drafts | one location draft | {n} tales drafts",
+      "tale_draft": "no tale drafts | one tale draft | {n} tales drafts"
+   }
+}
