@@ -1852,13 +1852,13 @@
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-3.1.2.tgz#3cd52114e8871a0b5e7bd7d837469c032e503036"
   integrity sha512-3zxKNlvA3oNaKDYX0NBclgxTQ1xaFdL7PzwF6zj9tGFziKwmBa3Q/6XcJQxudlT81WxDjEhHmevvIC4Orc1LhQ==
 
-"@volar-plugins/prettier@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@volar-plugins/prettier/-/prettier-1.1.4.tgz#9b623067640b5b89d91373d6be3b14f57c98630c"
-  integrity sha512-Gz6aD5Sjo8+j7xGDooxkKJGwMqzqF3PhITo+hrUIuVzMjJNyvYreuT2chHxXGe903/wojf4c3T3xVsxmsfaCBg==
+"@volar-plugins/prettier@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@volar-plugins/prettier/-/prettier-1.1.5.tgz#8aacbd1b76f0f1818b8bdace828cc8ff82b8b003"
+  integrity sha512-a4Wli+9wj1MYh+W9NS8zAeXQLNN0U207BM16DkbbaIx/2RROuNlj39TJyz9B0WdvCFuIxfKwc76qRYWrwVd6Ng==
   dependencies:
-    prettier "^2.6.2"
-    vscode-uri "^3.0.3"
+    prettier "^2.7.1"
+    vscode-uri "^3.0.6"
 
 "@vue-leaflet/vue-leaflet@^0.6.1":
   version "0.6.1"
@@ -7307,7 +7307,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prettier@^2.6.2, prettier@^2.7.1:
+prettier@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.7.1.tgz#e235806850d057f97bb08368a4f7d899f7760c64"
   integrity sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==
@@ -9028,7 +9028,7 @@ vscode-languageserver@^7.0.0:
   dependencies:
     vscode-languageserver-protocol "3.16.0"
 
-vscode-uri@^3.0.2, vscode-uri@^3.0.3:
+vscode-uri@^3.0.2, vscode-uri@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-3.0.6.tgz#5e6e2e1a4170543af30151b561a41f71db1d6f91"
   integrity sha512-fmL7V1eiDBFRRnu+gfRWTzyPpNIHJTc4mWnFkwBUmO9U3KPgJAmTx7oxi2bl/Rh6HLdU7+4C9wlj0k2E4AdKFQ==
