@@ -26,7 +26,7 @@ export default defineNuxtConfig({
    },
 
    build: {
-      transpile: ['graphql', '@heroicons/vue'],
+      transpile: ['graphql', '@heroicons/vue', 'lodash'],
    },
 
    apollo: {

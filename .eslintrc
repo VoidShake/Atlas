@@ -35,6 +35,7 @@
                "component": "always"
             }
          }
-      ]
+      ],
+      "import/no-named-as-default": "off"
    }
 }
