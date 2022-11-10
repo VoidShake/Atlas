@@ -37,7 +37,7 @@
       "@vue-leaflet/vue-leaflet": "^0.6.1",
       "@vueform/multiselect": "^2.5.6",
       "core-js": "^3.25.3",
-      "eslint": "^8.24.0",
+      "eslint": "^8.27.0",
       "eslint-config-stylelint": "^17.0.0",
       "eslint-plugin-nuxt": "^4.0.0",
       "graphql": "^16.6.0",
