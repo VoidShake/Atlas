@@ -1,6 +1,6 @@
 import { generateClasses } from '@formkit/themes'
 import { DefaultConfigOptions } from '@formkit/vue'
-import { mapValues } from 'lodash'
+import _ from 'lodash'
 
 const base: Record<string, string> = {
    inner: 'p-2 rounded outline-0 transition ring-0 border-2 bg-solid-800 ring-accent-500 border-solid-700 overflow-hidden focus-within:ring-2',
@@ -8,7 +8,7 @@ const base: Record<string, string> = {
 }
 
 function extend(values: Record<string, string>) {
-   return { ...base, ...mapValues(values, (it, key) => `${base[key] ?? ''} ${it}`) }
+   return { ...base, ..._.mapValues(values, (it, key) => `${base[key] ?? ''} ${it}`) }
 }
 
 const config: DefaultConfigOptions = {
