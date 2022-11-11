@@ -1,0 +1,45 @@
+fragment LocationProposalPreview on LocationProposal {
+   ...WithTime
+   submitter {
+      ...User
+   }
+   draft {
+      id
+      name
+      original {
+         id
+         name
+      }
+   }
+}
+
+query getLocationProposals($pagination: Pagination) {
+   connection: locationProposals(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...LocationProposalPreview
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getLocationProposal($draft: Int!) {
+   proposal: locationProposal(draftId: $draft) {
+      ...LocationProposalPreview
+      draft {
+         pos {
+            ...Pos
+         }
+      }
+   }
+}
+
+mutation approveLocation($draft: Int!) {
+   converted: approveLocation(draftId: $draft)
+}
+
+mutation refuseLocation($draft: Int!) {
+   converted: refuseLocation(draftId: $draft)
+}

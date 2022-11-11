@@ -1,9 +1,9 @@
 <template>
    <section>
-      <StyledTitle> Proposed Tales </StyledTitle>
+      <StyledTitle> Proposed Locations </StyledTitle>
       <PaginatedTable v-if="result" :connection="result.connection">
          <template #head>
-            <th>Title</th>
+            <th>Name</th>
             <th>Original</th>
             <th>Submitter</th>
             <th>Created At</th>
@@ -11,8 +11,8 @@
          </template>
          <template #body>
             <tr v-for="proposal in result.connection.nodes" :key="proposal.draft.id">
-               <td>{{ proposal.draft.title }}</td>
-               <td>{{ proposal.draft.original?.title }}</td>
+               <td>{{ proposal.draft.name }}</td>
+               <td>{{ proposal.draft.original?.name }}</td>
                <td><AccountsName v-bind="proposal.submitter" /></td>
                <td class="text-center">{{ new Date(proposal.timestamps.createdAt).toLocaleString() }}</td>
                <ProposalButtons
@@ -27,14 +27,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ApproveTaleDocument, GetTaleProposalsDocument, RefuseTaleDocument } from '~~/graphql/generated'
+import { ApproveLocationDocument, GetLocationProposalsDocument, RefuseLocationDocument } from '~~/graphql/generated'
 
 const limit = ref(24)
-const { result } = usePagination(GetTaleProposalsDocument, limit)
+const { result } = usePagination(GetLocationProposalsDocument, limit)
 
-const refetchQueries = ['getTaleProposals']
-const { mutate: refuse } = useMutation(RefuseTaleDocument, { refetchQueries })
-const { mutate: approve } = useMutation(ApproveTaleDocument, { refetchQueries })
+const refetchQueries = ['getLocationProposals']
+const { mutate: refuse } = useMutation(RefuseLocationDocument, { refetchQueries })
+const { mutate: approve } = useMutation(ApproveLocationDocument, { refetchQueries })
 
 definePageMeta({
    layout: 'confined',

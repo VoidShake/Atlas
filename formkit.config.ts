@@ -7,6 +7,16 @@ const base: Record<string, string> = {
    input: 'w-full px-3 border-none outline-none bg-transparent',
 }
 
+const button = {
+   input: `
+      rounded select-none transition
+      py-2 px-3
+      bg-accent-600 ring-accent-400 ring-0 text-white
+      hover:ring-2 hover:bg-accent-500
+      disabled:bg-solid-600 disabled:opacity-75 disabled:ring-0 disabled:cursor-not-allowed
+   `,
+}
+
 function extend(values: Record<string, string>) {
    return { ...base, ...mapValues(values, (it, key) => `${base[key] ?? ''} ${it}`) }
 }
@@ -24,15 +34,8 @@ const config: DefaultConfigOptions = {
          text: extend({ input: 'h-8' }),
          number: extend({ input: 'h-8' }),
          textarea: extend({ input: 'resize-none' }),
-         submit: {
-            input: `
-               rounded select-none transition
-               py-2 px-3
-               bg-accent-600 ring-accent-400 ring-0 text-white
-               hover:ring-2 hover:bg-accent-500
-               disabled:bg-solid-600 disabled:opacity-75 disabled:ring-0 disabled:cursor-not-allowed
-            `,
-         },
+         button,
+         submit: button,
       }),
    },
 }

@@ -22,7 +22,7 @@ export function usePagination<T, Q extends ConnectionQuery<T>>(
 ) {
    const pagination = useState<Pagination>('pagination', () => ({ first: limit?.value }))
 
-   const { result } = useQuery(document, variables)
+   const { result, error } = useQuery(document, variables)
 
    watch(limit, () => {
       pagination.value = { first: limit?.value }
@@ -46,5 +46,5 @@ export function usePagination<T, Q extends ConnectionQuery<T>>(
       return { pagination: pagination.value }
    }
 
-   return { next, previous, result }
+   return { next, previous, result, error }
 }

@@ -1,16 +1,17 @@
 fragment User on Account {
-  email
-  username
-  avatar
+   email
+   username
+   email
+   avatar
 }
 
 fragment Self on Account {
-  ...User
-  permissions
+   ...User
+   permissions
 }
 
 query me {
-  me {
-    ...Self
-  }
+   me {
+      ...Self
+   }
 }

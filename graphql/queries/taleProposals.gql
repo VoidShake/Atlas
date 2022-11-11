@@ -1,8 +1,7 @@
 fragment TaleProposalPreview on TaleProposal {
+   ...WithTime
    submitter {
-      id
-      email
-      username
+      ...User
    }
    draft {
       id
@@ -33,4 +32,12 @@ query getTaleProposal($draft: Int!) {
          text
       }
    }
+}
+
+mutation approveTale($draft: Int!) {
+   converted: approveTale(draftId: $draft)
+}
+
+mutation refuseTale($draft: Int!) {
+   converted: refuseTale(draftId: $draft)
 }

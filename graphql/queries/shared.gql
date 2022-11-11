@@ -1,0 +1,6 @@
+fragment WithTime on Timestamped {
+   timestamps {
+      createdAt
+      modifiedAt
+   }
+}
