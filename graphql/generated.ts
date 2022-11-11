@@ -421,6 +421,8 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   accounts: AccountConnection;
+  createLocationDraftFrom: Scalars['Int'];
+  createTaleDraftFrom: Scalars['Int'];
   location: Location;
   locationBySlug: Location;
   locationDraft: LocationDraft;
@@ -448,6 +450,18 @@ export type QueryAccountArgs = {
 /** Query object */
 export type QueryAccountsArgs = {
   pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
+export type QueryCreateLocationDraftFromArgs = {
+  original: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QueryCreateTaleDraftFromArgs = {
+  original: Scalars['Int'];
 };
 
 
