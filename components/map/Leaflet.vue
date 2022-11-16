@@ -45,7 +45,6 @@ const background = computed(() => {
 
 <style>
 .leaflet-container {
-   @apply rounded-lg;
    background: v-bind('background');
 }
 
