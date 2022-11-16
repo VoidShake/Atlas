@@ -1,28 +1,30 @@
 <template>
-   <div>
-      <template v-if="result">
-         <h1>{{ result.taleDraft.title }}</h1>
-         <p>
-            <Pill v-for="location of result.taleDraft.locations.nodes" :key="location.id">
-               <span> {{ location.name }} </span>
-               <template #icon>
-                  <map-pin-icon />
-               </template>
-            </Pill>
-         </p>
-         <MarkdownPreview :value="result.taleDraft.text" />
-      </template>
-   </div>
+   <section>
+      <TalePage v-if="result" :tale="result.taleDraft">
+         <template v-if="result.taleDraft.proposed" #title>
+            <Pill class="text-sm"> Proposed </Pill>
+         </template>
+         <StyledActionButton v-if="!result.taleDraft.proposed" @click="propose">
+            <PaperAirplaneIcon />
+         </StyledActionButton>
+      </TalePage>
+   </section>
 </template>
 
 <script lang="ts" setup>
-import { MapPinIcon } from '@heroicons/vue/24/solid'
-import { GetTaleDraftDocument } from '~/graphql/generated'
+import { PaperAirplaneIcon } from '@heroicons/vue/24/solid'
+import { GetTaleDraftDocument, ProposeTaleDocument } from '~/graphql/generated'
 
 const route = useActiveRoute()
+const id = computed(() => Number.parseInt(route.params.id as string))
 
 const { result } = useQuery(GetTaleDraftDocument, () => ({
-   id: Number.parseInt(route.params.id as string),
+   id: id.value,
+}))
+
+const { mutate: propose } = useMutation(ProposeTaleDocument, () => ({
+   variables: { draft: id.value },
+   refetchQueries: ['getTaleDraft'],
 }))
 
 definePageMeta({

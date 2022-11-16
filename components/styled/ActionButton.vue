@@ -1,13 +1,20 @@
 <template>
-   <button>
-      <slot />
-   </button>
+   <Teleport to="#action-buttons">
+      <button @click="$emit('click')">
+         <slot />
+      </button>
+   </Teleport>
 </template>
+
+<script lang="ts" setup>
+defineEmits<{
+   (e: 'click'): void
+}>()
+</script>
 
 <style lang="scss" scoped>
 button {
    @apply bg-accent-600 transition-colors text-white;
-   @apply absolute right-5 top-5;
    @apply rounded-full grid justify-center items-center h-16 w-16 shadow-lg shadow-[#0003];
 
    &:hover {
