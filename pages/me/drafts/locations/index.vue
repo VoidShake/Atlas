@@ -2,11 +2,9 @@
    <section>
       <StyledTitle> Your Location Drafts </StyledTitle>
 
-      <NuxtLink v-if="hasPermission(Permission.DraftLocation)" to="/locations/create?draft">
-         <StyledActionButton>
-            <PencilIcon />
-         </StyledActionButton>
-      </NuxtLink>
+      <ActionLink v-if="hasPermission(Permission.DraftLocation)" to="/locations/create?draft">
+         <PencilIcon />
+      </ActionLink>
 
       <PaginatedList
          v-if="result"
@@ -36,4 +34,6 @@ const limit = ref(24)
 const { result, next, previous } = usePagination(GetLocationDraftsDocument, limit)
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

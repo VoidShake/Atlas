@@ -1,10 +1,13 @@
 <template>
    <div>
-      <h1>{{ location.name }} <slot name="title" /></h1>
+      <h1>
+         {{ location.name }}
+         <slot name="title" />
+      </h1>
 
-      <StyledActionButton>
+      <ActionLink :to="`${$route.path}/edit`">
          <PencilIcon />
-      </StyledActionButton>
+      </ActionLink>
 
       <div class="flex gap-2 items-center">
          <PosDisplay v-bind="location.pos" />

@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { GetLocationDocument } from '~/graphql/generated'
 
-const route = useActiveRoute()
+const route = useRoute()
 
 const { result } = useQuery(GetLocationDocument, () => ({
    slug: route.params.slug as string,

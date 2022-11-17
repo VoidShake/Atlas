@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { GetTaleDocument } from '~/graphql/generated'
 
-const route = useActiveRoute()
+const route = useRoute()
 
 const { result } = useQuery(GetTaleDocument, () => ({
    id: Number.parseInt(route.params.id as string),

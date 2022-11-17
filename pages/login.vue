@@ -20,7 +20,7 @@ definePageMeta({
    layout: 'center',
 })
 
-const { query } = useActiveRoute()
+const { query } = useRoute()
 const router = useRouter()
 const { result } = useQuery(ApiSettingsDocument)
 

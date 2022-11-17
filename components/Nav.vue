@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { BookOpenIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 
-const route = useActiveRoute()
+const route = useRoute()
 
 const links = ref([
    { display: 'Map', to: '/map', icon: MapIcon },

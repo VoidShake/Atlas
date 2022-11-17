@@ -1,16 +1,8 @@
 <template>
-   <Teleport to="#action-buttons">
-      <button @click="$emit('click')">
-         <slot />
-      </button>
-   </Teleport>
+   <button>
+      <slot />
+   </button>
 </template>
-
-<script lang="ts" setup>
-defineEmits<{
-   (e: 'click'): void
-}>()
-</script>
 
 <style lang="scss" scoped>
 button {

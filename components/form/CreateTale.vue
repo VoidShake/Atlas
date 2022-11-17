@@ -26,13 +26,14 @@
 import {
    CreateTaleDocument,
    CreateTaleDraftDocument,
+   CreateTaleDraftMutation,
    CreateTaleInput,
    CreateTaleMutation,
    Permission,
 } from '~~/graphql/generated'
 
 const { hasPermission } = useSession()
-const { query } = useActiveRoute()
+const { query } = useRoute()
 
 const onlyDraft = computed(() => {
    if ('draft' in query) return true
@@ -40,7 +41,7 @@ const onlyDraft = computed(() => {
 })
 
 const emit = defineEmits<{
-   (e: 'saved', data: CreateTaleMutation, draft: boolean): void
+   (e: 'saved', data: CreateTaleMutation | CreateTaleDraftMutation): void
 }>()
 
 const props = defineProps<{
@@ -63,7 +64,7 @@ async function save(input: CreateTaleInput, draft: boolean) {
    const create = draft ? createTaleDraft : createTale
    const response = await create({ input, locations: locations.value })
    const data = response?.data
-   if (data) emit('saved', data, draft)
+   if (data) emit('saved', data)
 }
 </script>
 

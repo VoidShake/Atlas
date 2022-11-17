@@ -22,7 +22,9 @@ query getLocationDraft($id: Int!) {
 }
 
 mutation createLocationDraft($input: CreateLocationInput!) {
-   created: createLocationDraft(input: $input)
+   created: createLocationDraft(input: $input) {
+      id
+   }
 }
 
 mutation proposeLocation($draft: Int!) {

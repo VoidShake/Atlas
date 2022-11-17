@@ -20,7 +20,7 @@
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/solid'
 import { GetLocationDocument } from '~/graphql/generated'
 
-const route = useActiveRoute()
+const route = useRoute()
 
 const { result } = useQuery(GetLocationDocument, () => ({
    slug: route.params.slug as string,

@@ -2,9 +2,9 @@
    <div>
       <h1>{{ tale.title }} <slot name="title" /></h1>
 
-      <StyledActionButton>
+      <ActionButton>
          <PencilIcon />
-      </StyledActionButton>
+      </ActionButton>
 
       <p class="my-5">
          <Pill v-for="location of tale.locations.nodes" :key="location.id">

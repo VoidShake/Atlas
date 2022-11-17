@@ -4,9 +4,9 @@
          <template v-if="result.taleDraft.proposed" #title>
             <Pill class="text-sm"> Proposed </Pill>
          </template>
-         <StyledActionButton v-if="!result.taleDraft.proposed" @click="propose">
+         <ActionButton v-if="!result.taleDraft.proposed" @click="propose">
             <PaperAirplaneIcon />
-         </StyledActionButton>
+         </ActionButton>
       </TalePage>
    </section>
 </template>
@@ -15,7 +15,7 @@
 import { PaperAirplaneIcon } from '@heroicons/vue/24/solid'
 import { GetTaleDraftDocument, ProposeTaleDocument } from '~/graphql/generated'
 
-const route = useActiveRoute()
+const route = useRoute()
 const id = computed(() => Number.parseInt(route.params.id as string))
 
 const { result } = useQuery(GetTaleDraftDocument, () => ({

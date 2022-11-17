@@ -44,5 +44,15 @@ query getLocationById($id: Int!) {
 }
 
 mutation createLocation($input: CreateLocationInput!) {
-   created: createLocation(input: $input)
+   created: createLocation(input: $input) {
+      id
+      slug
+   }
+}
+
+mutation modifyLocation($id: Int!, $input: ModifyLocationInput!) {
+   created: modifyLocation(id: $id, input: $input) {
+      id
+      slug
+   }
 }
