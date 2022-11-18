@@ -2,9 +2,9 @@
    <div>
       <h1>{{ tale.title }} <slot name="title" /></h1>
 
-      <ActionButton>
+      <ActionLink :to="`${route.path}/edit`">
          <PencilIcon />
-      </ActionButton>
+      </ActionLink>
 
       <p class="my-5">
          <Pill v-for="location of tale.locations.nodes" :key="location.id">
@@ -22,6 +22,8 @@
 <script lang="ts" setup>
 import { MapPinIcon, PencilIcon } from '@heroicons/vue/24/solid'
 import { TaleFragment } from '~~/graphql/generated'
+
+const route = useRoute()
 
 defineProps<{
    tale: TaleFragment

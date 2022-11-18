@@ -3,6 +3,7 @@
       <FormKit
          type="textarea"
          :classes="{ input: 'min-h-64' }"
+         :value="value"
          :name="name"
          :label="label"
          :validation="validation"
@@ -18,13 +19,14 @@
 <script lang="ts" setup>
 import { debounce } from 'lodash-es'
 
-defineProps<{
+const props = defineProps<{
    name: string
    validation?: string
+   value?: string
    label: string
 }>()
 
-const debouncedValue = ref('')
+const debouncedValue = useState('debounces', () => props.value ?? '')
 
 const update = debounce((value: string) => {
    debouncedValue.value = value
