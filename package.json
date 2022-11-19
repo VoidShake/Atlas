@@ -33,7 +33,7 @@
       "lodash-es": "^4.17.21",
       "@types/lodash-es": "^4.17.6",
       "@types/marked": "^4.0.7",
-      "@types/node": "18.8.0",
+      "@types/node": "18.11.9",
       "@types/sanitize-html": "^2.6.2",
       "@volar-plugins/prettier": "^1.1.4",
       "@vue-leaflet/vue-leaflet": "^0.6.1",
