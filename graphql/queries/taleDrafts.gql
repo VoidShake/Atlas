@@ -23,6 +23,14 @@ mutation createTaleDraft($input: CreateTaleInput!, $locations: [Int!]) {
    }
 }
 
+mutation modifyTaleDraft($id: Int!, $input: ModifyTaleInput!, $addedLocations: [Int!]!, $removedLocations: [Int!]!) {
+   modified: modifyTaleDraft(id: $id, input: $input) {
+      id
+   }
+   addedLocations: addLocationsToTaleDraft(tale: $id, locations: $addedLocations)
+   removedLocations: removeLocationsFromTaleDraft(tale: $id, locations: $removedLocations)
+}
+
 mutation proposeTale($draft: Int!) {
    proposal: proposeTale(draftId: $draft)
 }

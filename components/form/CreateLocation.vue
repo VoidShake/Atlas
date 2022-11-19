@@ -33,7 +33,7 @@ import {
    CreateLocationInput,
    CreateLocationMutation,
    Permission,
-   Location,
+   AbstractLocation,
 } from '~~/graphql/generated'
 
 const { hasPermission } = useSession()
@@ -50,7 +50,7 @@ const emit = defineEmits<{
 
 defineProps<{
    updateId?: number
-   initial?: DeepPartial<Location>
+   initial?: DeepPartial<AbstractLocation>
 }>()
 
 const refetchQueries = ['getLocation', 'getLocations']

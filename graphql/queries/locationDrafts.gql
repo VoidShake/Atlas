@@ -27,6 +27,12 @@ mutation createLocationDraft($input: CreateLocationInput!) {
    }
 }
 
+mutation modifyLocationDraft($id: Int!, $input: ModifyLocationInput!) {
+   modified: modifyLocationDraft(id: $id, input: $input) {
+      id
+   }
+}
+
 mutation proposeLocation($draft: Int!) {
    proposal: proposeLocation(draftId: $draft)
 }

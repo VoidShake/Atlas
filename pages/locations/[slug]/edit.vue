@@ -21,7 +21,7 @@ async function modify(input: ModifyLocationInput) {
    if (!result.value) return
    const response = await mutate({ id: result.value.location.id, input })
    const data = response?.data
-   if (data) router.push(`/locations/${data.created.slug}`)
+   if (data) router.push(`/locations/${data.modified.slug}`)
 }
 
 definePageMeta({

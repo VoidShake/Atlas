@@ -26,7 +26,7 @@ const props = defineProps<{
    label: string
 }>()
 
-const debouncedValue = useState('debounces', () => props.value ?? '')
+const debouncedValue = useState('debounced', () => props.value ?? '')
 
 const update = debounce((value: string) => {
    debouncedValue.value = value

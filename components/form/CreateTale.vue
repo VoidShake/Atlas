@@ -8,7 +8,7 @@
          <MarkdownEditor name="text" :value="initial?.text" label="Text" validation="required" />
 
          <div id="buttons">
-            <slot name="buttons" :valid="valid" :value="value">
+            <slot name="buttons" :valid="valid" :value="value" :locations="locations">
                <FormKit v-if="!onlyDraft" type="submit" :disabled="!valid" @click.prevent="save(value, false)" />
                <FormKit
                   type="submit"
@@ -27,13 +27,13 @@
 <script lang="ts" setup>
 import { DeepPartial } from 'ts-essentials'
 import {
+   AbstractTale,
    CreateTaleDocument,
    CreateTaleDraftDocument,
    CreateTaleDraftMutation,
    CreateTaleInput,
    CreateTaleMutation,
    Permission,
-   Tale,
 } from '~~/graphql/generated'
 
 const { hasPermission } = useSession()
@@ -49,7 +49,7 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps<{
-   initial?: Omit<DeepPartial<Tale>, 'locations'>
+   initial?: DeepPartial<AbstractTale>
    initialLocations?: number[]
 }>()
 

@@ -51,7 +51,7 @@ mutation createLocation($input: CreateLocationInput!) {
 }
 
 mutation modifyLocation($id: Int!, $input: ModifyLocationInput!) {
-   created: modifyLocation(id: $id, input: $input) {
+   modified: modifyLocation(id: $id, input: $input) {
       id
       slug
    }

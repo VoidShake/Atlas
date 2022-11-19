@@ -56,8 +56,10 @@ mutation createTale($input: CreateTaleInput!, $locations: [Int!]) {
    }
 }
 
-mutation modifyTale($id: Int!, $input: ModifyTaleInput!) {
-   created: modifyTale(id: $id, input: $input) {
+mutation modifyTale($id: Int!, $input: ModifyTaleInput!, $addedLocations: [Int!]!, $removedLocations: [Int!]!) {
+   modified: modifyTale(id: $id, input: $input) {
       id
    }
+   addedLocations: addLocationsToTale(tale: $id, locations: $addedLocations)
+   removedLocations: removeLocationsFromTale(tale: $id, locations: $removedLocations)
 }
