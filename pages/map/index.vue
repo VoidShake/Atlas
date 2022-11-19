@@ -4,6 +4,4 @@ definePageMeta({
 })
 </script>
 
-<style>
-
-</style>
+<style></style>

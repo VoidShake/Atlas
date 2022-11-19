@@ -30,6 +30,4 @@ const limit = ref(24)
 const { result, next, previous } = usePagination(GetTaleDraftsDocument, limit)
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
