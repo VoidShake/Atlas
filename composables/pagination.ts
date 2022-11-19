@@ -1,4 +1,5 @@
 import { TypedDocumentNode } from '@graphql-typed-document-node/core'
+import type { OperationDefinitionNode } from 'graphql'
 import type { Ref } from 'vue'
 import { Exact, PageInfo, Pagination } from '~/graphql/generated'
 
@@ -20,13 +21,24 @@ export function usePagination<T, Q extends ConnectionQuery<T>>(
    document: TypedDocumentNode<Q, PaginationVariables>,
    limit: Ref<number>,
 ) {
-   const pagination = useState<Pagination>('pagination', () => ({ first: limit?.value }))
+   const key = computed(() => {
+      const operations = document.definitions.filter(
+         it => it.kind === 'OperationDefinition',
+      ) as OperationDefinitionNode[]
+      const queryNode = operations.find(it => it.operation === 'query')
+      return queryNode?.name?.value ?? ''
+   })
+
+   const pagination = useState<Pagination>(`pagination-${key.value}`, () => ({ first: limit?.value }))
 
    const { result, error } = useQuery(document, variables)
 
-   watch(limit, () => {
+   function reset() {
       pagination.value = { first: limit?.value }
-   })
+   }
+
+   watch(limit, reset)
+   watch(key, reset)
 
    function previous() {
       pagination.value = {
