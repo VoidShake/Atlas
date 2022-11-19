@@ -2,11 +2,9 @@
    <section>
       <StyledTitle> Browse the Libary </StyledTitle>
 
-      <NuxtLink v-if="hasPermission(Permission.TellTale, Permission.ProposeTale)" to="/library/write">
-         <StyledActionButton>
-            <PencilIcon />
-         </StyledActionButton>
-      </NuxtLink>
+      <ActionLink v-if="hasPermission(Permission.TellTale, Permission.ProposeTale)" to="/library/write">
+         <PencilIcon />
+      </ActionLink>
 
       <PaginatedList v-if="result" :connection="result.connection" verb="tales" @next="next" @previous="previous">
          <NuxtLink v-for="tale in result.connection.nodes" :key="tale.id" :to="`/library/${tale.id}`">

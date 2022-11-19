@@ -1,20 +1,18 @@
 <template>
-   <div>
-      <template v-if="result">
-         <h1>{{ result.location.name }}</h1>
-         <PosDisplay v-bind="result.location.pos" />
+   <section>
+      <LocationPage v-if="result" :location="result.location">
          <StyledPanel v-for="tale in result.location.tales.nodes" :key="tale.id" class="mt-4">
             <h3>{{ tale.title }}</h3>
             <MarkdownPreview :value="tale.text" />
          </StyledPanel>
-      </template>
-   </div>
+      </LocationPage>
+   </section>
 </template>
 
 <script lang="ts" setup>
 import { GetLocationDocument } from '~/graphql/generated'
 
-const route = useActiveRoute()
+const route = useRoute()
 
 const { result } = useQuery(GetLocationDocument, () => ({
    slug: route.params.slug as string,

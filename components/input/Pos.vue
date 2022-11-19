@@ -8,7 +8,14 @@ type="number"
 step="1"
 :value="floored?.x"
 />
-      <FormKit name="y" label="Y" type="number" step="1" :value="floored?.y" />
+      <FormKit
+name="y"
+placeholder="optional"
+label="Y"
+type="number"
+step="1"
+:value="floored?.y"
+/>
       <FormKit
 name="z"
 validation="required"
@@ -21,10 +28,10 @@ step="1"
 </template>
 
 <script lang="ts" setup>
-import { PosFragment } from '~~/graphql/generated'
+import { Point } from '~~/graphql/generated'
 
 const props = defineProps<{
-   initial?: PosFragment
+   initial?: Partial<Point>
 }>()
 
 const floored = computed(() => props.initial && roundPos(props.initial))

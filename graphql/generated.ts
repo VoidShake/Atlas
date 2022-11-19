@@ -12,8 +12,16 @@ export type Scalars = {
    Boolean: boolean
    Int: number
    Float: number
+   DateTime: number
    Long: any
    Short: any
+}
+
+export type AbstractDraft = {
+   authorId: Scalars['Int']
+   id: Scalars['Int']
+   originalId?: Maybe<Scalars['Int']>
+   timestamps: Timestamps
 }
 
 export type AbstractLocation = {
@@ -21,25 +29,36 @@ export type AbstractLocation = {
    id: Scalars['Int']
    name: Scalars['String']
    pos: Point
+   timestamps: Timestamps
+}
+
+export type AbstractProposal = {
+   draftId: Scalars['Int']
+   id: Scalars['Int']
+   submitterId: Scalars['Int']
+   timestamps: Timestamps
 }
 
 export type AbstractTale = {
    authorId: Scalars['Int']
    id: Scalars['Int']
    text: Scalars['String']
+   timestamps: Timestamps
    title: Scalars['String']
 }
 
-export type Account = Entity & {
-   __typename?: 'Account'
-   avatar?: Maybe<Scalars['String']>
-   email: Scalars['String']
-   id: Scalars['Int']
-   permissions: Array<Permission>
-   provider: AccountProvider
-   role: AccountRole
-   username: Scalars['String']
-}
+export type Account = Entity &
+   Timestamped & {
+      __typename?: 'Account'
+      avatar?: Maybe<Scalars['String']>
+      email: Scalars['String']
+      id: Scalars['Int']
+      permissions: Array<Permission>
+      provider: AccountProvider
+      role: AccountRole
+      timestamps: Timestamps
+      username: Scalars['String']
+   }
 
 export type AccountConnection = {
    __typename?: 'AccountConnection'
@@ -87,12 +106,15 @@ export type CreateTaleInput = {
 
 export type Entity = {
    id: Scalars['Int']
+   timestamps: Timestamps
 }
 
 export type Location = AbstractLocation &
-   Entity & {
+   Entity &
+   Timestamped & {
       __typename?: 'Location'
       approverId: Scalars['Int']
+      author: Account
       authorId: Scalars['Int']
       draft?: Maybe<LocationDraft>
       id: Scalars['Int']
@@ -100,6 +122,7 @@ export type Location = AbstractLocation &
       pos: Point
       slug: Scalars['String']
       tales: TaleConnection
+      timestamps: Timestamps
    }
 
 export type LocationTalesArgs = {
@@ -114,9 +137,12 @@ export type LocationConnection = {
    totalCount: Scalars['Long']
 }
 
-export type LocationDraft = AbstractLocation &
-   Entity & {
+export type LocationDraft = AbstractDraft &
+   AbstractLocation &
+   Entity &
+   Timestamped & {
       __typename?: 'LocationDraft'
+      author: Account
       authorId: Scalars['Int']
       id: Scalars['Int']
       name: Scalars['String']
@@ -125,6 +151,7 @@ export type LocationDraft = AbstractLocation &
       pos: Point
       proposal?: Maybe<LocationProposal>
       proposed: Scalars['Boolean']
+      timestamps: Timestamps
    }
 
 export type LocationDraftConnection = {
@@ -147,12 +174,17 @@ export type LocationEdge = {
    node: Location
 }
 
-export type LocationProposal = Entity & {
-   __typename?: 'LocationProposal'
-   draftId: Scalars['Int']
-   id: Scalars['Int']
-   submitterId: Scalars['Int']
-}
+export type LocationProposal = AbstractProposal &
+   Entity &
+   Timestamped & {
+      __typename?: 'LocationProposal'
+      draft: LocationDraft
+      draftId: Scalars['Int']
+      id: Scalars['Int']
+      submitter: Account
+      submitterId: Scalars['Int']
+      timestamps: Timestamps
+   }
 
 export type LocationProposalConnection = {
    __typename?: 'LocationProposalConnection'
@@ -184,40 +216,42 @@ export type ModifyTaleInput = {
 /** Mutation object */
 export type Mutation = {
    __typename?: 'Mutation'
-   addLocationToTale: Scalars['Boolean']
-   addLocationToTaleDraft: Scalars['Boolean']
+   addLocationsToTale: Scalars['Boolean']
+   addLocationsToTaleDraft: Scalars['Boolean']
    approveLocation: Scalars['Int']
    approveTale: Scalars['Int']
-   createLocation: Scalars['Int']
-   createLocationDraft: Scalars['Int']
-   createTale: Scalars['Int']
-   createTaleDraft: Scalars['Int']
+   createLocation: Location
+   createLocationDraft: LocationDraft
+   createTale: Tale
+   createTaleDraft: TaleDraft
    deleteLocation: Scalars['Boolean']
    deleteLocationDraft: Scalars['Boolean']
    deleteTale: Scalars['Boolean']
    deleteTaleDraft: Scalars['Boolean']
    impersonate: TokenResponse
-   modifyLocation: Scalars['Boolean']
-   modifyLocationDraft: Scalars['Boolean']
-   modifyTale: Scalars['Boolean']
-   modifyTaleDraft: Scalars['Boolean']
+   modifyLocation: Location
+   modifyLocationDraft: LocationDraft
+   modifyTale: Tale
+   modifyTaleDraft: TaleDraft
    proposeLocation: Scalars['Boolean']
    proposeTale: Scalars['Boolean']
    refuseLocation: Scalars['Boolean']
    refuseTale: Scalars['Boolean']
+   removeLocationsFromTale: Scalars['Boolean']
+   removeLocationsFromTaleDraft: Scalars['Boolean']
    withdrawLocation: Scalars['Boolean']
    withdrawTale: Scalars['Boolean']
 }
 
 /** Mutation object */
-export type MutationAddLocationToTaleArgs = {
-   location: Scalars['Int']
+export type MutationAddLocationsToTaleArgs = {
+   locations: Array<Scalars['Int']>
    tale: Scalars['Int']
 }
 
 /** Mutation object */
-export type MutationAddLocationToTaleDraftArgs = {
-   location: Scalars['Int']
+export type MutationAddLocationsToTaleDraftArgs = {
+   locations: Array<Scalars['Int']>
    tale: Scalars['Int']
 }
 
@@ -323,6 +357,18 @@ export type MutationRefuseTaleArgs = {
 }
 
 /** Mutation object */
+export type MutationRemoveLocationsFromTaleArgs = {
+   locations: Array<Scalars['Int']>
+   tale: Scalars['Int']
+}
+
+/** Mutation object */
+export type MutationRemoveLocationsFromTaleDraftArgs = {
+   locations: Array<Scalars['Int']>
+   tale: Scalars['Int']
+}
+
+/** Mutation object */
 export type MutationWithdrawLocationArgs = {
    draftId: Scalars['Int']
 }
@@ -373,6 +419,8 @@ export type Query = {
    __typename?: 'Query'
    account: Account
    accounts: AccountConnection
+   createLocationDraftFrom: LocationDraft
+   createTaleDraftFrom: TaleDraft
    location: Location
    locationBySlug: Location
    locationDraft: LocationDraft
@@ -398,6 +446,16 @@ export type QueryAccountArgs = {
 /** Query object */
 export type QueryAccountsArgs = {
    pagination?: InputMaybe<Pagination>
+}
+
+/** Query object */
+export type QueryCreateLocationDraftFromArgs = {
+   original: Scalars['Int']
+}
+
+/** Query object */
+export type QueryCreateTaleDraftFromArgs = {
+   original: Scalars['Int']
 }
 
 /** Query object */
@@ -466,14 +524,17 @@ export type QueryTalesArgs = {
 }
 
 export type Tale = AbstractTale &
-   Entity & {
+   Entity &
+   Timestamped & {
       __typename?: 'Tale'
       approverId: Scalars['Int']
+      author: Account
       authorId: Scalars['Int']
       draft?: Maybe<LocationDraft>
       id: Scalars['Int']
       locations: LocationConnection
       text: Scalars['String']
+      timestamps: Timestamps
       title: Scalars['String']
    }
 
@@ -489,9 +550,12 @@ export type TaleConnection = {
    totalCount: Scalars['Long']
 }
 
-export type TaleDraft = AbstractTale &
-   Entity & {
+export type TaleDraft = AbstractDraft &
+   AbstractTale &
+   Entity &
+   Timestamped & {
       __typename?: 'TaleDraft'
+      author: Account
       authorId: Scalars['Int']
       id: Scalars['Int']
       locations: LocationConnection
@@ -500,6 +564,7 @@ export type TaleDraft = AbstractTale &
       proposal?: Maybe<TaleProposal>
       proposed: Scalars['Boolean']
       text: Scalars['String']
+      timestamps: Timestamps
       title: Scalars['String']
    }
 
@@ -527,12 +592,17 @@ export type TaleEdge = {
    node: Tale
 }
 
-export type TaleProposal = Entity & {
-   __typename?: 'TaleProposal'
-   draftId: Scalars['Int']
-   id: Scalars['Int']
-   submitterId: Scalars['Int']
-}
+export type TaleProposal = AbstractProposal &
+   Entity &
+   Timestamped & {
+      __typename?: 'TaleProposal'
+      draft: TaleDraft
+      draftId: Scalars['Int']
+      id: Scalars['Int']
+      submitter: Account
+      submitterId: Scalars['Int']
+      timestamps: Timestamps
+   }
 
 export type TaleProposalConnection = {
    __typename?: 'TaleProposalConnection'
@@ -546,6 +616,16 @@ export type TaleProposalEdge = {
    __typename?: 'TaleProposalEdge'
    cursor: Scalars['String']
    node: TaleProposal
+}
+
+export type Timestamped = {
+   timestamps: Timestamps
+}
+
+export type Timestamps = {
+   __typename?: 'Timestamps'
+   createdAt: Scalars['DateTime']
+   modifiedAt: Scalars['DateTime']
 }
 
 export type TokenResponse = {
@@ -598,6 +678,14 @@ export type ImpersonateMutation = {
    impersonate: { __typename?: 'TokenResponse'; token: string }
 }
 
+export type LocationDraftFragment = {
+   __typename?: 'LocationDraft'
+   proposed: boolean
+   id: number
+   name: string
+   pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
+}
+
 export type GetLocationDraftsQueryVariables = Exact<{
    pagination?: InputMaybe<Pagination>
 }>
@@ -632,6 +720,7 @@ export type GetLocationDraftQuery = {
    __typename?: 'Query'
    locationDraft: {
       __typename?: 'LocationDraft'
+      proposed: boolean
       id: number
       name: string
       pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
@@ -642,7 +731,101 @@ export type CreateLocationDraftMutationVariables = Exact<{
    input: CreateLocationInput
 }>
 
-export type CreateLocationDraftMutation = { __typename?: 'Mutation'; created: number }
+export type CreateLocationDraftMutation = {
+   __typename?: 'Mutation'
+   created: { __typename?: 'LocationDraft'; id: number }
+}
+
+export type ModifyLocationDraftMutationVariables = Exact<{
+   id: Scalars['Int']
+   input: ModifyLocationInput
+}>
+
+export type ModifyLocationDraftMutation = {
+   __typename?: 'Mutation'
+   modified: { __typename?: 'LocationDraft'; id: number }
+}
+
+export type ProposeLocationMutationVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type ProposeLocationMutation = { __typename?: 'Mutation'; proposal: boolean }
+
+export type LocationProposalPreviewFragment = {
+   __typename?: 'LocationProposal'
+   submitter: { __typename?: 'Account'; email: string; username: string; avatar?: string | null }
+   draft: {
+      __typename?: 'LocationDraft'
+      id: number
+      name: string
+      original?: { __typename?: 'Location'; id: number; name: string } | null
+   }
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+export type GetLocationProposalsQueryVariables = Exact<{
+   pagination?: InputMaybe<Pagination>
+}>
+
+export type GetLocationProposalsQuery = {
+   __typename?: 'Query'
+   connection: {
+      __typename?: 'LocationProposalConnection'
+      totalCount: any
+      nodes: Array<{
+         __typename?: 'LocationProposal'
+         submitter: { __typename?: 'Account'; email: string; username: string; avatar?: string | null }
+         draft: {
+            __typename?: 'LocationDraft'
+            id: number
+            name: string
+            original?: { __typename?: 'Location'; id: number; name: string } | null
+         }
+         timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+      }>
+      pageInfo: {
+         __typename?: 'PageInfo'
+         hasPreviousPage: boolean
+         hasNextPage: boolean
+         startCursor?: string | null
+         endCursor?: string | null
+         offset: any
+      }
+   }
+}
+
+export type GetLocationProposalQueryVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type GetLocationProposalQuery = {
+   __typename?: 'Query'
+   proposal: {
+      __typename?: 'LocationProposal'
+      draft: {
+         __typename?: 'LocationDraft'
+         id: number
+         name: string
+         pos: { __typename?: 'Point'; x: number; y?: number | null; z: number }
+         original?: { __typename?: 'Location'; id: number; name: string } | null
+      }
+      submitter: { __typename?: 'Account'; email: string; username: string; avatar?: string | null }
+      timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+   }
+}
+
+export type ApproveLocationMutationVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type ApproveLocationMutation = { __typename?: 'Mutation'; converted: number }
+
+export type RefuseLocationMutationVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type RefuseLocationMutation = { __typename?: 'Mutation'; converted: boolean }
 
 type LocationSummary_Location_Fragment = {
    __typename?: 'Location'
@@ -747,7 +930,20 @@ export type CreateLocationMutationVariables = Exact<{
    input: CreateLocationInput
 }>
 
-export type CreateLocationMutation = { __typename?: 'Mutation'; created: number }
+export type CreateLocationMutation = {
+   __typename?: 'Mutation'
+   created: { __typename?: 'Location'; id: number; slug: string }
+}
+
+export type ModifyLocationMutationVariables = Exact<{
+   id: Scalars['Int']
+   input: ModifyLocationInput
+}>
+
+export type ModifyLocationMutation = {
+   __typename?: 'Mutation'
+   modified: { __typename?: 'Location'; id: number; slug: string }
+}
 
 export type PosFragment = { __typename?: 'Point'; x: number; y?: number | null; z: number }
 
@@ -794,6 +990,50 @@ export type PageInfoFragment = {
    offset: any
 }
 
+type WithTime_Account_Fragment = {
+   __typename?: 'Account'
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+type WithTime_Location_Fragment = {
+   __typename?: 'Location'
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+type WithTime_LocationDraft_Fragment = {
+   __typename?: 'LocationDraft'
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+type WithTime_LocationProposal_Fragment = {
+   __typename?: 'LocationProposal'
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+type WithTime_Tale_Fragment = {
+   __typename?: 'Tale'
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+type WithTime_TaleDraft_Fragment = {
+   __typename?: 'TaleDraft'
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+type WithTime_TaleProposal_Fragment = {
+   __typename?: 'TaleProposal'
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+export type WithTimeFragment =
+   | WithTime_Account_Fragment
+   | WithTime_Location_Fragment
+   | WithTime_LocationDraft_Fragment
+   | WithTime_LocationProposal_Fragment
+   | WithTime_Tale_Fragment
+   | WithTime_TaleDraft_Fragment
+   | WithTime_TaleProposal_Fragment
+
 export type GetTaleDraftsQueryVariables = Exact<{
    pagination?: InputMaybe<Pagination>
 }>
@@ -828,6 +1068,7 @@ export type GetTaleDraftQuery = {
    __typename?: 'Query'
    taleDraft: {
       __typename?: 'TaleDraft'
+      proposed: boolean
       text: string
       id: number
       title: string
@@ -850,7 +1091,102 @@ export type CreateTaleDraftMutationVariables = Exact<{
    locations?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>
 }>
 
-export type CreateTaleDraftMutation = { __typename?: 'Mutation'; created: number }
+export type CreateTaleDraftMutation = { __typename?: 'Mutation'; created: { __typename?: 'TaleDraft'; id: number } }
+
+export type ModifyTaleDraftMutationVariables = Exact<{
+   id: Scalars['Int']
+   input: ModifyTaleInput
+   addedLocations: Array<Scalars['Int']> | Scalars['Int']
+   removedLocations: Array<Scalars['Int']> | Scalars['Int']
+}>
+
+export type ModifyTaleDraftMutation = {
+   __typename?: 'Mutation'
+   addedLocations: boolean
+   removedLocations: boolean
+   modified: { __typename?: 'TaleDraft'; id: number }
+}
+
+export type ProposeTaleMutationVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type ProposeTaleMutation = { __typename?: 'Mutation'; proposal: boolean }
+
+export type TaleProposalPreviewFragment = {
+   __typename?: 'TaleProposal'
+   submitter: { __typename?: 'Account'; email: string; username: string; avatar?: string | null }
+   draft: {
+      __typename?: 'TaleDraft'
+      id: number
+      title: string
+      original?: { __typename?: 'Tale'; id: number; title: string } | null
+   }
+   timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+}
+
+export type GetTaleProposalsQueryVariables = Exact<{
+   pagination?: InputMaybe<Pagination>
+}>
+
+export type GetTaleProposalsQuery = {
+   __typename?: 'Query'
+   connection: {
+      __typename?: 'TaleProposalConnection'
+      totalCount: any
+      nodes: Array<{
+         __typename?: 'TaleProposal'
+         submitter: { __typename?: 'Account'; email: string; username: string; avatar?: string | null }
+         draft: {
+            __typename?: 'TaleDraft'
+            id: number
+            title: string
+            original?: { __typename?: 'Tale'; id: number; title: string } | null
+         }
+         timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+      }>
+      pageInfo: {
+         __typename?: 'PageInfo'
+         hasPreviousPage: boolean
+         hasNextPage: boolean
+         startCursor?: string | null
+         endCursor?: string | null
+         offset: any
+      }
+   }
+}
+
+export type GetTaleProposalQueryVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type GetTaleProposalQuery = {
+   __typename?: 'Query'
+   proposal: {
+      __typename?: 'TaleProposal'
+      draft: {
+         __typename?: 'TaleDraft'
+         text: string
+         id: number
+         title: string
+         original?: { __typename?: 'Tale'; id: number; title: string } | null
+      }
+      submitter: { __typename?: 'Account'; email: string; username: string; avatar?: string | null }
+      timestamps: { __typename?: 'Timestamps'; createdAt: number; modifiedAt: number }
+   }
+}
+
+export type ApproveTaleMutationVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type ApproveTaleMutation = { __typename?: 'Mutation'; converted: number }
+
+export type RefuseTaleMutationVariables = Exact<{
+   draft: Scalars['Int']
+}>
+
+export type RefuseTaleMutation = { __typename?: 'Mutation'; converted: boolean }
 
 type TaleSummary_Tale_Fragment = {
    __typename?: 'Tale'
@@ -962,7 +1298,21 @@ export type CreateTaleMutationVariables = Exact<{
    locations?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>
 }>
 
-export type CreateTaleMutation = { __typename?: 'Mutation'; created: number }
+export type CreateTaleMutation = { __typename?: 'Mutation'; created: { __typename?: 'Tale'; id: number } }
+
+export type ModifyTaleMutationVariables = Exact<{
+   id: Scalars['Int']
+   input: ModifyTaleInput
+   addedLocations: Array<Scalars['Int']> | Scalars['Int']
+   removedLocations: Array<Scalars['Int']> | Scalars['Int']
+}>
+
+export type ModifyTaleMutation = {
+   __typename?: 'Mutation'
+   addedLocations: boolean
+   removedLocations: boolean
+   modified: { __typename?: 'Tale'; id: number }
+}
 
 export const UserFragmentDoc = {
    kind: 'Document',
@@ -976,6 +1326,7 @@ export const UserFragmentDoc = {
             selections: [
                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                { kind: 'Field', name: { kind: 'Name', value: 'avatar' } },
             ],
          },
@@ -1052,6 +1403,98 @@ export const MapLocationFragmentDoc = {
       ...PosFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<MapLocationFragment, unknown>
+export const LocationDraftFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'LocationDraft' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LocationDraft' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MapLocation' } },
+               { kind: 'Field', name: { kind: 'Name', value: 'proposed' } },
+            ],
+         },
+      },
+      ...MapLocationFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<LocationDraftFragment, unknown>
+export const WithTimeFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'WithTime' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Timestamped' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'timestamps' },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'modifiedAt' } },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<WithTimeFragment, unknown>
+export const LocationProposalPreviewFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'LocationProposalPreview' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LocationProposal' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               { kind: 'FragmentSpread', name: { kind: 'Name', value: 'WithTime' } },
+               {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'submitter' },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'User' } }],
+                  },
+               },
+               {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'draft' },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'original' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [
+                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                              ],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...WithTimeFragmentDoc.definitions,
+      ...UserFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<LocationProposalPreviewFragment, unknown>
 export const LocationSummaryFragmentDoc = {
    kind: 'Document',
    definitions: [
@@ -1145,6 +1588,54 @@ export const PageInfoFragmentDoc = {
       },
    ],
 } as unknown as DocumentNode<PageInfoFragment, unknown>
+export const TaleProposalPreviewFragmentDoc = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'FragmentDefinition',
+         name: { kind: 'Name', value: 'TaleProposalPreview' },
+         typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'TaleProposal' } },
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               { kind: 'FragmentSpread', name: { kind: 'Name', value: 'WithTime' } },
+               {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'submitter' },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'User' } }],
+                  },
+               },
+               {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'draft' },
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'original' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [
+                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                 { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                              ],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...WithTimeFragmentDoc.definitions,
+      ...UserFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<TaleProposalPreviewFragment, unknown>
 export const TaleSummaryFragmentDoc = {
    kind: 'Document',
    definitions: [
@@ -1443,13 +1934,13 @@ export const GetLocationDraftDocument = {
                   ],
                   selectionSet: {
                      kind: 'SelectionSet',
-                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MapLocation' } }],
+                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'LocationDraft' } }],
                   },
                },
             ],
          },
       },
-      ...MapLocationFragmentDoc.definitions,
+      ...LocationDraftFragmentDoc.definitions,
    ],
 } as unknown as DocumentNode<GetLocationDraftQuery, GetLocationDraftQueryVariables>
 export const CreateLocationDraftDocument = {
@@ -1483,12 +1974,288 @@ export const CreateLocationDraftDocument = {
                         value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
                      },
                   ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
                },
             ],
          },
       },
    ],
 } as unknown as DocumentNode<CreateLocationDraftMutation, CreateLocationDraftMutationVariables>
+export const ModifyLocationDraftDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'modifyLocationDraft' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: { kind: 'NamedType', name: { kind: 'Name', value: 'ModifyLocationInput' } },
+               },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'modified' },
+                  name: { kind: 'Name', value: 'modifyLocationDraft' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'id' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'input' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ModifyLocationDraftMutation, ModifyLocationDraftMutationVariables>
+export const ProposeLocationDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'proposeLocation' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'proposal' },
+                  name: { kind: 'Name', value: 'proposeLocation' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ProposeLocationMutation, ProposeLocationMutationVariables>
+export const GetLocationProposalsDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'query',
+         name: { kind: 'Name', value: 'getLocationProposals' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'pagination' } },
+               type: { kind: 'NamedType', name: { kind: 'Name', value: 'Pagination' } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'connection' },
+                  name: { kind: 'Name', value: 'locationProposals' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'pagination' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'pagination' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'nodes' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [
+                                 { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LocationProposalPreview' } },
+                              ],
+                           },
+                        },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'pageInfo' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageInfo' } }],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...LocationProposalPreviewFragmentDoc.definitions,
+      ...PageInfoFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<GetLocationProposalsQuery, GetLocationProposalsQueryVariables>
+export const GetLocationProposalDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'query',
+         name: { kind: 'Name', value: 'getLocationProposal' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'proposal' },
+                  name: { kind: 'Name', value: 'locationProposal' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LocationProposalPreview' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'draft' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [
+                                 {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'pos' },
+                                    selectionSet: {
+                                       kind: 'SelectionSet',
+                                       selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Pos' } }],
+                                    },
+                                 },
+                              ],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...LocationProposalPreviewFragmentDoc.definitions,
+      ...PosFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<GetLocationProposalQuery, GetLocationProposalQueryVariables>
+export const ApproveLocationDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'approveLocation' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'converted' },
+                  name: { kind: 'Name', value: 'approveLocation' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ApproveLocationMutation, ApproveLocationMutationVariables>
+export const RefuseLocationDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'refuseLocation' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'converted' },
+                  name: { kind: 'Name', value: 'refuseLocation' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<RefuseLocationMutation, RefuseLocationMutationVariables>
 export const GetLocationsDocument = {
    kind: 'Document',
    definitions: [
@@ -1658,12 +2425,73 @@ export const CreateLocationDocument = {
                         value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
                      },
                   ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                     ],
+                  },
                },
             ],
          },
       },
    ],
 } as unknown as DocumentNode<CreateLocationMutation, CreateLocationMutationVariables>
+export const ModifyLocationDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'modifyLocation' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: { kind: 'NamedType', name: { kind: 'Name', value: 'ModifyLocationInput' } },
+               },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'modified' },
+                  name: { kind: 'Name', value: 'modifyLocation' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'id' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'input' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ModifyLocationMutation, ModifyLocationMutationVariables>
 export const MapLocationsDocument = {
    kind: 'Document',
    definitions: [
@@ -1785,7 +2613,10 @@ export const GetTaleDraftDocument = {
                   ],
                   selectionSet: {
                      kind: 'SelectionSet',
-                     selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Tale' } }],
+                     selections: [
+                        { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Tale' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'proposed' } },
+                     ],
                   },
                },
             ],
@@ -1838,12 +2669,334 @@ export const CreateTaleDraftDocument = {
                         value: { kind: 'Variable', name: { kind: 'Name', value: 'locations' } },
                      },
                   ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
                },
             ],
          },
       },
    ],
 } as unknown as DocumentNode<CreateTaleDraftMutation, CreateTaleDraftMutationVariables>
+export const ModifyTaleDraftDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'modifyTaleDraft' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: { kind: 'NamedType', name: { kind: 'Name', value: 'ModifyTaleInput' } },
+               },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'addedLocations' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: {
+                     kind: 'ListType',
+                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                  },
+               },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'removedLocations' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: {
+                     kind: 'ListType',
+                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                  },
+               },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'modified' },
+                  name: { kind: 'Name', value: 'modifyTaleDraft' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'id' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'input' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+               },
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'addedLocations' },
+                  name: { kind: 'Name', value: 'addLocationsToTaleDraft' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'tale' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'locations' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'addedLocations' } },
+                     },
+                  ],
+               },
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'removedLocations' },
+                  name: { kind: 'Name', value: 'removeLocationsFromTaleDraft' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'tale' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'locations' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'removedLocations' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ModifyTaleDraftMutation, ModifyTaleDraftMutationVariables>
+export const ProposeTaleDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'proposeTale' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'proposal' },
+                  name: { kind: 'Name', value: 'proposeTale' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ProposeTaleMutation, ProposeTaleMutationVariables>
+export const GetTaleProposalsDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'query',
+         name: { kind: 'Name', value: 'getTaleProposals' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'pagination' } },
+               type: { kind: 'NamedType', name: { kind: 'Name', value: 'Pagination' } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'connection' },
+                  name: { kind: 'Name', value: 'taleProposals' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'pagination' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'pagination' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'nodes' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [
+                                 { kind: 'FragmentSpread', name: { kind: 'Name', value: 'TaleProposalPreview' } },
+                              ],
+                           },
+                        },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'pageInfo' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageInfo' } }],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...TaleProposalPreviewFragmentDoc.definitions,
+      ...PageInfoFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<GetTaleProposalsQuery, GetTaleProposalsQueryVariables>
+export const GetTaleProposalDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'query',
+         name: { kind: 'Name', value: 'getTaleProposal' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'proposal' },
+                  name: { kind: 'Name', value: 'taleProposal' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [
+                        { kind: 'FragmentSpread', name: { kind: 'Name', value: 'TaleProposalPreview' } },
+                        {
+                           kind: 'Field',
+                           name: { kind: 'Name', value: 'draft' },
+                           selectionSet: {
+                              kind: 'SelectionSet',
+                              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'text' } }],
+                           },
+                        },
+                     ],
+                  },
+               },
+            ],
+         },
+      },
+      ...TaleProposalPreviewFragmentDoc.definitions,
+   ],
+} as unknown as DocumentNode<GetTaleProposalQuery, GetTaleProposalQueryVariables>
+export const ApproveTaleDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'approveTale' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'converted' },
+                  name: { kind: 'Name', value: 'approveTale' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ApproveTaleMutation, ApproveTaleMutationVariables>
+export const RefuseTaleDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'refuseTale' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'converted' },
+                  name: { kind: 'Name', value: 'refuseTale' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'draftId' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'draft' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<RefuseTaleMutation, RefuseTaleMutationVariables>
 export const GetTalesDocument = {
    kind: 'Document',
    definitions: [
@@ -1984,12 +3137,123 @@ export const CreateTaleDocument = {
                         value: { kind: 'Variable', name: { kind: 'Name', value: 'locations' } },
                      },
                   ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
                },
             ],
          },
       },
    ],
 } as unknown as DocumentNode<CreateTaleMutation, CreateTaleMutationVariables>
+export const ModifyTaleDocument = {
+   kind: 'Document',
+   definitions: [
+      {
+         kind: 'OperationDefinition',
+         operation: 'mutation',
+         name: { kind: 'Name', value: 'modifyTale' },
+         variableDefinitions: [
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+               type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: { kind: 'NamedType', name: { kind: 'Name', value: 'ModifyTaleInput' } },
+               },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'addedLocations' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: {
+                     kind: 'ListType',
+                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                  },
+               },
+            },
+            {
+               kind: 'VariableDefinition',
+               variable: { kind: 'Variable', name: { kind: 'Name', value: 'removedLocations' } },
+               type: {
+                  kind: 'NonNullType',
+                  type: {
+                     kind: 'ListType',
+                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                  },
+               },
+            },
+         ],
+         selectionSet: {
+            kind: 'SelectionSet',
+            selections: [
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'modified' },
+                  name: { kind: 'Name', value: 'modifyTale' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'id' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'input' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                     },
+                  ],
+                  selectionSet: {
+                     kind: 'SelectionSet',
+                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+               },
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'addedLocations' },
+                  name: { kind: 'Name', value: 'addLocationsToTale' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'tale' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'locations' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'addedLocations' } },
+                     },
+                  ],
+               },
+               {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'removedLocations' },
+                  name: { kind: 'Name', value: 'removeLocationsFromTale' },
+                  arguments: [
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'tale' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                     },
+                     {
+                        kind: 'Argument',
+                        name: { kind: 'Name', value: 'locations' },
+                        value: { kind: 'Variable', name: { kind: 'Name', value: 'removedLocations' } },
+                     },
+                  ],
+               },
+            ],
+         },
+      },
+   ],
+} as unknown as DocumentNode<ModifyTaleMutation, ModifyTaleMutationVariables>
 
 export interface PossibleTypesResultData {
    possibleTypes: {
@@ -1998,9 +3262,12 @@ export interface PossibleTypesResultData {
 }
 const result: PossibleTypesResultData = {
    possibleTypes: {
+      AbstractDraft: ['LocationDraft', 'TaleDraft'],
       AbstractLocation: ['Location', 'LocationDraft'],
+      AbstractProposal: ['LocationProposal', 'TaleProposal'],
       AbstractTale: ['Tale', 'TaleDraft'],
       Entity: ['Account', 'Location', 'LocationDraft', 'LocationProposal', 'Tale', 'TaleDraft', 'TaleProposal'],
+      Timestamped: ['Account', 'Location', 'LocationDraft', 'LocationProposal', 'Tale', 'TaleDraft', 'TaleProposal'],
    },
 }
 export default result

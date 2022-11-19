@@ -1,5 +1,5 @@
 <template>
-   <section>
+   <SidePanel>
       <template v-if="result">
          <h1>{{ result.location.name }}</h1>
          <StyledPanel v-for="tale of result.location.tales.nodes" :key="tale.id" class="tale">
@@ -13,22 +13,22 @@
          </StyledPanel>
       </template>
       <p v-else>Loading...</p>
-   </section>
+   </SidePanel>
 </template>
 
 <script lang="ts" setup>
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/solid'
 import { GetLocationDocument } from '~/graphql/generated'
 
-definePageMeta({
-   layout: 'map',
-})
-
-const route = useActiveRoute()
+const route = useRoute()
 
 const { result } = useQuery(GetLocationDocument, () => ({
    slug: route.params.slug as string,
 }))
+
+definePageMeta({
+   layout: 'map',
+})
 </script>
 
 <style scoped>

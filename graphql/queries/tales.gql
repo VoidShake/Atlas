@@ -51,5 +51,15 @@ query getTale($id: Int!) {
 }
 
 mutation createTale($input: CreateTaleInput!, $locations: [Int!]) {
-   created: createTale(input: $input, locations: $locations)
+   created: createTale(input: $input, locations: $locations) {
+      id
+   }
+}
+
+mutation modifyTale($id: Int!, $input: ModifyTaleInput!, $addedLocations: [Int!]!, $removedLocations: [Int!]!) {
+   modified: modifyTale(id: $id, input: $input) {
+      id
+   }
+   addedLocations: addLocationsToTale(tale: $id, locations: $addedLocations)
+   removedLocations: removeLocationsFromTale(tale: $id, locations: $removedLocations)
 }

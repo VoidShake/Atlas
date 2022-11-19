@@ -12,3 +12,6 @@ extensions:
                - fragment-matcher
                - add:
                     content: /* eslint-disable */
+      config:
+         scalars:
+            DateTime: number

@@ -1,8 +1,13 @@
-import { PosFragment } from '~~/graphql/generated'
+import { Point, PosFragment } from '~~/graphql/generated'
 
-export const roundPos = (pos: PosFragment): PosFragment => {
+function floorOptional(i: number | undefined | null) {
+   if (notNull(i)) return Math.floor(i)
+   return i
+}
+
+export function roundPos<P extends Partial<Point>>(pos: P): P {
    const { x, y, z } = pos
-   return { x: Math.floor(x), y: Math.floor(y), z: Math.floor(z) }
+   return { ...pos, x: floorOptional(x), y: floorOptional(y), z: floorOptional(z) }
 }
 
 export const formatPos = (pos: PosFragment) => {

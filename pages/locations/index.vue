@@ -2,11 +2,9 @@
    <section>
       <StyledTitle> Browse all Locations </StyledTitle>
 
-      <NuxtLink v-if="hasPermission(Permission.CreateLocation, Permission.ProposeLocation)" to="/locations/create">
-         <StyledActionButton>
-            <PencilIcon />
-         </StyledActionButton>
-      </NuxtLink>
+      <ActionLink v-if="hasPermission(Permission.CreateLocation, Permission.ProposeLocation)" to="/locations/create">
+         <PencilIcon />
+      </ActionLink>
 
       <PaginatedList v-if="result" :connection="result.connection" verb="locations" @next="next" @previous="previous">
          <NuxtLink v-for="location in result.connection.nodes" :key="location.id" :to="`/locations/${location.slug}`">

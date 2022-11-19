@@ -13,9 +13,24 @@ query getTaleDrafts($pagination: Pagination) {
 query getTaleDraft($id: Int!) {
    taleDraft(id: $id) {
       ...Tale
+      proposed
    }
 }
 
 mutation createTaleDraft($input: CreateTaleInput!, $locations: [Int!]) {
-   created: createTaleDraft(input: $input, locations: $locations)
+   created: createTaleDraft(input: $input, locations: $locations) {
+      id
+   }
+}
+
+mutation modifyTaleDraft($id: Int!, $input: ModifyTaleInput!, $addedLocations: [Int!]!, $removedLocations: [Int!]!) {
+   modified: modifyTaleDraft(id: $id, input: $input) {
+      id
+   }
+   addedLocations: addLocationsToTaleDraft(tale: $id, locations: $addedLocations)
+   removedLocations: removeLocationsFromTaleDraft(tale: $id, locations: $removedLocations)
+}
+
+mutation proposeTale($draft: Int!) {
+   proposal: proposeTale(draftId: $draft)
 }

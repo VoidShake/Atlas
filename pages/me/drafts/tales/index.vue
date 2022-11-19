@@ -2,11 +2,9 @@
    <section>
       <StyledTitle> Your Tale Drafts </StyledTitle>
 
-      <NuxtLink v-if="hasPermission(Permission.DraftTale)" to="/library/write?draft">
-         <StyledActionButton>
-            <PencilIcon />
-         </StyledActionButton>
-      </NuxtLink>
+      <ActionLink v-if="hasPermission(Permission.DraftTale)" to="/library/write?draft">
+         <PencilIcon />
+      </ActionLink>
 
       <PaginatedList
          v-if="result"
