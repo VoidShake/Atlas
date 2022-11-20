@@ -19,8 +19,8 @@ fragment Location on Location {
    }
 }
 
-query getLocations($pagination: Pagination) {
-   connection: locations(pagination: $pagination) {
+query getLocations($pagination: Pagination, $filter: LocationFilter) {
+   connection: locations(pagination: $pagination, filter: $filter) {
       totalCount
       nodes {
          ...LocationSummary

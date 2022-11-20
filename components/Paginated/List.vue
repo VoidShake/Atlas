@@ -1,5 +1,6 @@
 <template>
    <section>
+      <slot name="filter" />
       <p class="py-4 text-center">
          <em> Found {{ connection.totalCount }} total {{ verb }} </em>
       </p>

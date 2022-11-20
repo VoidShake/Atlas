@@ -13,13 +13,15 @@ export interface ConnectionQuery<T> {
    connection: Connection<T>
 }
 
-type PaginationVariables = Exact<{
+type PaginationVariables<F> = Exact<{
    pagination?: Pagination
+   filter?: F
 }>
 
-export function usePagination<T, Q extends ConnectionQuery<T>>(
-   document: TypedDocumentNode<Q, PaginationVariables>,
+export function usePagination<T, Q extends ConnectionQuery<T>, F>(
+   document: TypedDocumentNode<Q, PaginationVariables<F>>,
    limit: Ref<number>,
+   filter?: Ref<F>,
 ) {
    const key = computed(() => {
       const operations = document.definitions.filter(
@@ -31,7 +33,10 @@ export function usePagination<T, Q extends ConnectionQuery<T>>(
 
    const pagination = useState<Pagination>(`pagination-${key.value}`, () => ({ first: limit?.value }))
 
-   const { result, error } = useQuery(document, variables)
+   const { result, error } = useQuery(document, () => ({
+      pagination: pagination.value,
+      filter: filter?.value,
+   }))
 
    function reset() {
       pagination.value = { first: limit?.value }
@@ -39,6 +44,7 @@ export function usePagination<T, Q extends ConnectionQuery<T>>(
 
    watch(limit, reset)
    watch(key, reset)
+   if (filter) watch(filter, reset)
 
    function previous() {
       pagination.value = {
@@ -52,10 +58,6 @@ export function usePagination<T, Q extends ConnectionQuery<T>>(
          after: result.value?.connection.pageInfo.endCursor,
          first: limit?.value,
       }
-   }
-
-   function variables() {
-      return { pagination: pagination.value }
    }
 
    return { next, previous, result, error }
