@@ -1,11 +1,11 @@
 <template>
-   <FormKit v-model="locale" type="select" label="Change language" :options="options" />
+   <FormKit :value="locale" type="select" label="Change language" :options="options" @input="setLocale" />
 </template>
 
 <script lang="ts" setup>
 import { FormKitOptionsItem } from '@formkit/inputs'
 
-const { locale, locales } = useI18n()
+const { locale, locales, setLocale } = useI18n()
 const options = computed(() =>
    locales.value.map<FormKitOptionsItem>(it => {
       if (typeof it === 'string') return { value: it, label: it }

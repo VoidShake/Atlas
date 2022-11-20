@@ -54,6 +54,9 @@ const config: DefaultConfigOptions = {
          multi: inputBase,
          button,
          submit: button,
+         select: extend({
+            option: 'bg-solid-800  select-none',
+         }),
       }),
    },
    iconLoader: async iconName => {

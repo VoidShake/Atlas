@@ -9,7 +9,7 @@
       <PaginatedList
          v-if="result"
          :connection="result.connection"
-         verb="place drafts"
+         verb="place_drafts"
          @next="next"
          @previous="previous"
       >

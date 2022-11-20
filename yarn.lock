@@ -1557,7 +1557,7 @@
     eslint-plugin-vue "^9.7.0"
     local-pkg "^0.4.2"
 
-"@nuxtjs/i18n@npm:@nuxtjs/i18n-edge":
+"@nuxtjs/i18n-edge@npm:@nuxtjs/i18n-edge", "@nuxtjs/i18n@npm:@nuxtjs/i18n-edge":
   version "8.0.0-beta.6-27829608.54a157b"
   resolved "https://registry.yarnpkg.com/@nuxtjs/i18n-edge/-/i18n-edge-8.0.0-beta.6-27829608.54a157b.tgz#effafad4e48c9667dcc5f1a48ec77a2cf98d32f2"
   integrity sha512-ueOYxou8EI32ABYgKKaQL9I0rFDxv11+9E0aMlbn4nzCIR2tcxmn8EbPxX/SmUIy1HeCJy+V6pLhSC1L/jJZ+A==
