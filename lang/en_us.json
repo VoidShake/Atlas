@@ -1,8 +1,14 @@
 {
-   "result": {
-      "location": "no locations | one location | {n} locations",
-      "tale": "no tales | one tale | {n} tales",
-      "location_draft": "no location drafts | one location draft | {n} tales drafts",
-      "tale_draft": "no tale drafts | one tale draft | {n} tales drafts"
+   "search": {
+      "found": "Found {0}"
+   },
+   "enumeration": {
+      "locations": "no locations | one location | {n} locations",
+      "tales": "no tales | one tale | {n} tales",
+      "location_drafts": "no location drafts | one location draft | {n} tales drafts",
+      "tale_drafts": "no tale drafts | one tale draft | {n} tales drafts"
+   },
+   "settings": {
+      "title": "Settings"
    }
 }

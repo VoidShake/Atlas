@@ -1,7 +1,7 @@
 <template>
    <section>
-      <p class="py-4 text-center">
-         <em> Found {{ connection.totalCount }} total {{ verb }} </em>
+      <p v-if="notNull(connection.totalCount)" class="py-4 text-center">
+         <em> {{ $t('search.found', [$t(`enumeration.${verb}`, { n: connection.totalCount })]) }} </em>
       </p>
       <StyledList>
          <slot />

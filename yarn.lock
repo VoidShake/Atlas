@@ -1543,7 +1543,7 @@
     eslint-plugin-unicorn "^43.0.2"
     eslint-plugin-vue "^9.4.0"
 
-"@nuxtjs/i18n@npm:@nuxtjs/i18n-edge":
+"@nuxtjs/i18n-edge@npm:@nuxtjs/i18n-edge", "@nuxtjs/i18n@npm:@nuxtjs/i18n-edge":
   version "8.0.0-beta.4-27812700.b832f07"
   resolved "https://registry.yarnpkg.com/@nuxtjs/i18n-edge/-/i18n-edge-8.0.0-beta.4-27812700.b832f07.tgz#22f9cbf7281db3641475bc1415abbe31c7be3ffb"
   integrity sha512-IqZzDLB9tXqBAyoD7otomowFCY8i2WsVEdcxpNiJSUg4c9x6chOvyc19D3HFA+hWlSJV2g41h9b0XLLXrkhItg==

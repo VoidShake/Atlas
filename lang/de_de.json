@@ -1,6 +1,12 @@
 {
-   "result": {
-      "location": "kein Orte | ein Ort | {n} Orte",
-      "tale": "keine Geschichten | eine Geschichte | {n} Geschichten"
+   "search": {
+      "found": "{0} gefunden"
+   },
+   "enumeration": {
+      "locations": "kein Orte | ein Ort | {n} Orte",
+      "tales": "keine Geschichten | eine Geschichte | {n} Geschichten"
+   },
+   "settings": {
+      "title": "Einstellungen"
    }
 }
