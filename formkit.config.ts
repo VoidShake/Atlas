@@ -33,6 +33,7 @@ const config: DefaultConfigOptions = {
          },
          text: extend({ input: 'h-8' }),
          number: extend({ input: 'h-8' }),
+         date: extend({ input: 'h-8' }),
          textarea: extend({ input: 'resize-none' }),
          button,
          submit: button,

@@ -15,7 +15,9 @@
             <PaginatedFilter v-model="filter">
                <FormKit placeholder="Name" name="name" type="text" />
                <FormKit placeholder="World" name="world" type="text" />
+               <InputDate placeholder="After" name="createdAfter" type="date" />
             </PaginatedFilter>
+            <pre> {{ filter }} </pre>
          </template>
       </PaginatedList>
    </section>

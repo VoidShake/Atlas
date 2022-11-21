@@ -74,6 +74,10 @@ export type AccountEdge = {
 };
 
 export type AccountFilter = {
+  createdAfter?: InputMaybe<Scalars['DateTime']>;
+  createdBefore?: InputMaybe<Scalars['DateTime']>;
+  modifiedAfter?: InputMaybe<Scalars['DateTime']>;
+  modifiedBefore?: InputMaybe<Scalars['DateTime']>;
   role?: InputMaybe<AccountRole>;
   username?: InputMaybe<Scalars['String']>;
 };
@@ -176,7 +180,12 @@ export type LocationEdge = {
 
 export type LocationFilter = {
   author?: InputMaybe<Scalars['Int']>;
+  createdAfter?: InputMaybe<Scalars['DateTime']>;
+  createdBefore?: InputMaybe<Scalars['DateTime']>;
+  modifiedAfter?: InputMaybe<Scalars['DateTime']>;
+  modifiedBefore?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
+  world?: InputMaybe<Scalars['String']>;
 };
 
 export type LocationProposal = AbstractProposal & Entity & Timestamped & {
@@ -641,6 +650,10 @@ export type TaleEdge = {
 
 export type TaleFilter = {
   author?: InputMaybe<Scalars['Int']>;
+  createdAfter?: InputMaybe<Scalars['DateTime']>;
+  createdBefore?: InputMaybe<Scalars['DateTime']>;
+  modifiedAfter?: InputMaybe<Scalars['DateTime']>;
+  modifiedBefore?: InputMaybe<Scalars['DateTime']>;
   title?: InputMaybe<Scalars['String']>;
 };
 
