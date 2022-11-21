@@ -32,8 +32,8 @@ fragment Tale on AbstractTale {
    }
 }
 
-query getTales($pagination: Pagination) {
-   connection: tales(pagination: $pagination) {
+query getTales($pagination: Pagination, $filter: TaleFilter) {
+   connection: tales(pagination: $pagination, filter: $filter) {
       totalCount
       nodes {
          ...TaleSummary
