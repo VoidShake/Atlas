@@ -12,12 +12,12 @@
          </NuxtLink>
 
          <template #filter>
-            <PaginatedFilter v-model="filter">
-               <FormKit placeholder="Name" name="name" type="text" />
-               <FormKit placeholder="World" name="world" type="text" />
-               <InputDate placeholder="After" name="createdAfter" type="date" />
+            <PaginatedFilter id="locations" v-model="filter">
+               <FormKit label="Name" name="name" type="text" />
+               <FormKit label="World" name="world" type="text" suffix-icon="location-marker" />
+               <FormKit label="Created After" name="createdAfter" type="date" />
+               <FormKit label="Created Before" name="createdBefore" type="date" />
             </PaginatedFilter>
-            <pre> {{ filter }} </pre>
          </template>
       </PaginatedList>
    </section>

@@ -39,6 +39,8 @@ body {
    @apply bg-solid-800 transition-colors;
 
    @apply text-black;
+   @apply accent-accent-500;
+   color-scheme: light;
 
    --solid-50: theme(colors.solid.light-50);
    @for $i from 100 to 900 by 100 {
@@ -49,6 +51,8 @@ body {
 
 .dark-mode body {
    @apply text-white;
+   color-scheme: dark;
+
    --solid-50: theme(colors.solid.dark-50);
    @for $i from 100 to 900 by 100 {
       --solid-$(i): theme(colors.solid.dark-$(i));
@@ -58,6 +62,8 @@ body {
 
 .sepia-mode body {
    @apply text-white;
+   color-scheme: dark;
+
    --solid-50: theme(colors.solid.sepia-50);
    @for $i from 100 to 900 by 100 {
       --solid-$(i): theme(colors.solid.sepia-$(i));

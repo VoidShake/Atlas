@@ -1,22 +1,37 @@
 <template>
-   <FormKit type="form" :actions="false" :value="modelValue" @input="$emit('update:modelValue', $event)">
-      <span class="bg-solid-900 p-3 rounded"> Filter by </span>
+   <FormKit
+      :id="filterId"
+      :classes="{ form: 'grid grid-flow-col gap-2 w-max mx-auto items-end' }"
+      type="form"
+      :actions="false"
+      :value="rawValue"
+      @input="update"
+   >
+      <span class="bg-solid-900 p-3 rounded mb-2"> Filter by </span>
       <slot />
+      <FormKit type="button" suffix-icon="trash" @click="reset(filterId)"> Reset </FormKit>
    </FormKit>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-   modelValue?: unknown
+import { reset } from '@formkit/core'
+import type { TimestampFilter, RawTimestampFilter } from '~~/composables/useFilter'
+
+const props = defineProps<{
+   id: string
+   modelValue?: TimestampFilter
 }>()
 
-defineEmits<{
-   (e: 'update:modelValue', value: unknown): void
+const emit = defineEmits<{
+   (e: 'update:modelValue', value: TimestampFilter): void
 }>()
-</script>
 
-<styled lang="scss" scoped>
-form {
-   @apply grid grid-flow-col gap-2 w-max mx-auto items-center;
+const filterId = computed(() => `${props.id}-filter`)
+
+const rawValue = computed(() => props.modelValue && rawFilter(props.modelValue))
+
+function update(raw: RawTimestampFilter<TimestampFilter>) {
+   const transformed = transformFilter(raw)
+   emit('update:modelValue', transformed)
 }
-</styled>
+</script>
