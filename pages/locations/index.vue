@@ -14,7 +14,7 @@
          <template #filter>
             <PaginatedFilter id="locations" v-model="filter">
                <FormKit label="Name" name="name" type="text" />
-               <FormKit label="World" name="world" type="text" suffix-icon="location-marker" />
+               <InputWorld name="world" />
                <FormKit label="Created After" name="createdAfter" type="date" />
                <FormKit label="Created Before" name="createdBefore" type="date" />
             </PaginatedFilter>

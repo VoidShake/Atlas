@@ -1,17 +1,14 @@
 import { generateClasses } from '@formkit/themes'
 import { DefaultConfigOptions } from '@formkit/vue'
 import { mapValues } from 'lodash-es'
-import MapPinIcon from '@heroicons/vue/24/solid/MapPinIcon'
 
-const base: Record<string, string> = {
+const inputBase: Record<string, string> = {
    inner: `
-   p-2 rounded transition 
-   ring-0 ring-accent-500 bg-solid-800 
-   outline outline-2 outline-solid-700 
-   overflow-hidden
-   focus-within:ring-2
+      p-2 rounded transition overflow-hidden bg-solid-800 
+      outline outline-2 outline-solid-700 
+      focus-within:outline-accent-500
    `,
-   input: 'w-full px-3 border-none outline-none bg-transparent',
+   input: 'w-full px-3 border-none outline-none bg-transparent h-8',
    prefixIcon: 'px-4 bg-solid-700',
    suffixIcon: 'px-4',
 }
@@ -31,7 +28,7 @@ const button = {
 }
 
 function extend(values: Record<string, string>) {
-   return { ...base, ...mapValues(values, (it, key) => `${base[key] ?? ''} ${it}`) }
+   return { ...inputBase, ...mapValues(values, (it, key) => `${inputBase[key] ?? ''} ${it}`) }
 }
 
 const config: DefaultConfigOptions = {
@@ -47,10 +44,11 @@ const config: DefaultConfigOptions = {
             prefixIcon: icon,
             suffixIcon: icon,
          },
-         text: extend({ input: 'h-8' }),
-         number: extend({ input: 'h-8' }),
-         date: extend({ input: 'h-8' }),
+         text: inputBase,
+         number: inputBase,
+         date: inputBase,
          textarea: extend({ input: 'resize-none' }),
+         select: extend({ option: 'bg-solid-800' }),
          button,
          submit: button,
       }),

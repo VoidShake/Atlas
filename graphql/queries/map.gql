@@ -15,11 +15,22 @@ fragment MapLocation on AbstractLocation {
    }
 }
 
+fragment World on World {
+   id
+   name
+}
+
 query mapLocations {
    locations {
       totalCount
       nodes {
          ...MapLocation
       }
+   }
+}
+
+query getWorlds {
+   worlds {
+      ...World
    }
 }
