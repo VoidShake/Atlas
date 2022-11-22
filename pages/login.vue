@@ -4,17 +4,23 @@
          <StyledButton id="discord"> Login via Discord </StyledButton>
       </a>
       <div v-if="result?.settings.development">
-         <label> Login as seeded user </label>
-         <div class="grid grid-flow-col gap-2 mt-1">
-            <StyledTextInput v-model="seededEmail" placeholder="E-Mail" />
-            <StyledButton @click="seededLogin"> Login </StyledButton>
-         </div>
+         <FormKit
+            type="form"
+            :classes="{ form: 'grid grid-flow-col gap-2 mt-1 items-stretch' }"
+            submit-label="Login"
+            :submit-attrs="{
+               'suffix-icon': 'chevron-right',
+            }"
+            @submit="seededLogin"
+         >
+            <FormKit type="text" name="email" placeholder="E-Mail" help="Login as seeded user" />
+         </FormKit>
       </div>
    </div>
 </template>
 
 <script lang="ts" setup>
-import { ApiSettingsDocument, ImpersonateDocument } from '~/graphql/generated'
+import { ApiSettingsDocument, ImpersonateDocument, ImpersonateMutationVariables } from '~/graphql/generated'
 
 definePageMeta({
    layout: 'center',
@@ -26,16 +32,15 @@ const { result } = useQuery(ApiSettingsDocument)
 
 onMounted(() => {
    if (query.token && typeof query.token === 'string') {
-      login(query.token as string)
+      login(query.token)
       router.replace('/me')
    }
 })
 
-const seededEmail = ref()
 const impersonate = useMutation(ImpersonateDocument)
 
-async function seededLogin() {
-   const reponse = await impersonate.mutate({ email: seededEmail.value })
+async function seededLogin(values: ImpersonateMutationVariables) {
+   const reponse = await impersonate.mutate(values)
    const token = reponse?.data?.impersonate?.token
    if (token) {
       login(token)

@@ -1,4 +1,5 @@
 fragment User on Account {
+   id
    email
    username
    email
@@ -13,5 +14,16 @@ fragment Self on Account {
 query me {
    me {
       ...Self
+   }
+}
+
+query getAccounts($pagination: Pagination, $filter: AccountFilter) {
+   accounts(pagination: $pagination, filter: $filter) {
+      nodes {
+         ...User
+      }
+      pageInfo {
+         ...PageInfo
+      }
    }
 }

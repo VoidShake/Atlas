@@ -17,8 +17,8 @@ query getTaleDraft($id: Int!) {
    }
 }
 
-mutation createTaleDraft($input: CreateTaleInput!, $locations: [Int!]) {
-   created: createTaleDraft(input: $input, locations: $locations) {
+mutation createTaleDraft($input: CreateTaleInput!) {
+   created: createTaleDraft(input: $input) {
       id
    }
 }
