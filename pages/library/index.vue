@@ -14,6 +14,7 @@
          <template #filter>
             <PaginatedFilter id="tales" v-model="filter">
                <FormKit label="Title" name="title" type="text" />
+               <InputAccount label="Author" name="author" mode="single" />
                <FormKit label="Created After" name="createdAfter" type="date" />
                <FormKit label="Created Before" name="createdBefore" type="date" />
             </PaginatedFilter>

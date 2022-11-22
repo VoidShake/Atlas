@@ -1,12 +1,13 @@
 import { generateClasses } from '@formkit/themes'
 import { DefaultConfigOptions } from '@formkit/vue'
 import { mapValues } from 'lodash-es'
+import multi from './inputs/multi'
 
 const inputBase: Record<string, string> = {
    inner: `
-      p-2 rounded transition overflow-hidden bg-solid-800 
-      outline outline-2 outline-solid-700 
-      focus-within:outline-accent-500
+      p-2 rounded transition bg-solid-800 
+      border-2 border-solid-700 ring-accent-500
+      focus-within:ring-2
    `,
    input: 'w-full px-3 border-none outline-none bg-transparent h-8',
    prefixIcon: 'px-4 bg-solid-700',
@@ -20,7 +21,7 @@ const button = {
    input: `
       ${innerFlex}
       rounded select-none transition
-      px-4 py-2
+      px-4 py-2 border-2 border-transparent
       bg-accent-600 ring-accent-400 ring-0 text-white
       hover:ring-2 hover:bg-accent-500
       disabled:bg-solid-600 disabled:opacity-75 disabled:ring-0 disabled:cursor-not-allowed
@@ -32,6 +33,7 @@ function extend(values: Record<string, string>) {
 }
 
 const config: DefaultConfigOptions = {
+   inputs: { multi },
    config: {
       classes: generateClasses({
          global: {
@@ -49,6 +51,7 @@ const config: DefaultConfigOptions = {
          date: inputBase,
          textarea: extend({ input: 'resize-none' }),
          select: extend({ option: 'bg-solid-800' }),
+         multi: inputBase,
          button,
          submit: button,
       }),

@@ -1,8 +1,8 @@
 <template>
    <section v-if="result">
       <FormCreateTale :initial="result.taleDraft" :initial-locations="initialLocations">
-         <template #buttons="{ valid, value, locations }">
-            <FormKit type="submit" :disabled="!valid" @click.prevent="modify(value, locations)"> Save </FormKit>
+         <template #buttons="{ valid, value }">
+            <FormKit type="submit" :disabled="!valid" @click.prevent="modify(value)"> Save </FormKit>
          </template>
       </FormCreateTale>
    </section>
@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { difference } from 'lodash-es'
-import { ModifyTaleDraftDocument, GetTaleDraftDocument, ModifyTaleInput } from '~~/graphql/generated'
+import { ModifyTaleDraftDocument, GetTaleDraftDocument, CreateTaleInput } from '~~/graphql/generated'
 
 const router = useRouter()
 const route = useRoute()
@@ -20,10 +20,10 @@ const { mutate } = useMutation(ModifyTaleDraftDocument, { refetchQueries: ['getT
 
 const initialLocations = computed(() => result.value?.taleDraft.locations.nodes.map(it => it.id))
 
-async function modify(input: ModifyTaleInput, locations: number[]) {
+async function modify({ locations, ...input }: CreateTaleInput) {
    if (!result.value || !initialLocations.value) return
 
-   const removedLocations = difference(initialLocations.value, locations)
+   const removedLocations = difference(initialLocations.value, locations ?? [])
    const addedLocations = difference(locations, initialLocations.value)
 
    const response = await mutate({ id: result.value.taleDraft.id, input, addedLocations, removedLocations })

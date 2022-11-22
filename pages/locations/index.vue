@@ -15,6 +15,7 @@
             <PaginatedFilter id="locations" v-model="filter">
                <FormKit label="Name" name="name" type="text" />
                <InputWorld name="world" />
+               <InputAccount label="Author" name="author" mode="single" />
                <FormKit label="Created After" name="createdAfter" type="date" />
                <FormKit label="Created Before" name="createdBefore" type="date" />
             </PaginatedFilter>

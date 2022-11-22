@@ -7,7 +7,7 @@
       :value="rawValue"
       @input="update"
    >
-      <span class="bg-solid-900 p-3 rounded mb-2"> Filter by </span>
+      <span class="bg-solid-900 p-3 rounded mb-2 border-2 border-transparent"> Filter by </span>
       <slot />
       <FormKit type="button" suffix-icon="trash" @click="reset(filterId)"> Reset </FormKit>
    </FormKit>

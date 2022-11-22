@@ -50,8 +50,8 @@ query getTale($id: Int!) {
    }
 }
 
-mutation createTale($input: CreateTaleInput!, $locations: [Int!]) {
-   created: createTale(input: $input, locations: $locations) {
+mutation createTale($input: CreateTaleInput!) {
+   created: createTale(input: $input) {
       id
    }
 }

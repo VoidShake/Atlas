@@ -3,12 +3,12 @@
       <FormKit v-slot="{ value, state: { valid } }" type="form" :actions="false" :errors="errors">
          <FormKit name="title" :value="initial?.title" validation="required" label="Title" type="text" />
 
-         <InputLocationSelection v-model="locations" />
+         <InputLocation name="locations" :value="initialLocations" />
 
          <MarkdownEditor name="text" :value="initial?.text" label="Text" validation="required" />
 
          <div id="buttons">
-            <slot name="buttons" :valid="valid" :value="value" :locations="locations">
+            <slot name="buttons" :valid="valid" :value="value as CreateTaleInput">
                <FormKit v-if="!onlyDraft" type="submit" :disabled="!valid" @click.prevent="save(value, false)" />
                <FormKit
                   type="submit"
@@ -48,12 +48,10 @@ const emit = defineEmits<{
    (e: 'saved', data: CreateTaleMutation | CreateTaleDraftMutation): void
 }>()
 
-const props = defineProps<{
+defineProps<{
    initial?: DeepPartial<AbstractTale>
    initialLocations?: number[]
 }>()
-
-const locations = useState<number[]>('linked-locations', () => props.initialLocations ?? [])
 
 const refetchQueries = ['getLocation']
 const { mutate: createTale, error } = useMutation(CreateTaleDocument, { refetchQueries })
@@ -67,7 +65,7 @@ const errors = computed(() =>
 
 async function save(input: CreateTaleInput, draft: boolean) {
    const create = draft ? createTaleDraft : createTale
-   const response = await create({ input, locations: locations.value })
+   const response = await create({ input })
    const data = response?.data
    if (data) emit('saved', data)
 }
