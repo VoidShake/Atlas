@@ -38,7 +38,7 @@
       "@volar-plugins/prettier": "^1.1.4",
       "@vue-leaflet/vue-leaflet": "^0.6.1",
       "@vueform/multiselect": "^2.5.6",
-      "core-js": "^3.25.3",
+      "core-js": "^3.26.1",
       "eslint": "^8.24.0",
       "eslint-config-stylelint": "^17.0.0",
       "eslint-plugin-nuxt": "^4.0.0",
