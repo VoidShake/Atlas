@@ -55,6 +55,7 @@ function select(value: unknown) {
    --ms-option-bg-selected-pointed: theme(colors.accent.400);
 
    --ms-tag-bg: theme(colors.accent.600);
+   --ms-spinner-color: theme(colors.accent.400);
 }
 
 .dark-mode .multiselect {

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CreateLocationMutation, CreateLocationDraftMutation } from '~~/graphql/generated'
+import { CreatePlaceMutation, CreatePlaceDraftMutation } from '~~/graphql/generated'
 
 const router = useRouter()
 
@@ -11,8 +11,8 @@ definePageMeta({
    layout: 'confined',
 })
 
-function redirect(data: CreateLocationMutation | CreateLocationDraftMutation) {
-   if (data.created.__typename === 'Location') router.push(`/locations/${data.created.slug}`)
-   else router.push(`/me/drafts/locations/${data.created.id}`)
+function redirect(data: CreatePlaceMutation | CreatePlaceDraftMutation) {
+   if (data.created.__typename === 'Place') router.push(`/places/${data.created.slug}`)
+   else router.push(`/me/drafts/places/${data.created.id}`)
 }
 </script>

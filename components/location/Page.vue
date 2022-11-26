@@ -18,10 +18,10 @@
 
 <script lang="ts" setup>
 import { PencilIcon } from '@heroicons/vue/24/solid'
-import { PlaceFragment, PlaceDraftFragment, MapAreaFragment } from '~~/graphql/generated'
+import { PlaceFragment, PlaceDraftFragment, AreaFragment } from '~~/graphql/generated'
 
 const props = defineProps<{
-   location: PlaceFragment | PlaceDraftFragment | MapAreaFragment
+   location: PlaceFragment | PlaceDraftFragment | AreaFragment
 }>()
 
 const pos = computed(() => {

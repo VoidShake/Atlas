@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BookOpenIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
+import { BookOpenIcon, FlagIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 
@@ -21,7 +21,7 @@ const links = ref([
    { display: 'Map', to: '/map', icon: MapIcon },
    { display: 'Libary', to: '/library', icon: BookOpenIcon },
    { display: 'Places', to: '/places', icon: MapPinIcon },
-   { display: 'Areas', to: '/areas', icon: MapPinIcon },
+   { display: 'Areas', to: '/areas', icon: FlagIcon },
 ])
 
 const active = computed(() => [...links.value].reverse().find(it => route.path.startsWith(it.to))?.to)
