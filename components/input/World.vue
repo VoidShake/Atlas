@@ -1,5 +1,5 @@
 <template>
-   <FormKit label="World" type="select" :options="options" />
+   <FormKit label="World" type="multi" mode="single" :options="options" />
 </template>
 
 <script lang="ts" setup>
@@ -8,8 +8,7 @@ import { GetWorldsDocument } from '~~/graphql/generated'
 
 const { result } = useQuery(GetWorldsDocument)
 
-const options = computed(() => [
-   { value: null, label: 'any' },
-   ...(result.value?.worlds.map<FormKitOptionsItem>(it => ({ value: it.id, label: it.name })) ?? []),
-])
+const options = computed(
+   () => result.value?.worlds.map<FormKitOptionsItem>(it => ({ value: it.id, label: it.name })) ?? [],
+)
 </script>
