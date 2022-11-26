@@ -15,7 +15,8 @@ fragment MapLocation on AbstractLocation {
 }
 
 fragment MapPlace on AbstractPlace {
-   ...MapLocation
+   id
+   name
    pos {
       ...Pos
    }
@@ -25,7 +26,8 @@ fragment MapPlace on AbstractPlace {
 }
 
 fragment MapArea on AbstractArea {
-   ...MapLocation
+   id
+   name
    points {
       ...FlatPos
    }

@@ -8,6 +8,7 @@
          @mouseenter="$emit('mouseenter', it, $event)"
          @contextmenu="menu(it, $event)"
       />
+      <MapAreaMarker v-for="it in result.areas.nodes" :key="it.id" :area="it" />
       <DialogCreateTale
          v-if="selected?.action == 'add-lore'"
          :initial-locations="[selected.location]"

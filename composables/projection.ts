@@ -1,5 +1,5 @@
 import type { LatLng } from 'leaflet'
-import { PosFragment } from '~/graphql/generated'
+import { FlatPoint, PosFragment } from '~/graphql/generated'
 import { Map } from '~/types/Map'
 
 export function toWorldPos(map: Map, point: LatLng): PosFragment {
@@ -16,8 +16,9 @@ export function toWorldPos(map: Map, point: LatLng): PosFragment {
    return { x, y, z }
 }
 
-export function toMapPos(map: Map, { x, y, z }: PosFragment): [number, number] {
+export function toMapPos(map: Map, pos: PosFragment | FlatPoint): [number, number] {
    const matrix = map.worldtomap
+   const { x, y, z } = pos as PosFragment
 
    const lat = matrix[3] * x + matrix[4] * (y ?? 0) + matrix[5] * z
    const lng = matrix[0] * x + matrix[1] * (y ?? 0) + matrix[2] * z
