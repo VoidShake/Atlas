@@ -2,12 +2,18 @@ fragment TaleSummary on AbstractTale {
    id
    title
    ... on Tale {
-      locations {
+      places {
+         totalCount
+      }
+      areas {
          totalCount
       }
    }
    ... on TaleDraft {
-      locations {
+      places {
+         totalCount
+      }
+      areas {
          totalCount
       }
    }
@@ -17,17 +23,15 @@ fragment Tale on AbstractTale {
    ...TaleSummary
    text
    ... on Tale {
-      locations {
-         nodes {
-            ...MapLocation
-         }
+      locations @client {
+         ...MapPlace
+         ...MapArea
       }
    }
    ... on TaleDraft {
-      locations {
-         nodes {
-            ...MapLocation
-         }
+      locations @client {
+         ...MapPlace
+         ...MapArea
       }
    }
 }
@@ -56,10 +60,10 @@ mutation createTale($input: CreateTaleInput!) {
    }
 }
 
-mutation modifyTale($id: Int!, $input: ModifyTaleInput!, $addedLocations: [Int!]!, $removedLocations: [Int!]!) {
+mutation modifyTale($id: Int!, $input: ModifyTaleInput!, $addedPlaces: [Int!]!, $removedPlaces: [Int!]!) {
    modified: modifyTale(id: $id, input: $input) {
       id
    }
-   addedLocations: addLocationsToTale(tale: $id, locations: $addedLocations)
-   removedLocations: removeLocationsFromTale(tale: $id, locations: $removedLocations)
+   addedLocations: addPlacesToTale(tale: $id, ids: $addedPlaces)
+   removedLocations: removePlacesFromTale(tale: $id, ids: $removedPlaces)
 }

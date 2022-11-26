@@ -2,7 +2,7 @@
    <StyledPanel>
       <h3>{{ tale.title }}</h3>
       <p>
-         <em> {{ tale.locations.totalCount }} referenced locations </em>
+         <em> {{ tale.places.totalCount }} referenced places </em>
       </p>
    </StyledPanel>
 </template>

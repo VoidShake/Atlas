@@ -1,7 +1,7 @@
 <template>
    <section>
-      <LocationPage v-if="result" :location="result.location">
-         <StyledPanel v-for="tale in result.location.tales.nodes" :key="tale.id" class="mt-4">
+      <LocationPage v-if="result" :location="result.place">
+         <StyledPanel v-for="tale in result.place.tales.nodes" :key="tale.id" class="mt-4">
             <h3>{{ tale.title }}</h3>
             <MarkdownPreview :value="tale.text" />
          </StyledPanel>
@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts" setup>
-import { GetLocationDocument } from '~/graphql/generated'
+import { GetPlaceDocument } from '~/graphql/generated'
 
 const route = useRoute()
 
-const { result } = useQuery(GetLocationDocument, () => ({
+const { result } = useQuery(GetPlaceDocument, () => ({
    slug: route.params.slug as string,
 }))
 

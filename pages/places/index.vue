@@ -1,14 +1,14 @@
 <template>
    <section>
-      <StyledTitle> Browse all Locations </StyledTitle>
+      <StyledTitle> Browse all Places </StyledTitle>
 
-      <ActionLink v-if="hasPermission(Permission.CreateLocation, Permission.ProposeLocation)" to="/locations/create">
+      <ActionLink v-if="hasPermission(Permission.CreateLocation, Permission.ProposeLocation)" to="/places/create">
          <PencilIcon />
       </ActionLink>
 
-      <PaginatedList v-if="result" :connection="result.connection" verb="locations" @next="next" @previous="previous">
-         <NuxtLink v-for="location in result.connection.nodes" :key="location.id" :to="`/locations/${location.slug}`">
-            <LocationPreview :location="location" />
+      <PaginatedList v-if="result" :connection="result.connection" verb="places" @next="next" @previous="previous">
+         <NuxtLink v-for="place in result.connection.nodes" :key="place.id" :to="`/places/${place.slug}`">
+            <LocationPreview :location="place" />
          </NuxtLink>
 
          <template #filter>
@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { PencilIcon } from '@heroicons/vue/24/solid'
-import { GetLocationsDocument, Permission, LocationFilter } from '~/graphql/generated'
+import { GetPlacesDocument, Permission, LocationFilter } from '~/graphql/generated'
 
 const { hasPermission } = useSession()
 
@@ -34,5 +34,5 @@ const filter = useState<LocationFilter>(() => ({}))
 
 const limit = ref(24)
 
-const { result, next, previous } = usePagination(GetLocationsDocument, limit, filter)
+const { result, next, previous } = usePagination(GetPlacesDocument, limit, filter)
 </script>

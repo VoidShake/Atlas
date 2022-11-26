@@ -12,9 +12,23 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The DateTime scalar represents a UTC DateTime in epoch milliseconds */
   DateTime: number;
+  /** The Long scalar type represents a signed 64-bit numeric non-fractional value */
   Long: any;
+  /** The Short scalar type represents a signed 16-bit numeric non-fractional value */
   Short: any;
+};
+
+export type AbstractArea = {
+  authorId: Scalars['Int'];
+  id: Scalars['Int'];
+  maxY: Scalars['Int'];
+  minY: Scalars['Int'];
+  name: Scalars['String'];
+  points: Array<FlatPoint>;
+  timestamps: Timestamps;
+  world: Scalars['String'];
 };
 
 export type AbstractDraft = {
@@ -25,6 +39,13 @@ export type AbstractDraft = {
 };
 
 export type AbstractLocation = {
+  authorId: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  timestamps: Timestamps;
+};
+
+export type AbstractPlace = {
   authorId: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -99,7 +120,64 @@ export type ApiSettings = {
   development: Scalars['Boolean'];
 };
 
-export type CreateLocationInput = {
+export type Area = AbstractArea & AbstractLocation & Entity & Timestamped & {
+  __typename?: 'Area';
+  approverId: Scalars['Int'];
+  author: Account;
+  authorId: Scalars['Int'];
+  draft: AreaDraft;
+  id: Scalars['Int'];
+  maxY: Scalars['Int'];
+  minY: Scalars['Int'];
+  name: Scalars['String'];
+  points: Array<FlatPoint>;
+  slug: Scalars['String'];
+  tales: TaleConnection;
+  timestamps: Timestamps;
+  world: Scalars['String'];
+};
+
+
+export type AreaTalesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+export type AreaConnection = {
+  __typename?: 'AreaConnection';
+  edges: Array<AreaEdge>;
+  nodes: Array<Area>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type AreaDraft = AbstractArea & AbstractDraft & AbstractLocation & Entity & Timestamped & {
+  __typename?: 'AreaDraft';
+  authorId: Scalars['Int'];
+  id: Scalars['Int'];
+  maxY: Scalars['Int'];
+  minY: Scalars['Int'];
+  name: Scalars['String'];
+  originalId?: Maybe<Scalars['Int']>;
+  points: Array<FlatPoint>;
+  timestamps: Timestamps;
+  world: Scalars['String'];
+};
+
+export type AreaEdge = {
+  __typename?: 'AreaEdge';
+  cursor: Scalars['String'];
+  node: Area;
+};
+
+export type CreateAreaInput = {
+  maxY: Scalars['Int'];
+  minY: Scalars['Int'];
+  name: Scalars['String'];
+  points: Array<FlatPointInput>;
+  world: Scalars['String'];
+};
+
+export type CreatePlaceInput = {
   name: Scalars['String'];
   world: Scalars['String'];
   x: Scalars['Int'];
@@ -108,7 +186,7 @@ export type CreateLocationInput = {
 };
 
 export type CreateTaleInput = {
-  locations?: InputMaybe<Array<Scalars['Int']>>;
+  places?: InputMaybe<Array<Scalars['Int']>>;
   text: Scalars['String'];
   title: Scalars['String'];
 };
@@ -118,65 +196,15 @@ export type Entity = {
   timestamps: Timestamps;
 };
 
-export type Location = AbstractLocation & Entity & Timestamped & {
-  __typename?: 'Location';
-  approverId: Scalars['Int'];
-  author: Account;
-  authorId: Scalars['Int'];
-  draft?: Maybe<LocationDraft>;
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  pos: Point;
-  slug: Scalars['String'];
-  tales: TaleConnection;
-  timestamps: Timestamps;
+export type FlatPoint = {
+  __typename?: 'FlatPoint';
+  x: Scalars['Int'];
+  z: Scalars['Int'];
 };
 
-
-export type LocationTalesArgs = {
-  pagination?: InputMaybe<Pagination>;
-};
-
-export type LocationConnection = {
-  __typename?: 'LocationConnection';
-  edges: Array<LocationEdge>;
-  nodes: Array<Location>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Long'];
-};
-
-export type LocationDraft = AbstractDraft & AbstractLocation & Entity & Timestamped & {
-  __typename?: 'LocationDraft';
-  author: Account;
-  authorId: Scalars['Int'];
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  original?: Maybe<Location>;
-  originalId?: Maybe<Scalars['Int']>;
-  pos: Point;
-  proposal?: Maybe<LocationProposal>;
-  proposed: Scalars['Boolean'];
-  timestamps: Timestamps;
-};
-
-export type LocationDraftConnection = {
-  __typename?: 'LocationDraftConnection';
-  edges: Array<LocationDraftEdge>;
-  nodes: Array<LocationDraft>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Long'];
-};
-
-export type LocationDraftEdge = {
-  __typename?: 'LocationDraftEdge';
-  cursor: Scalars['String'];
-  node: LocationDraft;
-};
-
-export type LocationEdge = {
-  __typename?: 'LocationEdge';
-  cursor: Scalars['String'];
-  node: Location;
+export type FlatPointInput = {
+  x: Scalars['Int'];
+  z: Scalars['Int'];
 };
 
 export type LocationFilter = {
@@ -189,31 +217,15 @@ export type LocationFilter = {
   world?: InputMaybe<Scalars['String']>;
 };
 
-export type LocationProposal = AbstractProposal & Entity & Timestamped & {
-  __typename?: 'LocationProposal';
-  draft: LocationDraft;
-  draftId: Scalars['Int'];
-  id: Scalars['Int'];
-  submitter: Account;
-  submitterId: Scalars['Int'];
-  timestamps: Timestamps;
+export type ModifyAreaInput = {
+  maxY?: InputMaybe<Scalars['Int']>;
+  minY?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  points?: InputMaybe<Array<FlatPointInput>>;
+  world?: InputMaybe<Scalars['String']>;
 };
 
-export type LocationProposalConnection = {
-  __typename?: 'LocationProposalConnection';
-  edges: Array<LocationProposalEdge>;
-  nodes: Array<LocationProposal>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Long'];
-};
-
-export type LocationProposalEdge = {
-  __typename?: 'LocationProposalEdge';
-  cursor: Scalars['String'];
-  node: LocationProposal;
-};
-
-export type ModifyLocationInput = {
+export type ModifyPlaceInput = {
   name?: InputMaybe<Scalars['String']>;
   world?: InputMaybe<Scalars['String']>;
   x?: InputMaybe<Scalars['Int']>;
@@ -229,50 +241,71 @@ export type ModifyTaleInput = {
 /** Mutation object */
 export type Mutation = {
   __typename?: 'Mutation';
-  addLocationsToTale: Scalars['Boolean'];
-  addLocationsToTaleDraft: Scalars['Boolean'];
-  approveLocation: Scalars['Int'];
+  addAreasToTale: Scalars['Boolean'];
+  addAreasToTaleDraft: Scalars['Boolean'];
+  addPlacesToTale: Scalars['Boolean'];
+  addPlacesToTaleDraft: Scalars['Boolean'];
+  approvePlace: Scalars['Int'];
   approveTale: Scalars['Int'];
-  createLocation: Location;
-  createLocationDraft: LocationDraft;
+  createArea: Area;
+  createPlace: Place;
+  createPlaceDraft: PlaceDraft;
   createTale: Tale;
   createTaleDraft: TaleDraft;
-  deleteLocation: Scalars['Boolean'];
-  deleteLocationDraft: Scalars['Boolean'];
+  deleteArea: Scalars['Boolean'];
+  deletePlace: Scalars['Boolean'];
+  deletePlaceDraft: Scalars['Boolean'];
   deleteTale: Scalars['Boolean'];
   deleteTaleDraft: Scalars['Boolean'];
   impersonate: TokenResponse;
-  modifyLocation: Location;
-  modifyLocationDraft: LocationDraft;
+  modifyArea: Area;
+  modifyPlace: Place;
+  modifyPlaceDraft: PlaceDraft;
   modifyTale: Tale;
   modifyTaleDraft: TaleDraft;
-  proposeLocation: Scalars['Boolean'];
+  proposePlace: Scalars['Boolean'];
   proposeTale: Scalars['Boolean'];
-  refuseLocation: Scalars['Boolean'];
+  refusePlace: Scalars['Boolean'];
   refuseTale: Scalars['Boolean'];
-  removeLocationsFromTale: Scalars['Boolean'];
-  removeLocationsFromTaleDraft: Scalars['Boolean'];
-  withdrawLocation: Scalars['Boolean'];
+  removeAreasFromTale: Scalars['Boolean'];
+  removeAreasFromTaleDraft: Scalars['Boolean'];
+  removePlacesFromTale: Scalars['Boolean'];
+  removePlacesFromTaleDraft: Scalars['Boolean'];
+  withdrawPlace: Scalars['Boolean'];
   withdrawTale: Scalars['Boolean'];
 };
 
 
 /** Mutation object */
-export type MutationAddLocationsToTaleArgs = {
-  locations: Array<Scalars['Int']>;
+export type MutationAddAreasToTaleArgs = {
+  ids: Array<Scalars['Int']>;
   tale: Scalars['Int'];
 };
 
 
 /** Mutation object */
-export type MutationAddLocationsToTaleDraftArgs = {
-  locations: Array<Scalars['Int']>;
+export type MutationAddAreasToTaleDraftArgs = {
+  ids: Array<Scalars['Int']>;
   tale: Scalars['Int'];
 };
 
 
 /** Mutation object */
-export type MutationApproveLocationArgs = {
+export type MutationAddPlacesToTaleArgs = {
+  ids: Array<Scalars['Int']>;
+  tale: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationAddPlacesToTaleDraftArgs = {
+  ids: Array<Scalars['Int']>;
+  tale: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationApprovePlaceArgs = {
   draftId: Scalars['Int'];
 };
 
@@ -284,14 +317,20 @@ export type MutationApproveTaleArgs = {
 
 
 /** Mutation object */
-export type MutationCreateLocationArgs = {
-  input: CreateLocationInput;
+export type MutationCreateAreaArgs = {
+  input: CreateAreaInput;
 };
 
 
 /** Mutation object */
-export type MutationCreateLocationDraftArgs = {
-  input: CreateLocationInput;
+export type MutationCreatePlaceArgs = {
+  input: CreatePlaceInput;
+};
+
+
+/** Mutation object */
+export type MutationCreatePlaceDraftArgs = {
+  input: CreatePlaceInput;
 };
 
 
@@ -308,13 +347,19 @@ export type MutationCreateTaleDraftArgs = {
 
 
 /** Mutation object */
-export type MutationDeleteLocationArgs = {
+export type MutationDeleteAreaArgs = {
   id: Scalars['Int'];
 };
 
 
 /** Mutation object */
-export type MutationDeleteLocationDraftArgs = {
+export type MutationDeletePlaceArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationDeletePlaceDraftArgs = {
   id: Scalars['Int'];
 };
 
@@ -338,16 +383,23 @@ export type MutationImpersonateArgs = {
 
 
 /** Mutation object */
-export type MutationModifyLocationArgs = {
+export type MutationModifyAreaArgs = {
   id: Scalars['Int'];
-  input: ModifyLocationInput;
+  input: ModifyAreaInput;
 };
 
 
 /** Mutation object */
-export type MutationModifyLocationDraftArgs = {
+export type MutationModifyPlaceArgs = {
   id: Scalars['Int'];
-  input: ModifyLocationInput;
+  input: ModifyPlaceInput;
+};
+
+
+/** Mutation object */
+export type MutationModifyPlaceDraftArgs = {
+  id: Scalars['Int'];
+  input: ModifyPlaceInput;
 };
 
 
@@ -366,7 +418,7 @@ export type MutationModifyTaleDraftArgs = {
 
 
 /** Mutation object */
-export type MutationProposeLocationArgs = {
+export type MutationProposePlaceArgs = {
   draftId: Scalars['Int'];
 };
 
@@ -378,7 +430,7 @@ export type MutationProposeTaleArgs = {
 
 
 /** Mutation object */
-export type MutationRefuseLocationArgs = {
+export type MutationRefusePlaceArgs = {
   draftId: Scalars['Int'];
 };
 
@@ -390,21 +442,35 @@ export type MutationRefuseTaleArgs = {
 
 
 /** Mutation object */
-export type MutationRemoveLocationsFromTaleArgs = {
-  locations: Array<Scalars['Int']>;
+export type MutationRemoveAreasFromTaleArgs = {
+  ids: Array<Scalars['Int']>;
   tale: Scalars['Int'];
 };
 
 
 /** Mutation object */
-export type MutationRemoveLocationsFromTaleDraftArgs = {
-  locations: Array<Scalars['Int']>;
+export type MutationRemoveAreasFromTaleDraftArgs = {
+  ids: Array<Scalars['Int']>;
   tale: Scalars['Int'];
 };
 
 
 /** Mutation object */
-export type MutationWithdrawLocationArgs = {
+export type MutationRemovePlacesFromTaleArgs = {
+  ids: Array<Scalars['Int']>;
+  tale: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationRemovePlacesFromTaleDraftArgs = {
+  ids: Array<Scalars['Int']>;
+  tale: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationWithdrawPlaceArgs = {
   draftId: Scalars['Int'];
 };
 
@@ -442,6 +508,91 @@ export enum Permission {
   ViewOtherProposals = 'VIEW_OTHER_PROPOSALS'
 }
 
+export type Place = AbstractLocation & AbstractPlace & Entity & Timestamped & {
+  __typename?: 'Place';
+  approverId: Scalars['Int'];
+  author: Account;
+  authorId: Scalars['Int'];
+  draft: PlaceDraft;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  pos: Point;
+  slug: Scalars['String'];
+  tales: TaleConnection;
+  timestamps: Timestamps;
+};
+
+
+export type PlaceTalesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+export type PlaceConnection = {
+  __typename?: 'PlaceConnection';
+  edges: Array<PlaceEdge>;
+  nodes: Array<Place>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type PlaceDraft = AbstractDraft & AbstractLocation & AbstractPlace & Entity & Timestamped & {
+  __typename?: 'PlaceDraft';
+  author: Account;
+  authorId: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  original?: Maybe<Place>;
+  originalId?: Maybe<Scalars['Int']>;
+  pos: Point;
+  proposal?: Maybe<PlaceProposal>;
+  proposed: Scalars['Boolean'];
+  timestamps: Timestamps;
+};
+
+export type PlaceDraftConnection = {
+  __typename?: 'PlaceDraftConnection';
+  edges: Array<PlaceDraftEdge>;
+  nodes: Array<PlaceDraft>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type PlaceDraftEdge = {
+  __typename?: 'PlaceDraftEdge';
+  cursor: Scalars['String'];
+  node: PlaceDraft;
+};
+
+export type PlaceEdge = {
+  __typename?: 'PlaceEdge';
+  cursor: Scalars['String'];
+  node: Place;
+};
+
+export type PlaceProposal = AbstractProposal & Entity & Timestamped & {
+  __typename?: 'PlaceProposal';
+  draft: PlaceDraft;
+  draftId: Scalars['Int'];
+  id: Scalars['Int'];
+  submitter: Account;
+  submitterId: Scalars['Int'];
+  timestamps: Timestamps;
+};
+
+export type PlaceProposalConnection = {
+  __typename?: 'PlaceProposalConnection';
+  edges: Array<PlaceProposalEdge>;
+  nodes: Array<PlaceProposal>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type PlaceProposalEdge = {
+  __typename?: 'PlaceProposalEdge';
+  cursor: Scalars['String'];
+  node: PlaceProposal;
+};
+
 export type Point = {
   __typename?: 'Point';
   world: Scalars['String'];
@@ -455,16 +606,19 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   accounts: AccountConnection;
-  createLocationDraftFrom: LocationDraft;
+  area: Area;
+  areaBySlug: Area;
+  areas: AreaConnection;
+  createPlaceDraftFrom: PlaceDraft;
   createTaleDraftFrom: TaleDraft;
-  location: Location;
-  locationBySlug: Location;
-  locationDraft: LocationDraft;
-  locationDrafts: LocationDraftConnection;
-  locationProposal: LocationProposal;
-  locationProposals: LocationProposalConnection;
-  locations: LocationConnection;
   me?: Maybe<Account>;
+  place: Place;
+  placeBySlug: Place;
+  placeDraft: PlaceDraft;
+  placeDrafts: PlaceDraftConnection;
+  placeProposal: PlaceProposal;
+  placeProposals: PlaceProposalConnection;
+  places: PlaceConnection;
   settings: ApiSettings;
   tale: Tale;
   taleDraft: TaleDraft;
@@ -491,7 +645,26 @@ export type QueryAccountsArgs = {
 
 
 /** Query object */
-export type QueryCreateLocationDraftFromArgs = {
+export type QueryAreaArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QueryAreaBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+/** Query object */
+export type QueryAreasArgs = {
+  filter?: InputMaybe<LocationFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
+export type QueryCreatePlaceDraftFromArgs = {
   original: Scalars['Int'];
 };
 
@@ -503,44 +676,44 @@ export type QueryCreateTaleDraftFromArgs = {
 
 
 /** Query object */
-export type QueryLocationArgs = {
+export type QueryPlaceArgs = {
   id: Scalars['Int'];
 };
 
 
 /** Query object */
-export type QueryLocationBySlugArgs = {
+export type QueryPlaceBySlugArgs = {
   slug: Scalars['String'];
 };
 
 
 /** Query object */
-export type QueryLocationDraftArgs = {
+export type QueryPlaceDraftArgs = {
   id: Scalars['Int'];
 };
 
 
 /** Query object */
-export type QueryLocationDraftsArgs = {
+export type QueryPlaceDraftsArgs = {
   filter?: InputMaybe<LocationFilter>;
   pagination?: InputMaybe<Pagination>;
 };
 
 
 /** Query object */
-export type QueryLocationProposalArgs = {
+export type QueryPlaceProposalArgs = {
   draftId: Scalars['Int'];
 };
 
 
 /** Query object */
-export type QueryLocationProposalsArgs = {
+export type QueryPlaceProposalsArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
 
 /** Query object */
-export type QueryLocationsArgs = {
+export type QueryPlacesArgs = {
   filter?: InputMaybe<LocationFilter>;
   pagination?: InputMaybe<Pagination>;
 };
@@ -592,18 +765,25 @@ export type QueryWorldArgs = {
 export type Tale = AbstractTale & Entity & Timestamped & {
   __typename?: 'Tale';
   approverId: Scalars['Int'];
+  areas: AreaConnection;
   author: Account;
   authorId: Scalars['Int'];
-  draft?: Maybe<LocationDraft>;
+  draft: TaleDraft;
   id: Scalars['Int'];
-  locations: LocationConnection;
+  locations: Array<AbstractLocation>;
+  places: PlaceConnection;
   text: Scalars['String'];
   timestamps: Timestamps;
   title: Scalars['String'];
 };
 
 
-export type TaleLocationsArgs = {
+export type TaleAreasArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type TalePlacesArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
@@ -617,12 +797,14 @@ export type TaleConnection = {
 
 export type TaleDraft = AbstractDraft & AbstractTale & Entity & Timestamped & {
   __typename?: 'TaleDraft';
+  areas: AreaConnection;
   author: Account;
   authorId: Scalars['Int'];
   id: Scalars['Int'];
-  locations: LocationConnection;
+  locations: Array<AbstractLocation>;
   original?: Maybe<Tale>;
   originalId?: Maybe<Scalars['Int']>;
+  places: PlaceConnection;
   proposal?: Maybe<TaleProposal>;
   proposed: Scalars['Boolean'];
   text: Scalars['String'];
@@ -631,7 +813,12 @@ export type TaleDraft = AbstractDraft & AbstractTale & Entity & Timestamped & {
 };
 
 
-export type TaleDraftLocationsArgs = {
+export type TaleDraftAreasArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type TaleDraftPlacesArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
@@ -747,133 +934,68 @@ export type ImpersonateMutationVariables = Exact<{
 
 export type ImpersonateMutation = { __typename?: 'Mutation', impersonate: { __typename?: 'TokenResponse', token: string } };
 
-export type LocationDraftFragment = { __typename?: 'LocationDraft', proposed: boolean, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+export type PlaceProposalPreviewFragment = { __typename?: 'PlaceProposal', submitter: { __typename?: 'Account', id: number, email: string, username: string, avatar?: string | null }, draft: { __typename?: 'PlaceDraft', id: number, name: string, original?: { __typename?: 'Place', id: number, name: string } | null }, timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
-export type GetLocationDraftsQueryVariables = Exact<{
+export type GetPlaceProposalsQueryVariables = Exact<{
   pagination?: InputMaybe<Pagination>;
 }>;
 
 
-export type GetLocationDraftsQuery = { __typename?: 'Query', connection: { __typename?: 'LocationDraftConnection', totalCount: any, nodes: Array<{ __typename?: 'LocationDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
+export type GetPlaceProposalsQuery = { __typename?: 'Query', connection: { __typename?: 'PlaceProposalConnection', totalCount: any, nodes: Array<{ __typename?: 'PlaceProposal', submitter: { __typename?: 'Account', id: number, email: string, username: string, avatar?: string | null }, draft: { __typename?: 'PlaceDraft', id: number, name: string, original?: { __typename?: 'Place', id: number, name: string } | null }, timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
 
-export type GetLocationDraftQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type GetLocationDraftQuery = { __typename?: 'Query', locationDraft: { __typename?: 'LocationDraft', proposed: boolean, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
-
-export type CreateLocationDraftMutationVariables = Exact<{
-  input: CreateLocationInput;
-}>;
-
-
-export type CreateLocationDraftMutation = { __typename?: 'Mutation', created: { __typename?: 'LocationDraft', id: number } };
-
-export type ModifyLocationDraftMutationVariables = Exact<{
-  id: Scalars['Int'];
-  input: ModifyLocationInput;
-}>;
-
-
-export type ModifyLocationDraftMutation = { __typename?: 'Mutation', modified: { __typename?: 'LocationDraft', id: number } };
-
-export type ProposeLocationMutationVariables = Exact<{
+export type GetPlaceProposalQueryVariables = Exact<{
   draft: Scalars['Int'];
 }>;
 
 
-export type ProposeLocationMutation = { __typename?: 'Mutation', proposal: boolean };
+export type GetPlaceProposalQuery = { __typename?: 'Query', proposal: { __typename?: 'PlaceProposal', draft: { __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number }, original?: { __typename?: 'Place', id: number, name: string } | null }, submitter: { __typename?: 'Account', id: number, email: string, username: string, avatar?: string | null }, timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } } };
 
-export type LocationProposalPreviewFragment = { __typename?: 'LocationProposal', submitter: { __typename?: 'Account', id: number, email: string, username: string, avatar?: string | null }, draft: { __typename?: 'LocationDraft', id: number, name: string, original?: { __typename?: 'Location', id: number, name: string } | null }, timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
-
-export type GetLocationProposalsQueryVariables = Exact<{
-  pagination?: InputMaybe<Pagination>;
-}>;
-
-
-export type GetLocationProposalsQuery = { __typename?: 'Query', connection: { __typename?: 'LocationProposalConnection', totalCount: any, nodes: Array<{ __typename?: 'LocationProposal', submitter: { __typename?: 'Account', id: number, email: string, username: string, avatar?: string | null }, draft: { __typename?: 'LocationDraft', id: number, name: string, original?: { __typename?: 'Location', id: number, name: string } | null }, timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
-
-export type GetLocationProposalQueryVariables = Exact<{
+export type ApprovePlaceMutationVariables = Exact<{
   draft: Scalars['Int'];
 }>;
 
 
-export type GetLocationProposalQuery = { __typename?: 'Query', proposal: { __typename?: 'LocationProposal', draft: { __typename?: 'LocationDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number }, original?: { __typename?: 'Location', id: number, name: string } | null }, submitter: { __typename?: 'Account', id: number, email: string, username: string, avatar?: string | null }, timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } } };
+export type ApprovePlaceMutation = { __typename?: 'Mutation', converted: number };
 
-export type ApproveLocationMutationVariables = Exact<{
+export type RefusePlaceMutationVariables = Exact<{
   draft: Scalars['Int'];
 }>;
 
 
-export type ApproveLocationMutation = { __typename?: 'Mutation', converted: number };
-
-export type RefuseLocationMutationVariables = Exact<{
-  draft: Scalars['Int'];
-}>;
-
-
-export type RefuseLocationMutation = { __typename?: 'Mutation', converted: boolean };
-
-type LocationSummary_Location_Fragment = { __typename?: 'Location', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
-
-type LocationSummary_LocationDraft_Fragment = { __typename?: 'LocationDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
-
-export type LocationSummaryFragment = LocationSummary_Location_Fragment | LocationSummary_LocationDraft_Fragment;
-
-export type LocationFragment = { __typename?: 'Location', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, text: string }> }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
-
-export type GetLocationsQueryVariables = Exact<{
-  pagination?: InputMaybe<Pagination>;
-  filter?: InputMaybe<LocationFilter>;
-}>;
-
-
-export type GetLocationsQuery = { __typename?: 'Query', connection: { __typename?: 'LocationConnection', totalCount: any, nodes: Array<{ __typename?: 'Location', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
-
-export type GetLocationQueryVariables = Exact<{
-  slug: Scalars['String'];
-}>;
-
-
-export type GetLocationQuery = { __typename?: 'Query', location: { __typename?: 'Location', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, text: string }> }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
-
-export type GetLocationByIdQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type GetLocationByIdQuery = { __typename?: 'Query', location: { __typename?: 'Location', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, text: string }> }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
-
-export type CreateLocationMutationVariables = Exact<{
-  input: CreateLocationInput;
-}>;
-
-
-export type CreateLocationMutation = { __typename?: 'Mutation', created: { __typename?: 'Location', id: number, slug: string } };
-
-export type ModifyLocationMutationVariables = Exact<{
-  id: Scalars['Int'];
-  input: ModifyLocationInput;
-}>;
-
-
-export type ModifyLocationMutation = { __typename?: 'Mutation', modified: { __typename?: 'Location', id: number, slug: string } };
+export type RefusePlaceMutation = { __typename?: 'Mutation', converted: boolean };
 
 export type PosFragment = { __typename?: 'Point', x: number, y?: number | null, z: number };
 
-type MapLocation_Location_Fragment = { __typename?: 'Location', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+export type FlatPosFragment = { __typename?: 'FlatPoint', x: number, z: number };
 
-type MapLocation_LocationDraft_Fragment = { __typename?: 'LocationDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+type MapLocation_Area_Fragment = { __typename?: 'Area', id: number, name: string };
 
-export type MapLocationFragment = MapLocation_Location_Fragment | MapLocation_LocationDraft_Fragment;
+type MapLocation_AreaDraft_Fragment = { __typename?: 'AreaDraft', id: number, name: string };
+
+type MapLocation_Place_Fragment = { __typename?: 'Place', id: number, name: string };
+
+type MapLocation_PlaceDraft_Fragment = { __typename?: 'PlaceDraft', id: number, name: string };
+
+export type MapLocationFragment = MapLocation_Area_Fragment | MapLocation_AreaDraft_Fragment | MapLocation_Place_Fragment | MapLocation_PlaceDraft_Fragment;
+
+type MapPlace_Place_Fragment = { __typename?: 'Place', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+
+type MapPlace_PlaceDraft_Fragment = { __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+
+export type MapPlaceFragment = MapPlace_Place_Fragment | MapPlace_PlaceDraft_Fragment;
+
+type MapArea_Area_Fragment = { __typename?: 'Area', slug: string, id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> };
+
+type MapArea_AreaDraft_Fragment = { __typename?: 'AreaDraft', id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> };
+
+export type MapAreaFragment = MapArea_Area_Fragment | MapArea_AreaDraft_Fragment;
 
 export type WorldFragment = { __typename?: 'World', id: string, name: string };
 
 export type MapLocationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MapLocationsQuery = { __typename?: 'Query', locations: { __typename?: 'LocationConnection', totalCount: any, nodes: Array<{ __typename?: 'Location', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> } };
+export type MapLocationsQuery = { __typename?: 'Query', places: { __typename?: 'PlaceConnection', totalCount: any, nodes: Array<{ __typename?: 'Place', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> }, areas: { __typename?: 'AreaConnection', totalCount: any, nodes: Array<{ __typename?: 'Area', slug: string, id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> }> } };
 
 export type GetWorldsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -882,13 +1004,100 @@ export type GetWorldsQuery = { __typename?: 'Query', worlds: Array<{ __typename?
 
 export type PageInfoFragment = { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any };
 
+export type PlaceDraftFragment = { __typename?: 'PlaceDraft', proposed: boolean, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+
+export type GetPlaceDraftsQueryVariables = Exact<{
+  pagination?: InputMaybe<Pagination>;
+}>;
+
+
+export type GetPlaceDraftsQuery = { __typename?: 'Query', connection: { __typename?: 'PlaceDraftConnection', totalCount: any, nodes: Array<{ __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
+
+export type GetPlaceDraftQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetPlaceDraftQuery = { __typename?: 'Query', placeDraft: { __typename?: 'PlaceDraft', proposed: boolean, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
+
+export type CreatePlaceDraftMutationVariables = Exact<{
+  input: CreatePlaceInput;
+}>;
+
+
+export type CreatePlaceDraftMutation = { __typename?: 'Mutation', created: { __typename?: 'PlaceDraft', id: number } };
+
+export type ModifyPlaceDraftMutationVariables = Exact<{
+  id: Scalars['Int'];
+  input: ModifyPlaceInput;
+}>;
+
+
+export type ModifyPlaceDraftMutation = { __typename?: 'Mutation', modified: { __typename?: 'PlaceDraft', id: number } };
+
+export type ProposePlaceMutationVariables = Exact<{
+  draft: Scalars['Int'];
+}>;
+
+
+export type ProposePlaceMutation = { __typename?: 'Mutation', proposal: boolean };
+
+type PlaceSummary_Place_Fragment = { __typename?: 'Place', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+
+type PlaceSummary_PlaceDraft_Fragment = { __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+
+export type PlaceSummaryFragment = PlaceSummary_Place_Fragment | PlaceSummary_PlaceDraft_Fragment;
+
+export type PlaceFragment = { __typename?: 'Place', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, text: string }> }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } };
+
+export type GetPlacesQueryVariables = Exact<{
+  pagination?: InputMaybe<Pagination>;
+  filter?: InputMaybe<LocationFilter>;
+}>;
+
+
+export type GetPlacesQuery = { __typename?: 'Query', connection: { __typename?: 'PlaceConnection', totalCount: any, nodes: Array<{ __typename?: 'Place', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
+
+export type GetPlaceQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type GetPlaceQuery = { __typename?: 'Query', place: { __typename?: 'Place', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, text: string }> }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
+
+export type GetPlaceByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetPlaceByIdQuery = { __typename?: 'Query', place: { __typename?: 'Place', slug: string, id: number, name: string, tales: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, text: string }> }, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } };
+
+export type CreatePlaceMutationVariables = Exact<{
+  input: CreatePlaceInput;
+}>;
+
+
+export type CreatePlaceMutation = { __typename?: 'Mutation', created: { __typename?: 'Place', id: number, slug: string } };
+
+export type ModifyPlaceMutationVariables = Exact<{
+  id: Scalars['Int'];
+  input: ModifyPlaceInput;
+}>;
+
+
+export type ModifyPlaceMutation = { __typename?: 'Mutation', modified: { __typename?: 'Place', id: number, slug: string } };
+
 type WithTime_Account_Fragment = { __typename?: 'Account', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
-type WithTime_Location_Fragment = { __typename?: 'Location', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+type WithTime_Area_Fragment = { __typename?: 'Area', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
-type WithTime_LocationDraft_Fragment = { __typename?: 'LocationDraft', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+type WithTime_AreaDraft_Fragment = { __typename?: 'AreaDraft', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
-type WithTime_LocationProposal_Fragment = { __typename?: 'LocationProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+type WithTime_Place_Fragment = { __typename?: 'Place', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+
+type WithTime_PlaceDraft_Fragment = { __typename?: 'PlaceDraft', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+
+type WithTime_PlaceProposal_Fragment = { __typename?: 'PlaceProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
 type WithTime_Tale_Fragment = { __typename?: 'Tale', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
@@ -896,21 +1105,21 @@ type WithTime_TaleDraft_Fragment = { __typename?: 'TaleDraft', timestamps: { __t
 
 type WithTime_TaleProposal_Fragment = { __typename?: 'TaleProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
-export type WithTimeFragment = WithTime_Account_Fragment | WithTime_Location_Fragment | WithTime_LocationDraft_Fragment | WithTime_LocationProposal_Fragment | WithTime_Tale_Fragment | WithTime_TaleDraft_Fragment | WithTime_TaleProposal_Fragment;
+export type WithTimeFragment = WithTime_Account_Fragment | WithTime_Area_Fragment | WithTime_AreaDraft_Fragment | WithTime_Place_Fragment | WithTime_PlaceDraft_Fragment | WithTime_PlaceProposal_Fragment | WithTime_Tale_Fragment | WithTime_TaleDraft_Fragment | WithTime_TaleProposal_Fragment;
 
 export type GetTaleDraftsQueryVariables = Exact<{
   pagination?: InputMaybe<Pagination>;
 }>;
 
 
-export type GetTaleDraftsQuery = { __typename?: 'Query', connection: { __typename?: 'TaleDraftConnection', totalCount: any, nodes: Array<{ __typename?: 'TaleDraft', id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
+export type GetTaleDraftsQuery = { __typename?: 'Query', connection: { __typename?: 'TaleDraftConnection', totalCount: any, nodes: Array<{ __typename?: 'TaleDraft', id: number, title: string, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
 
 export type GetTaleDraftQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetTaleDraftQuery = { __typename?: 'Query', taleDraft: { __typename?: 'TaleDraft', proposed: boolean, text: string, id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any, nodes: Array<{ __typename?: 'Location', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> } } };
+export type GetTaleDraftQuery = { __typename?: 'Query', taleDraft: { __typename?: 'TaleDraft', proposed: boolean, text: string, id: number, title: string, locations: Array<{ __typename?: 'Area', slug: string, id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'AreaDraft', id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'Place', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } | { __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } } };
 
 export type CreateTaleDraftMutationVariables = Exact<{
   input: CreateTaleInput;
@@ -922,8 +1131,8 @@ export type CreateTaleDraftMutation = { __typename?: 'Mutation', created: { __ty
 export type ModifyTaleDraftMutationVariables = Exact<{
   id: Scalars['Int'];
   input: ModifyTaleInput;
-  addedLocations: Array<Scalars['Int']> | Scalars['Int'];
-  removedLocations: Array<Scalars['Int']> | Scalars['Int'];
+  addedPlaces: Array<Scalars['Int']> | Scalars['Int'];
+  removedPlaces: Array<Scalars['Int']> | Scalars['Int'];
 }>;
 
 
@@ -966,15 +1175,15 @@ export type RefuseTaleMutationVariables = Exact<{
 
 export type RefuseTaleMutation = { __typename?: 'Mutation', converted: boolean };
 
-type TaleSummary_Tale_Fragment = { __typename?: 'Tale', id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any } };
+type TaleSummary_Tale_Fragment = { __typename?: 'Tale', id: number, title: string, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } };
 
-type TaleSummary_TaleDraft_Fragment = { __typename?: 'TaleDraft', id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any } };
+type TaleSummary_TaleDraft_Fragment = { __typename?: 'TaleDraft', id: number, title: string, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } };
 
 export type TaleSummaryFragment = TaleSummary_Tale_Fragment | TaleSummary_TaleDraft_Fragment;
 
-type Tale_Tale_Fragment = { __typename?: 'Tale', text: string, id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any, nodes: Array<{ __typename?: 'Location', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> } };
+type Tale_Tale_Fragment = { __typename?: 'Tale', text: string, id: number, title: string, locations: Array<{ __typename?: 'Area', slug: string, id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'AreaDraft', id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'Place', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } | { __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } };
 
-type Tale_TaleDraft_Fragment = { __typename?: 'TaleDraft', text: string, id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any, nodes: Array<{ __typename?: 'Location', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> } };
+type Tale_TaleDraft_Fragment = { __typename?: 'TaleDraft', text: string, id: number, title: string, locations: Array<{ __typename?: 'Area', slug: string, id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'AreaDraft', id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'Place', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } | { __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } };
 
 export type TaleFragment = Tale_Tale_Fragment | Tale_TaleDraft_Fragment;
 
@@ -984,14 +1193,14 @@ export type GetTalesQueryVariables = Exact<{
 }>;
 
 
-export type GetTalesQuery = { __typename?: 'Query', connection: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
+export type GetTalesQuery = { __typename?: 'Query', connection: { __typename?: 'TaleConnection', totalCount: any, nodes: Array<{ __typename?: 'Tale', id: number, title: string, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } }>, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null, endCursor?: string | null, offset: any } } };
 
 export type GetTaleQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetTaleQuery = { __typename?: 'Query', tale: { __typename?: 'Tale', text: string, id: number, title: string, locations: { __typename?: 'LocationConnection', totalCount: any, nodes: Array<{ __typename?: 'Location', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }> } } };
+export type GetTaleQuery = { __typename?: 'Query', tale: { __typename?: 'Tale', text: string, id: number, title: string, locations: Array<{ __typename?: 'Area', slug: string, id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'AreaDraft', id: number, name: string, points: Array<{ __typename?: 'FlatPoint', x: number, z: number }> } | { __typename?: 'Place', slug: string, id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } } | { __typename?: 'PlaceDraft', id: number, name: string, pos: { __typename?: 'Point', x: number, y?: number | null, z: number } }>, places: { __typename?: 'PlaceConnection', totalCount: any }, areas: { __typename?: 'AreaConnection', totalCount: any } } };
 
 export type CreateTaleMutationVariables = Exact<{
   input: CreateTaleInput;
@@ -1003,8 +1212,8 @@ export type CreateTaleMutation = { __typename?: 'Mutation', created: { __typenam
 export type ModifyTaleMutationVariables = Exact<{
   id: Scalars['Int'];
   input: ModifyTaleInput;
-  addedLocations: Array<Scalars['Int']> | Scalars['Int'];
-  removedLocations: Array<Scalars['Int']> | Scalars['Int'];
+  addedPlaces: Array<Scalars['Int']> | Scalars['Int'];
+  removedPlaces: Array<Scalars['Int']> | Scalars['Int'];
 }>;
 
 
@@ -1012,42 +1221,45 @@ export type ModifyTaleMutation = { __typename?: 'Mutation', addedLocations: bool
 
 export const UserFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}}]}}]} as unknown as DocumentNode<UserFragment, unknown>;
 export const SelfFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Self"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}},...UserFragmentDoc.definitions]} as unknown as DocumentNode<SelfFragment, unknown>;
-export const PosFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pos"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Point"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"x"}},{"kind":"Field","name":{"kind":"Name","value":"y"}},{"kind":"Field","name":{"kind":"Name","value":"z"}}]}}]} as unknown as DocumentNode<PosFragment, unknown>;
-export const MapLocationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MapLocation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractLocation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"pos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pos"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}},...PosFragmentDoc.definitions]} as unknown as DocumentNode<MapLocationFragment, unknown>;
-export const LocationDraftFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LocationDraft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"LocationDraft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}},{"kind":"Field","name":{"kind":"Name","value":"proposed"}}]}},...MapLocationFragmentDoc.definitions]} as unknown as DocumentNode<LocationDraftFragment, unknown>;
 export const WithTimeFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"WithTime"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Timestamped"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamps"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"modifiedAt"}}]}}]}}]} as unknown as DocumentNode<WithTimeFragment, unknown>;
-export const LocationProposalPreviewFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LocationProposalPreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"LocationProposal"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"WithTime"}},{"kind":"Field","name":{"kind":"Name","value":"submitter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}},{"kind":"Field","name":{"kind":"Name","value":"draft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"original"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},...WithTimeFragmentDoc.definitions,...UserFragmentDoc.definitions]} as unknown as DocumentNode<LocationProposalPreviewFragment, unknown>;
-export const LocationSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LocationSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractLocation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]}},...MapLocationFragmentDoc.definitions]} as unknown as DocumentNode<LocationSummaryFragment, unknown>;
-export const LocationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Location"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LocationSummary"}},{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]}},...LocationSummaryFragmentDoc.definitions]} as unknown as DocumentNode<LocationFragment, unknown>;
+export const PlaceProposalPreviewFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaceProposalPreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PlaceProposal"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"WithTime"}},{"kind":"Field","name":{"kind":"Name","value":"submitter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}},{"kind":"Field","name":{"kind":"Name","value":"draft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"original"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},...WithTimeFragmentDoc.definitions,...UserFragmentDoc.definitions]} as unknown as DocumentNode<PlaceProposalPreviewFragment, unknown>;
 export const WorldFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"World"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"World"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]} as unknown as DocumentNode<WorldFragment, unknown>;
 export const PageInfoFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"offset"}}]}}]} as unknown as DocumentNode<PageInfoFragment, unknown>;
+export const MapLocationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MapLocation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractLocation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]} as unknown as DocumentNode<MapLocationFragment, unknown>;
+export const PosFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pos"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Point"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"x"}},{"kind":"Field","name":{"kind":"Name","value":"y"}},{"kind":"Field","name":{"kind":"Name","value":"z"}}]}}]} as unknown as DocumentNode<PosFragment, unknown>;
+export const MapPlaceFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MapPlace"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractPlace"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}},{"kind":"Field","name":{"kind":"Name","value":"pos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pos"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Place"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}},...MapLocationFragmentDoc.definitions,...PosFragmentDoc.definitions]} as unknown as DocumentNode<MapPlaceFragment, unknown>;
+export const PlaceDraftFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaceDraft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PlaceDraft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPlace"}},{"kind":"Field","name":{"kind":"Name","value":"proposed"}}]}},...MapPlaceFragmentDoc.definitions]} as unknown as DocumentNode<PlaceDraftFragment, unknown>;
+export const PlaceSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaceSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractPlace"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPlace"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Place"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]}},...MapPlaceFragmentDoc.definitions]} as unknown as DocumentNode<PlaceSummaryFragment, unknown>;
+export const PlaceFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Place"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Place"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaceSummary"}},{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]}},...PlaceSummaryFragmentDoc.definitions]} as unknown as DocumentNode<PlaceFragment, unknown>;
 export const TaleProposalPreviewFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaleProposalPreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TaleProposal"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"WithTime"}},{"kind":"Field","name":{"kind":"Name","value":"submitter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}},{"kind":"Field","name":{"kind":"Name","value":"draft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"original"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}},...WithTimeFragmentDoc.definitions,...UserFragmentDoc.definitions]} as unknown as DocumentNode<TaleProposalPreviewFragment, unknown>;
-export const TaleSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractTale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Tale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TaleDraft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]}}]} as unknown as DocumentNode<TaleSummaryFragment, unknown>;
-export const TaleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Tale"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractTale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleSummary"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Tale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}}]}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TaleDraft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}}]}}]}}]}}]}},...TaleSummaryFragmentDoc.definitions,...MapLocationFragmentDoc.definitions]} as unknown as DocumentNode<TaleFragment, unknown>;
+export const TaleSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractTale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Tale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TaleDraft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]}}]} as unknown as DocumentNode<TaleSummaryFragment, unknown>;
+export const FlatPosFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FlatPos"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"FlatPoint"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"x"}},{"kind":"Field","name":{"kind":"Name","value":"z"}}]}}]} as unknown as DocumentNode<FlatPosFragment, unknown>;
+export const MapAreaFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MapArea"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractArea"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}},{"kind":"Field","name":{"kind":"Name","value":"points"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FlatPos"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Area"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}},...MapLocationFragmentDoc.definitions,...FlatPosFragmentDoc.definitions]} as unknown as DocumentNode<MapAreaFragment, unknown>;
+export const TaleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Tale"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AbstractTale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleSummary"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Tale"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPlace"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapArea"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TaleDraft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPlace"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapArea"}}]}}]}}]}},...TaleSummaryFragmentDoc.definitions,...MapPlaceFragmentDoc.definitions,...MapAreaFragmentDoc.definitions]} as unknown as DocumentNode<TaleFragment, unknown>;
 export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Self"}}]}}]}},...SelfFragmentDoc.definitions]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
 export const GetAccountsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAccounts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AccountFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...UserFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetAccountsQuery, GetAccountsQueryVariables>;
 export const ApiSettingsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"apiSettings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"settings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"development"}}]}}]}}]} as unknown as DocumentNode<ApiSettingsQuery, ApiSettingsQueryVariables>;
 export const ImpersonateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"impersonate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"impersonate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<ImpersonateMutation, ImpersonateMutationVariables>;
-export const GetLocationDraftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocationDrafts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"locationDrafts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...MapLocationFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationDraftsQuery, GetLocationDraftsQueryVariables>;
-export const GetLocationDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocationDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"locationDraft"},"name":{"kind":"Name","value":"locationDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LocationDraft"}}]}}]}},...LocationDraftFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationDraftQuery, GetLocationDraftQueryVariables>;
-export const CreateLocationDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createLocationDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createLocationDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateLocationDraftMutation, CreateLocationDraftMutationVariables>;
-export const ModifyLocationDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyLocationDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyLocationDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ModifyLocationDraftMutation, ModifyLocationDraftMutationVariables>;
-export const ProposeLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"proposeLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"proposal"},"name":{"kind":"Name","value":"proposeLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}]}]}}]} as unknown as DocumentNode<ProposeLocationMutation, ProposeLocationMutationVariables>;
-export const GetLocationProposalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocationProposals"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"locationProposals"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LocationProposalPreview"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...LocationProposalPreviewFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationProposalsQuery, GetLocationProposalsQueryVariables>;
-export const GetLocationProposalDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocationProposal"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"proposal"},"name":{"kind":"Name","value":"locationProposal"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LocationProposalPreview"}},{"kind":"Field","name":{"kind":"Name","value":"draft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pos"}}]}}]}}]}}]}},...LocationProposalPreviewFragmentDoc.definitions,...PosFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationProposalQuery, GetLocationProposalQueryVariables>;
-export const ApproveLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"approveLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"converted"},"name":{"kind":"Name","value":"approveLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}]}]}}]} as unknown as DocumentNode<ApproveLocationMutation, ApproveLocationMutationVariables>;
-export const RefuseLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"refuseLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"converted"},"name":{"kind":"Name","value":"refuseLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}]}]}}]} as unknown as DocumentNode<RefuseLocationMutation, RefuseLocationMutationVariables>;
-export const GetLocationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"locations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LocationSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...LocationSummaryFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationsQuery, GetLocationsQueryVariables>;
-export const GetLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"location"},"name":{"kind":"Name","value":"locationBySlug"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Location"}}]}}]}},...LocationFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationQuery, GetLocationQueryVariables>;
-export const GetLocationByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLocationById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"location"},"name":{"kind":"Name","value":"location"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Location"}}]}}]}},...LocationFragmentDoc.definitions]} as unknown as DocumentNode<GetLocationByIdQuery, GetLocationByIdQueryVariables>;
-export const CreateLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<CreateLocationMutation, CreateLocationMutationVariables>;
-export const ModifyLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<ModifyLocationMutation, ModifyLocationMutationVariables>;
-export const MapLocationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"mapLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapLocation"}}]}}]}}]}},...MapLocationFragmentDoc.definitions]} as unknown as DocumentNode<MapLocationsQuery, MapLocationsQueryVariables>;
+export const GetPlaceProposalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaceProposals"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"placeProposals"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaceProposalPreview"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...PlaceProposalPreviewFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceProposalsQuery, GetPlaceProposalsQueryVariables>;
+export const GetPlaceProposalDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaceProposal"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"proposal"},"name":{"kind":"Name","value":"placeProposal"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaceProposalPreview"}},{"kind":"Field","name":{"kind":"Name","value":"draft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pos"}}]}}]}}]}}]}},...PlaceProposalPreviewFragmentDoc.definitions,...PosFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceProposalQuery, GetPlaceProposalQueryVariables>;
+export const ApprovePlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"approvePlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"converted"},"name":{"kind":"Name","value":"approvePlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}]}]}}]} as unknown as DocumentNode<ApprovePlaceMutation, ApprovePlaceMutationVariables>;
+export const RefusePlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"refusePlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"converted"},"name":{"kind":"Name","value":"refusePlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}]}]}}]} as unknown as DocumentNode<RefusePlaceMutation, RefusePlaceMutationVariables>;
+export const MapLocationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"mapLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPlace"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapArea"}}]}}]}}]}},...MapPlaceFragmentDoc.definitions,...MapAreaFragmentDoc.definitions]} as unknown as DocumentNode<MapLocationsQuery, MapLocationsQueryVariables>;
 export const GetWorldsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getWorlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"worlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"World"}}]}}]}},...WorldFragmentDoc.definitions]} as unknown as DocumentNode<GetWorldsQuery, GetWorldsQueryVariables>;
+export const GetPlaceDraftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaceDrafts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"placeDrafts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MapPlace"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...MapPlaceFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceDraftsQuery, GetPlaceDraftsQueryVariables>;
+export const GetPlaceDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaceDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"placeDraft"},"name":{"kind":"Name","value":"placeDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaceDraft"}}]}}]}},...PlaceDraftFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceDraftQuery, GetPlaceDraftQueryVariables>;
+export const CreatePlaceDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createPlaceDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createPlaceDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreatePlaceDraftMutation, CreatePlaceDraftMutationVariables>;
+export const ModifyPlaceDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyPlaceDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyPlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyPlaceDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ModifyPlaceDraftMutation, ModifyPlaceDraftMutationVariables>;
+export const ProposePlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"proposePlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"proposal"},"name":{"kind":"Name","value":"proposePlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}]}]}}]} as unknown as DocumentNode<ProposePlaceMutation, ProposePlaceMutationVariables>;
+export const GetPlacesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaces"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"places"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaceSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...PlaceSummaryFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetPlacesQuery, GetPlacesQueryVariables>;
+export const GetPlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"place"},"name":{"kind":"Name","value":"placeBySlug"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Place"}}]}}]}},...PlaceFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceQuery, GetPlaceQueryVariables>;
+export const GetPlaceByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaceById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"place"},"name":{"kind":"Name","value":"place"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Place"}}]}}]}},...PlaceFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceByIdQuery, GetPlaceByIdQueryVariables>;
+export const CreatePlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createPlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<CreatePlaceMutation, CreatePlaceMutationVariables>;
+export const ModifyPlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyPlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyPlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<ModifyPlaceMutation, ModifyPlaceMutationVariables>;
 export const GetTaleDraftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleDrafts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"taleDrafts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...TaleSummaryFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleDraftsQuery, GetTaleDraftsQueryVariables>;
 export const GetTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Tale"}},{"kind":"Field","name":{"kind":"Name","value":"proposed"}}]}}]}},...TaleFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleDraftQuery, GetTaleDraftQueryVariables>;
 export const CreateTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTaleInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateTaleDraftMutation, CreateTaleDraftMutationVariables>;
-export const ModifyTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyTaleInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"addedLocations"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"removedLocations"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"addedLocations"},"name":{"kind":"Name","value":"addLocationsToTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"locations"},"value":{"kind":"Variable","name":{"kind":"Name","value":"addedLocations"}}}]},{"kind":"Field","alias":{"kind":"Name","value":"removedLocations"},"name":{"kind":"Name","value":"removeLocationsFromTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"locations"},"value":{"kind":"Variable","name":{"kind":"Name","value":"removedLocations"}}}]}]}}]} as unknown as DocumentNode<ModifyTaleDraftMutation, ModifyTaleDraftMutationVariables>;
+export const ModifyTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyTaleInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"addedPlaces"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"removedPlaces"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"addedLocations"},"name":{"kind":"Name","value":"addPlacesToTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"addedPlaces"}}}]},{"kind":"Field","alias":{"kind":"Name","value":"removedLocations"},"name":{"kind":"Name","value":"removePlacesFromTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"removedPlaces"}}}]}]}}]} as unknown as DocumentNode<ModifyTaleDraftMutation, ModifyTaleDraftMutationVariables>;
 export const ProposeTaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"proposeTale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"proposal"},"name":{"kind":"Name","value":"proposeTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}]}]}}]} as unknown as DocumentNode<ProposeTaleMutation, ProposeTaleMutationVariables>;
 export const GetTaleProposalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleProposals"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"taleProposals"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleProposalPreview"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...TaleProposalPreviewFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleProposalsQuery, GetTaleProposalsQueryVariables>;
 export const GetTaleProposalDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleProposal"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"draft"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"proposal"},"name":{"kind":"Name","value":"taleProposal"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"draftId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"draft"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleProposalPreview"}},{"kind":"Field","name":{"kind":"Name","value":"draft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}}]}},...TaleProposalPreviewFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleProposalQuery, GetTaleProposalQueryVariables>;
@@ -1056,7 +1268,7 @@ export const RefuseTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const GetTalesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTales"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"TaleFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"tales"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...TaleSummaryFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetTalesQuery, GetTalesQueryVariables>;
 export const GetTaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Tale"}}]}}]}},...TaleFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleQuery, GetTaleQueryVariables>;
 export const CreateTaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTaleInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateTaleMutation, CreateTaleMutationVariables>;
-export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyTale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyTaleInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"addedLocations"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"removedLocations"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"addedLocations"},"name":{"kind":"Name","value":"addLocationsToTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"locations"},"value":{"kind":"Variable","name":{"kind":"Name","value":"addedLocations"}}}]},{"kind":"Field","alias":{"kind":"Name","value":"removedLocations"},"name":{"kind":"Name","value":"removeLocationsFromTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"locations"},"value":{"kind":"Variable","name":{"kind":"Name","value":"removedLocations"}}}]}]}}]} as unknown as DocumentNode<ModifyTaleMutation, ModifyTaleMutationVariables>;
+export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyTale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyTaleInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"addedPlaces"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"removedPlaces"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"addedLocations"},"name":{"kind":"Name","value":"addPlacesToTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"addedPlaces"}}}]},{"kind":"Field","alias":{"kind":"Name","value":"removedLocations"},"name":{"kind":"Name","value":"removePlacesFromTale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"removedPlaces"}}}]}]}}]} as unknown as DocumentNode<ModifyTaleMutation, ModifyTaleMutationVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {
@@ -1065,16 +1277,27 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
       }
       const result: PossibleTypesResultData = {
   "possibleTypes": {
+    "AbstractArea": [
+      "Area",
+      "AreaDraft"
+    ],
     "AbstractDraft": [
-      "LocationDraft",
+      "AreaDraft",
+      "PlaceDraft",
       "TaleDraft"
     ],
     "AbstractLocation": [
-      "Location",
-      "LocationDraft"
+      "Area",
+      "AreaDraft",
+      "Place",
+      "PlaceDraft"
+    ],
+    "AbstractPlace": [
+      "Place",
+      "PlaceDraft"
     ],
     "AbstractProposal": [
-      "LocationProposal",
+      "PlaceProposal",
       "TaleProposal"
     ],
     "AbstractTale": [
@@ -1083,18 +1306,22 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
     ],
     "Entity": [
       "Account",
-      "Location",
-      "LocationDraft",
-      "LocationProposal",
+      "Area",
+      "AreaDraft",
+      "Place",
+      "PlaceDraft",
+      "PlaceProposal",
       "Tale",
       "TaleDraft",
       "TaleProposal"
     ],
     "Timestamped": [
       "Account",
-      "Location",
-      "LocationDraft",
-      "LocationProposal",
+      "Area",
+      "AreaDraft",
+      "Place",
+      "PlaceDraft",
+      "PlaceProposal",
       "Tale",
       "TaleDraft",
       "TaleProposal"

@@ -20,7 +20,8 @@ const route = useRoute()
 const links = ref([
    { display: 'Map', to: '/map', icon: MapIcon },
    { display: 'Libary', to: '/library', icon: BookOpenIcon },
-   { display: 'Locations', to: '/locations', icon: MapPinIcon },
+   { display: 'Places', to: '/places', icon: MapPinIcon },
+   { display: 'Areas', to: '/areas', icon: MapPinIcon },
 ])
 
 const active = computed(() => [...links.value].reverse().find(it => route.path.startsWith(it.to))?.to)

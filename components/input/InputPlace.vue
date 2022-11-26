@@ -1,11 +1,11 @@
 <template>
-   <FormKit type="multi" placeholder="Select Locations" :loading="!result" :options="options" />
+   <FormKit type="multi" placeholder="Select Places" :loading="!result" :options="options" />
 </template>
 
 <script lang="ts" setup>
-import { GetLocationsDocument } from '~/graphql/generated'
+import { GetPlacesDocument } from '~/graphql/generated'
 
-const { result } = useQuery(GetLocationsDocument)
+const { result } = useQuery(GetPlacesDocument)
 
 const options = computed(
    () =>

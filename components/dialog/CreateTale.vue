@@ -1,12 +1,14 @@
 <template>
    <DialogBase title="Write Lore">
-      <FormCreateTale :initial-locations="initialLocations" @saved="closeDialog" />
+      <FormCreateTale :intial-locations="initialLocations" @saved="closeDialog" />
    </DialogBase>
 </template>
 
 <script lang="ts" setup>
+import { MapLocationFragment } from '~~/graphql/generated'
+
 defineProps<{
-   initialLocations?: number[]
+   initialLocations?: Pick<MapLocationFragment, 'id' | '__typename'>[]
 }>()
 </script>
 

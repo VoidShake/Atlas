@@ -3,7 +3,7 @@
       <FormKit v-slot="{ value, state: { valid } }" type="form" :actions="false" :errors="errors">
          <FormKit name="title" :value="initial?.title" validation="required" label="Title" type="text" />
 
-         <InputLocation name="locations" :value="initialLocations" />
+         <InputPlace name="places" :value="initialPlaces" />
 
          <MarkdownEditor name="text" :value="initial?.text" label="Text" validation="required" />
 
@@ -33,6 +33,7 @@ import {
    CreateTaleDraftMutation,
    CreateTaleInput,
    CreateTaleMutation,
+   MapLocationFragment,
    Permission,
 } from '~~/graphql/generated'
 
@@ -48,12 +49,14 @@ const emit = defineEmits<{
    (e: 'saved', data: CreateTaleMutation | CreateTaleDraftMutation): void
 }>()
 
-defineProps<{
+const props = defineProps<{
    initial?: DeepPartial<AbstractTale>
-   initialLocations?: number[]
+   initialLocations?: Pick<MapLocationFragment, 'id' | '__typename'>[]
 }>()
 
-const refetchQueries = ['getLocation']
+const initialPlaces = computed(() => props.initialLocations?.filter(it => it.__typename === 'Place').map(it => it.id))
+
+const refetchQueries = ['getPlace']
 const { mutate: createTale, error } = useMutation(CreateTaleDocument, { refetchQueries })
 const { mutate: createTaleDraft, error: draftError } = useMutation(CreateTaleDraftDocument, { refetchQueries })
 const errors = computed(() =>

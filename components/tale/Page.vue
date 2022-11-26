@@ -7,7 +7,7 @@
       </ActionLink>
 
       <p class="my-5">
-         <Pill v-for="location of tale.locations.nodes" :key="location.id">
+         <Pill v-for="location of tale.locations" :key="`${location.__typename}-${location.id}`">
             <span> {{ location.name }} </span>
             <template #icon>
                <MapPinIcon />

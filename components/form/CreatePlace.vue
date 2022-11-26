@@ -27,13 +27,13 @@
 <script lang="ts" setup>
 import { DeepPartial } from 'ts-essentials'
 import {
-   CreateLocationDocument,
-   CreateLocationDraftDocument,
-   CreateLocationDraftMutation,
-   CreateLocationInput,
-   CreateLocationMutation,
+   CreatePlaceDocument,
+   CreatePlaceDraftDocument,
+   CreatePlaceDraftMutation,
+   CreatePlaceInput,
+   CreatePlaceMutation,
    Permission,
-   AbstractLocation,
+   AbstractPlace,
 } from '~~/graphql/generated'
 
 const { hasPermission } = useSession()
@@ -45,17 +45,17 @@ const onlyDraft = computed(() => {
 })
 
 const emit = defineEmits<{
-   (e: 'saved', data: CreateLocationMutation | CreateLocationDraftMutation): void
+   (e: 'saved', data: CreatePlaceMutation | CreatePlaceDraftMutation): void
 }>()
 
 defineProps<{
    updateId?: number
-   initial?: DeepPartial<AbstractLocation>
+   initial?: DeepPartial<AbstractPlace>
 }>()
 
-const refetchQueries = ['getLocation', 'getLocations']
-const { mutate: createLocation, error } = useMutation(CreateLocationDocument, { refetchQueries })
-const { mutate: createLocationDraft, error: draftError } = useMutation(CreateLocationDraftDocument, { refetchQueries })
+const refetchQueries = ['getPlace', 'getPlaces']
+const { mutate: createPlace, error } = useMutation(CreatePlaceDocument, { refetchQueries })
+const { mutate: createPlaceDraft, error: draftError } = useMutation(CreatePlaceDraftDocument, { refetchQueries })
 const errors = computed(() =>
    [error, draftError]
       .map(it => it.value)
@@ -63,8 +63,8 @@ const errors = computed(() =>
       .flatMap(extractMessages),
 )
 
-async function save(input: CreateLocationInput, draft: boolean) {
-   const create = draft ? createLocationDraft : createLocation
+async function save(input: CreatePlaceInput, draft: boolean) {
+   const create = draft ? createPlaceDraft : createPlace
    const response = await create({ input })
    const data = response?.data
    if (data) emit('saved', data)

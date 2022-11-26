@@ -1,6 +1,6 @@
 <template>
    <section v-if="result">
-      <FormCreateTale :initial="result.taleDraft" :initial-locations="initialLocations">
+      <FormCreateTale :initial="result.taleDraft" :intial-places="initialLocations">
          <template #buttons="{ valid, value }">
             <FormKit type="submit" :disabled="!valid" @click.prevent="modify(value)"> Save </FormKit>
          </template>
