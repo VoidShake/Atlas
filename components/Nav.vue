@@ -4,7 +4,7 @@
          <component :is="link.icon" class="icon" />
          <span> {{ link.display }} </span>
       </NuxtLink>
-      <section class="flex gap-4 justify-self-end">
+      <section class="flex gap-4 ml-auto">
          <ThemeButton />
          <ProfileIcon v-if="loggedIn" />
          <NuxtLink v-else to="/login" class="px-2"> Login </NuxtLink>
@@ -26,16 +26,13 @@ const links = ref([
 
 const active = computed(() => [...links.value].reverse().find(it => route.path.startsWith(it.to))?.to)
 
-const linkCount = computed(() => links.value.length)
-
 const { loggedIn } = useSession()
 </script>
 
 <style lang="scss" scoped>
 nav {
    @apply pr-2;
-   @apply grid items-center grid-flow-col;
-   grid-template-columns: repeat(v-bind('linkCount'), auto) 1fr;
+   @apply flex items-center;
 
    @apply bg-solid-700;
 
