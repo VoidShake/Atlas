@@ -1,16 +1,20 @@
 <template>
    <div>
-      <h1>{{ tale.title }} <slot name="title" /></h1>
+      <h1>
+         {{ tale.title }}
+         <slot name="title" />
+      </h1>
 
       <ActionLink :to="`${route.path}/edit`">
          <PencilIcon />
       </ActionLink>
 
       <p class="my-5">
-         <Pill v-for="location of tale.locations" :key="`${location.__typename}-${location.id}`">
+         <Pill v-for="location of locations" :key="`${location.__typename}-${location.id}`">
             <span> {{ location.name }} </span>
             <template #icon>
-               <MapPinIcon />
+               <FlagIcon v-if="location.__typename?.startsWith('Area')" />
+               <MapPinIcon v-else />
             </template>
          </Pill>
       </p>
@@ -20,12 +24,14 @@
 </template>
 
 <script lang="ts" setup>
-import { MapPinIcon, PencilIcon } from '@heroicons/vue/24/solid'
-import { TaleFragment } from '~~/graphql/generated'
+import { MapPinIcon, PencilIcon, FlagIcon } from '@heroicons/vue/24/solid'
+import { MapLocationFragment, TaleFragment } from '~~/graphql/generated'
 
 const route = useRoute()
 
-defineProps<{
+const props = defineProps<{
    tale: TaleFragment
 }>()
+
+const locations = computed<MapLocationFragment[]>(() => [...props.tale?.areas.nodes, ...props.tale?.places.nodes])
 </script>

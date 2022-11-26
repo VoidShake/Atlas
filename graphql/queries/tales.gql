@@ -1,36 +1,25 @@
 fragment TaleSummary on AbstractTale {
+   ...WithTime
    id
    title
-   ... on Tale {
-      places {
-         totalCount
-      }
-      areas {
-         totalCount
-      }
+   places {
+      totalCount
    }
-   ... on TaleDraft {
-      places {
-         totalCount
-      }
-      areas {
-         totalCount
-      }
+   areas {
+      totalCount
    }
 }
 
 fragment Tale on AbstractTale {
    ...TaleSummary
    text
-   ... on Tale {
-      locations @client {
+   places {
+      nodes {
          ...MapPlace
-         ...MapArea
       }
    }
-   ... on TaleDraft {
-      locations @client {
-         ...MapPlace
+   areas {
+      nodes {
          ...MapArea
       }
    }

@@ -33,7 +33,6 @@ import {
    CreateTaleDraftMutation,
    CreateTaleInput,
    CreateTaleMutation,
-   MapLocationFragment,
    Permission,
 } from '~~/graphql/generated'
 
@@ -49,12 +48,11 @@ const emit = defineEmits<{
    (e: 'saved', data: CreateTaleMutation | CreateTaleDraftMutation): void
 }>()
 
-const props = defineProps<{
+defineProps<{
    initial?: DeepPartial<AbstractTale>
-   initialLocations?: Pick<MapLocationFragment, 'id' | '__typename'>[]
+   initialPlaces?: number[]
+   initialAreas?: number[]
 }>()
-
-const initialPlaces = computed(() => props.initialLocations?.filter(it => it.__typename === 'Place').map(it => it.id))
 
 const refetchQueries = ['getPlace']
 const { mutate: createTale, error } = useMutation(CreateTaleDocument, { refetchQueries })

@@ -11,7 +11,7 @@
       <MapAreaMarker v-for="it in result.areas.nodes" :key="it.id" :area="it" />
       <DialogCreateTale
          v-if="selected?.action == 'add-lore'"
-         :initial-locations="[selected.location]"
+         :initial-places="[selected.location.id]"
          @close="selected = null"
       />
    </div>

@@ -1,10 +1,6 @@
 fragment PlaceSummary on AbstractPlace {
    ...MapPlace
-   ... on Place {
-      tales {
-         totalCount
-      }
-   }
+   ...SubjectSummary
 }
 
 fragment Place on Place {

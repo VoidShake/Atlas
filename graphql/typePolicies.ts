@@ -9,6 +9,7 @@ const taleFields = {
    },
 }
 
+// Not working for now, see https://github.com/nuxt-modules/apollo/issues/443
 const typePolicies: TypePolicies = {
    Tale: {
       fields: taleFields,
@@ -16,7 +17,6 @@ const typePolicies: TypePolicies = {
    TaleDraft: {
       fields: taleFields,
    },
-   // Not working for now
    Timestamps: {
       fields: {
          createdAt: {
