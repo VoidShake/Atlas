@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       },
    },
 
-   css: ['leaflet/dist/leaflet.css', '@vueform/multiselect/themes/default.css'],
+   css: ['leaflet/dist/leaflet.css', '@vueform/multiselect/themes/default.css', 'v-network-graph/lib/style.css'],
 
    nitro: {
       devProxy: {

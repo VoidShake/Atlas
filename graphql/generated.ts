@@ -178,16 +178,57 @@ export type AreaDraft = AbstractArea & AbstractDraft & AbstractLocation & Entity
   maxY: Scalars['Int'];
   minY: Scalars['Int'];
   name: Scalars['String'];
+  original?: Maybe<Area>;
   originalId?: Maybe<Scalars['Int']>;
   points: Array<FlatPoint>;
+  proposal?: Maybe<AreaProposal>;
+  proposed: Scalars['Boolean'];
   timestamps: Timestamps;
   world: Scalars['String'];
+};
+
+export type AreaDraftConnection = {
+  __typename?: 'AreaDraftConnection';
+  edges: Array<AreaDraftEdge>;
+  nodes: Array<AreaDraft>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type AreaDraftEdge = {
+  __typename?: 'AreaDraftEdge';
+  cursor: Scalars['String'];
+  node: AreaDraft;
 };
 
 export type AreaEdge = {
   __typename?: 'AreaEdge';
   cursor: Scalars['String'];
   node: Area;
+};
+
+export type AreaProposal = AbstractProposal & Entity & Timestamped & {
+  __typename?: 'AreaProposal';
+  draft: AreaDraft;
+  draftId: Scalars['Int'];
+  id: Scalars['Int'];
+  submitter: Account;
+  submitterId: Scalars['Int'];
+  timestamps: Timestamps;
+};
+
+export type AreaProposalConnection = {
+  __typename?: 'AreaProposalConnection';
+  edges: Array<AreaProposalEdge>;
+  nodes: Array<AreaProposal>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type AreaProposalEdge = {
+  __typename?: 'AreaProposalEdge';
+  cursor: Scalars['String'];
+  node: AreaProposal;
 };
 
 export type CreateAreaInput = {
@@ -266,32 +307,39 @@ export type Mutation = {
   addAreasToTaleDraft: Scalars['Boolean'];
   addPlacesToTale: Scalars['Boolean'];
   addPlacesToTaleDraft: Scalars['Boolean'];
+  approveArea: Scalars['Int'];
   approvePlace: Scalars['Int'];
   approveTale: Scalars['Int'];
   createArea: Area;
+  createAreaDraft: AreaDraft;
   createPlace: Place;
   createPlaceDraft: PlaceDraft;
   createTale: Tale;
   createTaleDraft: TaleDraft;
   deleteArea: Scalars['Boolean'];
+  deleteAreaDraft: Scalars['Boolean'];
   deletePlace: Scalars['Boolean'];
   deletePlaceDraft: Scalars['Boolean'];
   deleteTale: Scalars['Boolean'];
   deleteTaleDraft: Scalars['Boolean'];
   impersonate: TokenResponse;
   modifyArea: Area;
+  modifyAreaDraft: AreaDraft;
   modifyPlace: Place;
   modifyPlaceDraft: PlaceDraft;
   modifyTale: Tale;
   modifyTaleDraft: TaleDraft;
+  proposeArea: Scalars['Boolean'];
   proposePlace: Scalars['Boolean'];
   proposeTale: Scalars['Boolean'];
+  refuseArea: Scalars['Boolean'];
   refusePlace: Scalars['Boolean'];
   refuseTale: Scalars['Boolean'];
   removeAreasFromTale: Scalars['Boolean'];
   removeAreasFromTaleDraft: Scalars['Boolean'];
   removePlacesFromTale: Scalars['Boolean'];
   removePlacesFromTaleDraft: Scalars['Boolean'];
+  withdrawArea: Scalars['Boolean'];
   withdrawPlace: Scalars['Boolean'];
   withdrawTale: Scalars['Boolean'];
 };
@@ -326,6 +374,12 @@ export type MutationAddPlacesToTaleDraftArgs = {
 
 
 /** Mutation object */
+export type MutationApproveAreaArgs = {
+  draftId: Scalars['Int'];
+};
+
+
+/** Mutation object */
 export type MutationApprovePlaceArgs = {
   draftId: Scalars['Int'];
 };
@@ -339,6 +393,12 @@ export type MutationApproveTaleArgs = {
 
 /** Mutation object */
 export type MutationCreateAreaArgs = {
+  input: CreateAreaInput;
+};
+
+
+/** Mutation object */
+export type MutationCreateAreaDraftArgs = {
   input: CreateAreaInput;
 };
 
@@ -369,6 +429,12 @@ export type MutationCreateTaleDraftArgs = {
 
 /** Mutation object */
 export type MutationDeleteAreaArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationDeleteAreaDraftArgs = {
   id: Scalars['Int'];
 };
 
@@ -411,6 +477,13 @@ export type MutationModifyAreaArgs = {
 
 
 /** Mutation object */
+export type MutationModifyAreaDraftArgs = {
+  id: Scalars['Int'];
+  input: ModifyAreaInput;
+};
+
+
+/** Mutation object */
 export type MutationModifyPlaceArgs = {
   id: Scalars['Int'];
   input: ModifyPlaceInput;
@@ -439,6 +512,12 @@ export type MutationModifyTaleDraftArgs = {
 
 
 /** Mutation object */
+export type MutationProposeAreaArgs = {
+  draftId: Scalars['Int'];
+};
+
+
+/** Mutation object */
 export type MutationProposePlaceArgs = {
   draftId: Scalars['Int'];
 };
@@ -446,6 +525,12 @@ export type MutationProposePlaceArgs = {
 
 /** Mutation object */
 export type MutationProposeTaleArgs = {
+  draftId: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationRefuseAreaArgs = {
   draftId: Scalars['Int'];
 };
 
@@ -487,6 +572,12 @@ export type MutationRemovePlacesFromTaleArgs = {
 export type MutationRemovePlacesFromTaleDraftArgs = {
   ids: Array<Scalars['Int']>;
   tale: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationWithdrawAreaArgs = {
+  draftId: Scalars['Int'];
 };
 
 
@@ -640,7 +731,12 @@ export type Query = {
   accounts: AccountConnection;
   area: Area;
   areaBySlug: Area;
+  areaDraft: AreaDraft;
+  areaDrafts: AreaDraftConnection;
+  areaProposal: AreaProposal;
+  areaProposals: AreaProposalConnection;
   areas: AreaConnection;
+  createAreaDraftFrom: AreaDraft;
   createPlaceDraftFrom: PlaceDraft;
   createTaleDraftFrom: TaleDraft;
   me?: Maybe<Account>;
@@ -689,9 +785,40 @@ export type QueryAreaBySlugArgs = {
 
 
 /** Query object */
+export type QueryAreaDraftArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QueryAreaDraftsArgs = {
+  filter?: InputMaybe<LocationFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
+export type QueryAreaProposalArgs = {
+  draftId: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QueryAreaProposalsArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
 export type QueryAreasArgs = {
   filter?: InputMaybe<LocationFilter>;
   pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
+export type QueryCreateAreaDraftFromArgs = {
+  original: Scalars['Int'];
 };
 
 
@@ -1179,11 +1306,18 @@ export type ModifyPlaceMutationVariables = Exact<{
 
 export type ModifyPlaceMutation = { __typename?: 'Mutation', modified: { __typename?: 'Place', id: number, slug: string } };
 
+export type RelationsGraphQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RelationsGraphQuery = { __typename?: 'Query', tales: { __typename?: 'TaleConnection', nodes: Array<{ __typename?: 'Tale', id: number, authorId: number, title: string, places: { __typename?: 'PlaceConnection', nodes: Array<{ __typename?: 'Place', id: number }> }, areas: { __typename?: 'AreaConnection', nodes: Array<{ __typename?: 'Area', id: number }> } }> }, places: { __typename?: 'PlaceConnection', nodes: Array<{ __typename?: 'Place', id: number, authorId: number, name: string }> }, areas: { __typename?: 'AreaConnection', nodes: Array<{ __typename?: 'Area', id: number, authorId: number, name: string }> } };
+
 type WithTime_Account_Fragment = { __typename?: 'Account', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
 type WithTime_Area_Fragment = { __typename?: 'Area', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
 type WithTime_AreaDraft_Fragment = { __typename?: 'AreaDraft', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+
+type WithTime_AreaProposal_Fragment = { __typename?: 'AreaProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
 type WithTime_Place_Fragment = { __typename?: 'Place', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
@@ -1197,7 +1331,7 @@ type WithTime_TaleDraft_Fragment = { __typename?: 'TaleDraft', timestamps: { __t
 
 type WithTime_TaleProposal_Fragment = { __typename?: 'TaleProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
-export type WithTimeFragment = WithTime_Account_Fragment | WithTime_Area_Fragment | WithTime_AreaDraft_Fragment | WithTime_Place_Fragment | WithTime_PlaceDraft_Fragment | WithTime_PlaceProposal_Fragment | WithTime_Tale_Fragment | WithTime_TaleDraft_Fragment | WithTime_TaleProposal_Fragment;
+export type WithTimeFragment = WithTime_Account_Fragment | WithTime_Area_Fragment | WithTime_AreaDraft_Fragment | WithTime_AreaProposal_Fragment | WithTime_Place_Fragment | WithTime_PlaceDraft_Fragment | WithTime_PlaceProposal_Fragment | WithTime_Tale_Fragment | WithTime_TaleDraft_Fragment | WithTime_TaleProposal_Fragment;
 
 type SubjectSummary_Area_Fragment = { __typename?: 'Area', tales: { __typename?: 'TaleConnection', totalCount: any } };
 
@@ -1362,6 +1496,7 @@ export const GetPlaceDocument = {"kind":"Document","definitions":[{"kind":"Opera
 export const GetPlaceByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaceById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"place"},"name":{"kind":"Name","value":"place"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Place"}}]}}]}},...PlaceFragmentDoc.definitions,...PlaceSummaryFragmentDoc.definitions,...MapPlaceFragmentDoc.definitions,...PosFragmentDoc.definitions,...SubjectSummaryFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceByIdQuery, GetPlaceByIdQueryVariables>;
 export const CreatePlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createPlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<CreatePlaceMutation, CreatePlaceMutationVariables>;
 export const ModifyPlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyPlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyPlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<ModifyPlaceMutation, ModifyPlaceMutationVariables>;
+export const RelationsGraphDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"relationsGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RelationsGraphQuery, RelationsGraphQueryVariables>;
 export const GetTaleDraftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleDrafts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"taleDrafts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...TaleSummaryFragmentDoc.definitions,...WithTimeFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleDraftsQuery, GetTaleDraftsQueryVariables>;
 export const GetTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Tale"}},{"kind":"Field","name":{"kind":"Name","value":"proposed"}}]}}]}},...TaleFragmentDoc.definitions,...TaleSummaryFragmentDoc.definitions,...WithTimeFragmentDoc.definitions,...MapPlaceFragmentDoc.definitions,...PosFragmentDoc.definitions,...MapAreaFragmentDoc.definitions,...FlatPosFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleDraftQuery, GetTaleDraftQueryVariables>;
 export const CreateTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTaleInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateTaleDraftMutation, CreateTaleDraftMutationVariables>;
@@ -1403,6 +1538,7 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
       "PlaceDraft"
     ],
     "AbstractProposal": [
+      "AreaProposal",
       "PlaceProposal",
       "TaleProposal"
     ],
@@ -1414,6 +1550,7 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
       "Account",
       "Area",
       "AreaDraft",
+      "AreaProposal",
       "Place",
       "PlaceDraft",
       "PlaceProposal",
@@ -1437,6 +1574,7 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
       "Account",
       "Area",
       "AreaDraft",
+      "AreaProposal",
       "Place",
       "PlaceDraft",
       "PlaceProposal",

@@ -1,7 +1,7 @@
 documents: graphql/queries/**/*.gql
 schema:
    - http://localhost:8080/api/graphql
-   - graphql/localSchema.gql
+#   - graphql/localSchema.gql
 
 extensions:
    codegen:

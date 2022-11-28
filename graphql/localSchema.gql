@@ -1,7 +1,0 @@
-#type Tale {
-#   locations: [AbstractLocation!]!
-#}
-#
-#type TaleDraft {
-#   locations: [AbstractLocation!]!
-#}
