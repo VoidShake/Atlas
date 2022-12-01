@@ -1,6 +1,6 @@
 <template>
    <div id="map-wrap">
-      <DialogCreateLocation v-if="selected?.action == 'add-marker'" :pos="selected.pos" @close="selected = null" />
+      <DialogCreatePlace v-if="selected?.action == 'add-marker'" :pos="selected.pos" @close="selected = null" />
       <client-only v-if="context">
          <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" />
       </client-only>

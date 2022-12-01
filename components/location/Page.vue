@@ -9,8 +9,8 @@
          <PencilIcon />
       </ActionLink>
 
-      <div class="flex gap-2 items-center">
-         <PosDisplay v-bind="location.pos" />
+      <div v-if="pos" class="flex gap-2 items-center">
+         <PosDisplay v-bind="pos" />
       </div>
       <slot />
    </div>
@@ -18,9 +18,19 @@
 
 <script lang="ts" setup>
 import { PencilIcon } from '@heroicons/vue/24/solid'
-import { LocationFragment, LocationDraftFragment } from '~~/graphql/generated'
+import { PlaceFragment, PlaceDraftFragment, AreaFragment } from '~~/graphql/generated'
 
-defineProps<{
-   location: LocationFragment | LocationDraftFragment
+const props = defineProps<{
+   location: PlaceFragment | PlaceDraftFragment | AreaFragment
 }>()
+
+const pos = computed(() => {
+   switch (props.location.__typename) {
+      case 'Place':
+      case 'PlaceDraft':
+         return props.location.pos
+      default:
+         return null
+   }
+})
 </script>

@@ -3,7 +3,7 @@
       <FormKit v-slot="{ value, state: { valid } }" type="form" :actions="false" :errors="errors">
          <FormKit name="title" :value="initial?.title" validation="required" label="Title" type="text" />
 
-         <InputLocation name="locations" :value="initialLocations" />
+         <InputPlace name="places" :value="initialPlaces" />
 
          <MarkdownEditor name="text" :value="initial?.text" label="Text" validation="required" />
 
@@ -50,10 +50,11 @@ const emit = defineEmits<{
 
 defineProps<{
    initial?: DeepPartial<AbstractTale>
-   initialLocations?: number[]
+   initialPlaces?: number[]
+   initialAreas?: number[]
 }>()
 
-const refetchQueries = ['getLocation']
+const refetchQueries = ['getPlace']
 const { mutate: createTale, error } = useMutation(CreateTaleDocument, { refetchQueries })
 const { mutate: createTaleDraft, error: draftError } = useMutation(CreateTaleDraftDocument, { refetchQueries })
 const errors = computed(() =>

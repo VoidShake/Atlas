@@ -1,6 +1,6 @@
 <template>
    <section v-if="result">
-      <FormCreateTale :initial="result.taleDraft" :initial-locations="initialLocations">
+      <FormCreateTale :initial="result.taleDraft" :initial-places="initialPlaces">
          <template #buttons="{ valid, value }">
             <FormKit type="submit" :disabled="!valid" @click.prevent="modify(value)"> Save </FormKit>
          </template>
@@ -9,28 +9,18 @@
 </template>
 
 <script lang="ts" setup>
-import { difference } from 'lodash-es'
-import { ModifyTaleDraftDocument, GetTaleDraftDocument, CreateTaleInput } from '~~/graphql/generated'
+import { ModifyTaleDraftDocument, GetTaleDraftDocument } from '~~/graphql/generated'
 
 const router = useRouter()
 const route = useRoute()
 
 const { result } = useQuery(GetTaleDraftDocument, () => ({ id: Number.parseInt(route.params.id as string) }))
-const { mutate } = useMutation(ModifyTaleDraftDocument, { refetchQueries: ['getTaleDraft'] })
 
-const initialLocations = computed(() => result.value?.taleDraft.locations.nodes.map(it => it.id))
-
-async function modify({ locations, ...input }: CreateTaleInput) {
-   if (!result.value || !initialLocations.value) return
-
-   const removedLocations = difference(initialLocations.value, locations ?? [])
-   const addedLocations = difference(locations, initialLocations.value)
-
-   const response = await mutate({ id: result.value.taleDraft.id, input, addedLocations, removedLocations })
-
-   const data = response?.data
-   if (data) router.push(`/me/drafts/tales/${data.modified.id}`)
-}
+const { modify, initialPlaces } = useModifyTale(
+   computed(() => result.value?.taleDraft),
+   ModifyTaleDraftDocument,
+   it => router.push(`/me/drafts/tales/${it.modified.id}`),
+)
 
 definePageMeta({
    layout: 'confined',

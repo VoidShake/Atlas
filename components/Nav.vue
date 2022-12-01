@@ -4,7 +4,7 @@
          <component :is="link.icon" class="icon" />
          <span> {{ link.display }} </span>
       </NuxtLink>
-      <section class="flex gap-4 justify-self-end">
+      <section class="flex gap-4 ml-auto">
          <ThemeButton />
          <ProfileIcon v-if="loggedIn" />
          <NuxtLink v-else to="/login" class="px-2"> Login </NuxtLink>
@@ -13,19 +13,18 @@
 </template>
 
 <script lang="ts" setup>
-import { BookOpenIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
+import { BookOpenIcon, FlagIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 
 const links = ref([
    { display: 'Map', to: '/map', icon: MapIcon },
    { display: 'Libary', to: '/library', icon: BookOpenIcon },
-   { display: 'Locations', to: '/locations', icon: MapPinIcon },
+   { display: 'Places', to: '/places', icon: MapPinIcon },
+   { display: 'Areas', to: '/areas', icon: FlagIcon },
 ])
 
 const active = computed(() => [...links.value].reverse().find(it => route.path.startsWith(it.to))?.to)
-
-const linkCount = computed(() => links.value.length)
 
 const { loggedIn } = useSession()
 </script>
@@ -33,8 +32,7 @@ const { loggedIn } = useSession()
 <style lang="scss" scoped>
 nav {
    @apply pr-2;
-   @apply grid items-center grid-flow-col;
-   grid-template-columns: repeat(v-bind('linkCount'), auto) 1fr;
+   @apply flex items-center;
 
    @apply bg-solid-700;
 

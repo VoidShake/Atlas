@@ -1,0 +1,38 @@
+fragment PlaceDraft on PlaceDraft {
+   ...MapPlace
+   proposed
+}
+
+query getPlaceDrafts($pagination: Pagination) {
+   connection: placeDrafts(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...MapPlace
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getPlaceDraft($id: Int!) {
+   placeDraft: placeDraft(id: $id) {
+      ...PlaceDraft
+   }
+}
+
+mutation createPlaceDraft($input: CreatePlaceInput!) {
+   created: createPlaceDraft(input: $input) {
+      id
+   }
+}
+
+mutation modifyPlaceDraft($id: Int!, $input: ModifyPlaceInput!) {
+   modified: modifyPlaceDraft(id: $id, input: $input) {
+      id
+   }
+}
+
+mutation proposePlace($draft: Int!) {
+   proposal: proposePlace(draftId: $draft)
+}

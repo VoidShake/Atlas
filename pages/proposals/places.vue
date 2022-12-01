@@ -1,6 +1,6 @@
 <template>
    <section>
-      <StyledTitle> Proposed Locations </StyledTitle>
+      <StyledTitle> Proposed Places </StyledTitle>
       <PaginatedTable v-if="result" :connection="result.connection">
          <template #head>
             <th>Name</th>
@@ -27,14 +27,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ApproveLocationDocument, GetLocationProposalsDocument, RefuseLocationDocument } from '~~/graphql/generated'
+import { ApprovePlaceDocument, GetPlaceProposalsDocument, RefusePlaceDocument } from '~~/graphql/generated'
 
 const limit = ref(24)
-const { result } = usePagination(GetLocationProposalsDocument, limit)
+const { result } = usePagination(GetPlaceProposalsDocument, limit)
 
-const refetchQueries = ['getLocationProposals']
-const { mutate: refuse } = useMutation(RefuseLocationDocument, { refetchQueries })
-const { mutate: approve } = useMutation(ApproveLocationDocument, { refetchQueries })
+const refetchQueries = ['getPlaceProposals']
+const { mutate: refuse } = useMutation(RefusePlaceDocument, { refetchQueries })
+const { mutate: approve } = useMutation(ApprovePlaceDocument, { refetchQueries })
 
 definePageMeta({
    layout: 'confined',

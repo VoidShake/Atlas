@@ -3,13 +3,13 @@
       <multi-select
          :placeholder="context.placeholder"
          :mode="context.mode ?? 'tags'"
-         :model-value="context._value"
+         :model-value="context._value ?? null"
          searchable
          :close-on-select="false"
          :loading="context.loading"
          :options="context.options"
          :classes="{ tagsSearch: 'multiselect-tags-search bg-transparent text-white' }"
-         @update:modelValue="select"
+         @update:model-value="select"
       />
    </div>
 </template>
@@ -55,6 +55,7 @@ function select(value: unknown) {
    --ms-option-bg-selected-pointed: theme(colors.accent.400);
 
    --ms-tag-bg: theme(colors.accent.600);
+   --ms-spinner-color: theme(colors.accent.400);
 }
 
 .dark-mode .multiselect {

@@ -1,0 +1,54 @@
+fragment AreaSummary on AbstractArea {
+   ...MapArea
+   ...SubjectSummary
+}
+
+fragment Area on Area {
+   ...AreaSummary
+   tales {
+      totalCount
+      nodes {
+         id
+         title
+         text
+      }
+   }
+}
+
+query getAreas($pagination: Pagination, $filter: LocationFilter) {
+   connection: areas(pagination: $pagination, filter: $filter) {
+      totalCount
+      nodes {
+         ...AreaSummary
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getArea($slug: String!) {
+   area: areaBySlug(slug: $slug) {
+      ...Area
+   }
+}
+
+query getAreaById($id: Int!) {
+   area: area(id: $id) {
+      ...Area
+   }
+}
+
+mutation createArea($input: CreateAreaInput!) {
+   created: createArea(input: $input) {
+      id
+      slug
+   }
+}
+
+mutation modifyArea($id: Int!, $input: ModifyAreaInput!) {
+   modified: modifyArea(id: $id, input: $input) {
+      id
+      slug
+   }
+}

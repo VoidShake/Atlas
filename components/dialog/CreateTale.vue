@@ -1,12 +1,12 @@
 <template>
    <DialogBase title="Write Lore">
-      <FormCreateTale :initial-locations="initialLocations" @saved="closeDialog" />
+      <FormCreateTale :initial-places="initialPlaces" @saved="closeDialog" />
    </DialogBase>
 </template>
 
 <script lang="ts" setup>
 defineProps<{
-   initialLocations?: number[]
+   initialPlaces?: number[]
 }>()
 </script>
 

@@ -1,5 +1,7 @@
-schema: http://localhost:8080/api/graphql
 documents: graphql/queries/**/*.gql
+schema:
+   - http://localhost:8080/api/graphql
+#   - graphql/localSchema.gql
 
 extensions:
    codegen:
@@ -13,5 +15,6 @@ extensions:
                - add:
                     content: /* eslint-disable */
       config:
+         dedupeFragments: true
          scalars:
             DateTime: number

@@ -1,6 +1,3 @@
-import introspectionResult from './graphql/generated'
-import typePolicies from './graphql/typePolicies'
-
 export default defineNuxtConfig({
    modules: ['@nuxtjs/apollo', '@nuxtjs/color-mode', '@nuxtjs/tailwindcss', './modules/assets', '@formkit/nuxt'],
 
@@ -10,7 +7,7 @@ export default defineNuxtConfig({
       },
    },
 
-   css: ['leaflet/dist/leaflet.css', '@vueform/multiselect/themes/default.css'],
+   css: ['leaflet/dist/leaflet.css', '@vueform/multiselect/themes/default.css', 'v-network-graph/lib/style.css'],
 
    nitro: {
       devProxy: {
@@ -28,15 +25,7 @@ export default defineNuxtConfig({
    },
 
    apollo: {
-      clients: {
-         default: {
-            httpEndpoint: '/api/graphql',
-            inMemoryCacheOptions: {
-               typePolicies,
-               possibleTypes: introspectionResult.possibleTypes,
-            },
-         },
-      },
+      clients: { default: './graphql/client.ts' },
    },
 
    typescript: {

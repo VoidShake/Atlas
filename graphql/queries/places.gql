@@ -1,0 +1,54 @@
+fragment PlaceSummary on AbstractPlace {
+   ...MapPlace
+   ...SubjectSummary
+}
+
+fragment Place on Place {
+   ...PlaceSummary
+   tales {
+      totalCount
+      nodes {
+         id
+         title
+         text
+      }
+   }
+}
+
+query getPlaces($pagination: Pagination, $filter: LocationFilter) {
+   connection: places(pagination: $pagination, filter: $filter) {
+      totalCount
+      nodes {
+         ...PlaceSummary
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getPlace($slug: String!) {
+   place: placeBySlug(slug: $slug) {
+      ...Place
+   }
+}
+
+query getPlaceById($id: Int!) {
+   place: place(id: $id) {
+      ...Place
+   }
+}
+
+mutation createPlace($input: CreatePlaceInput!) {
+   created: createPlace(input: $input) {
+      id
+      slug
+   }
+}
+
+mutation modifyPlace($id: Int!, $input: ModifyPlaceInput!) {
+   modified: modifyPlace(id: $id, input: $input) {
+      id
+      slug
+   }
+}

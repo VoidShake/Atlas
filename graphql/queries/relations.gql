@@ -1,0 +1,33 @@
+query relationsGraph {
+   tales {
+      nodes {
+         id
+         authorId
+         title
+         places {
+            nodes {
+               id
+            }
+         }
+         areas {
+            nodes {
+               id
+            }
+         }
+      }
+   }
+   places {
+      nodes {
+         id
+         authorId
+         name
+      }
+   }
+   areas {
+      nodes {
+         id
+         authorId
+         name
+      }
+   }
+}

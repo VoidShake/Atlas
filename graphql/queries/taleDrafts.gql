@@ -23,12 +23,12 @@ mutation createTaleDraft($input: CreateTaleInput!) {
    }
 }
 
-mutation modifyTaleDraft($id: Int!, $input: ModifyTaleInput!, $addedLocations: [Int!]!, $removedLocations: [Int!]!) {
+mutation modifyTaleDraft($id: Int!, $input: ModifyTaleInput!, $addedPlaces: [Int!]!, $removedPlaces: [Int!]!) {
    modified: modifyTaleDraft(id: $id, input: $input) {
       id
    }
-   addedLocations: addLocationsToTaleDraft(tale: $id, locations: $addedLocations)
-   removedLocations: removeLocationsFromTaleDraft(tale: $id, locations: $removedLocations)
+   addedLocations: addPlacesToTaleDraft(tale: $id, ids: $addedPlaces)
+   removedLocations: removePlacesFromTaleDraft(tale: $id, ids: $removedPlaces)
 }
 
 mutation proposeTale($draft: Int!) {

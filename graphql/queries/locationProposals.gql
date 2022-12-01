@@ -1,4 +1,4 @@
-fragment LocationProposalPreview on LocationProposal {
+fragment PlaceProposalPreview on PlaceProposal {
    ...WithTime
    submitter {
       ...User
@@ -13,11 +13,11 @@ fragment LocationProposalPreview on LocationProposal {
    }
 }
 
-query getLocationProposals($pagination: Pagination) {
-   connection: locationProposals(pagination: $pagination) {
+query getPlaceProposals($pagination: Pagination) {
+   connection: placeProposals(pagination: $pagination) {
       totalCount
       nodes {
-         ...LocationProposalPreview
+         ...PlaceProposalPreview
       }
       pageInfo {
          ...PageInfo
@@ -25,9 +25,9 @@ query getLocationProposals($pagination: Pagination) {
    }
 }
 
-query getLocationProposal($draft: Int!) {
-   proposal: locationProposal(draftId: $draft) {
-      ...LocationProposalPreview
+query getPlaceProposal($draft: Int!) {
+   proposal: placeProposal(draftId: $draft) {
+      ...PlaceProposalPreview
       draft {
          pos {
             ...Pos
@@ -36,10 +36,10 @@ query getLocationProposal($draft: Int!) {
    }
 }
 
-mutation approveLocation($draft: Int!) {
-   converted: approveLocation(draftId: $draft)
+mutation approvePlace($draft: Int!) {
+   converted: approvePlace(draftId: $draft)
 }
 
-mutation refuseLocation($draft: Int!) {
-   converted: refuseLocation(draftId: $draft)
+mutation refusePlace($draft: Int!) {
+   converted: refusePlace(draftId: $draft)
 }

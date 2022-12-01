@@ -4,3 +4,9 @@ fragment WithTime on Timestamped {
       modifiedAt
    }
 }
+
+fragment SubjectSummary on TaleSubject {
+   tales {
+      totalCount
+   }
+}

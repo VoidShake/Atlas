@@ -4,13 +4,34 @@ fragment Pos on Point {
    z
 }
 
+fragment FlatPos on FlatPoint {
+   x
+   z
+}
+
 fragment MapLocation on AbstractLocation {
+   id
+   name
+}
+
+fragment MapPlace on AbstractPlace {
    id
    name
    pos {
       ...Pos
    }
-   ... on Location {
+   ... on Place {
+      slug
+   }
+}
+
+fragment MapArea on AbstractArea {
+   id
+   name
+   points {
+      ...FlatPos
+   }
+   ... on Area {
       slug
    }
 }
@@ -21,10 +42,16 @@ fragment World on World {
 }
 
 query mapLocations {
-   locations {
+   places {
       totalCount
       nodes {
-         ...MapLocation
+         ...MapPlace
+      }
+   }
+   areas {
+      totalCount
+      nodes {
+         ...MapArea
       }
    }
 }
