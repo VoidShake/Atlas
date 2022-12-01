@@ -54,25 +54,6 @@ export default defineNuxtConfig({
       defaultLocale: 'en',
    },
 
-   i18n: {
-      locales: [
-         {
-            code: 'en',
-            file: 'en_us.json',
-            name: 'English',
-         },
-         {
-            code: 'de',
-            file: 'de_de.json',
-            name: 'Deutsch',
-         },
-      ],
-      strategy: 'no_prefix',
-      lazy: true,
-      langDir: 'lang',
-      defaultLocale: 'en',
-   },
-
    typescript: {
       strict: true,
       shim: false,
