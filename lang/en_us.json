@@ -10,6 +10,14 @@
       "tales": "no tales | one tale | {n} tales",
       "tale_drafts": "no tale drafts | one tale draft | {n} tale drafts"
    },
+   "browse": {
+      "areas": "Browse Areas",
+      "area_drafts": "Your Area Drafts",
+      "places": "Browse Places",
+      "place_drafts": "Browse Place Drafts",
+      "tales": "Browse the Library",
+      "tale_drafts": "Your Tale Drafts"
+   },
    "settings": {
       "title": "Settings"
    }

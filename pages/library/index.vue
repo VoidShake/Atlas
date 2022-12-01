@@ -1,6 +1,6 @@
 <template>
    <section>
-      <StyledTitle> Browse the Libary </StyledTitle>
+      <StyledTitle> {{ $t('browse.tales') }} </StyledTitle>
 
       <ActionLink v-if="hasPermission(Permission.TellTale, Permission.ProposeTale)" to="/library/write">
          <PencilIcon />
