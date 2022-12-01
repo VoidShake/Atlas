@@ -43,7 +43,7 @@
       "eslint-config-stylelint": "^17.0.0",
       "eslint-plugin-nuxt": "^4.0.0",
       "graphql": "^16.6.0",
-      "leaflet": "^1.9.2",
+      "leaflet": "^1.9.3",
       "lodash-es": "^4.17.21",
       "marked": "^4.1.1",
       "mini-svg-data-uri": "^1.4.4",
