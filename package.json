@@ -10,6 +10,7 @@
       "postinstall": "nuxt prepare",
       "codegen": "graphql-codegen",
       "format": "prettier --write **/*.{vue,ts}",
+      "lint:ci": "eslint **/*.{vue,ts}",
       "lint:code": "eslint **/*.{vue,ts,gql}",
       "lint:style": "stylelint **/*.vue",
       "lint": "yarn lint:code && yarn lint:style"
