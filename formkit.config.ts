@@ -50,13 +50,10 @@ const config: DefaultConfigOptions = {
          number: inputBase,
          date: inputBase,
          textarea: extend({ input: 'resize-none' }),
-         select: extend({ option: 'bg-solid-800' }),
+         select: extend({ option: 'bg-solid-800  select-none' }),
          multi: inputBase,
          button,
          submit: button,
-         select: extend({
-            option: 'bg-solid-800  select-none',
-         }),
       }),
    },
    iconLoader: async iconName => {

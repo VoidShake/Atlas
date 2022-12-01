@@ -3,10 +3,12 @@
       "found": "Found {0}"
    },
    "enumeration": {
-      "locations": "no locations | one location | {n} locations",
+      "areas": "no areas | one area | {n} areas",
+      "area_drafts": "no area drafts | one area draft | {n} area drafts",
+      "places": "no places | one places | {n} places",
+      "places_drafts": "no place drafts | one place draft | {n} place drafts",
       "tales": "no tales | one tale | {n} tales",
-      "location_drafts": "no location drafts | one location draft | {n} tales drafts",
-      "tale_drafts": "no tale drafts | one tale draft | {n} tales drafts"
+      "tale_drafts": "no tale drafts | one tale draft | {n} tale drafts"
    },
    "settings": {
       "title": "Settings"

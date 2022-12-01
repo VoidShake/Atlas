@@ -3,8 +3,12 @@
       "found": "{0} gefunden"
    },
    "enumeration": {
-      "locations": "kein Orte | ein Ort | {n} Orte",
-      "tales": "keine Geschichten | eine Geschichte | {n} Geschichten"
+      "places": "kein Orte | ein Ort | {n} Orte",
+      "place_drafts": "kein Ort-Entwürfe | ein Ort-Entwurf | {n} Ort Entwürfe",
+      "areas": "keine Gebiete | ein Gebiet | {n} Gebiete",
+      "area_drafts": "keine Gebiet-Entwürfe | ein Gebiet-Entwürfe | {n} Gebiet-Entwürfe",
+      "tales": "keine Geschichten | eine Geschichte | {n} Geschichten",
+      "tale_drafts": "keine Geschichts-Entwürfe | eine Geschichts-Entwürfe | {n} Geschichts-Entwürfe"
    },
    "settings": {
       "title": "Einstellungen"
