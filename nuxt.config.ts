@@ -39,12 +39,12 @@ export default defineNuxtConfig({
       locales: [
          {
             code: 'en',
-            file: 'en_us.json',
+            file: 'en_US.json',
             name: 'English',
          },
          {
             code: 'de',
-            file: 'de_de.json',
+            file: 'de_DE.json',
             name: 'Deutsch',
          },
       ],
