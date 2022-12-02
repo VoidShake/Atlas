@@ -1,6 +1,6 @@
 import type { LatLng } from 'leaflet'
+import { Map } from './useMap'
 import { FlatPoint, PosFragment } from '~/graphql/generated'
-import { Map } from '~/types/Map'
 
 export function toWorldPos(map: Map, point: LatLng): PosFragment {
    const matrix = map.maptoworld

@@ -2015,7 +2015,7 @@
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-3.2.0.tgz#a1484089dd85d6528f435743f84cdd0d215bbb54"
   integrity sha512-E0tnaL4fr+qkdCNxJ+Xd0yM31UwMkQje76fsDVBBUCoGOUPexu2VDUYHL8P4CwV+zMvWw6nlRw19OnRKmYAJpw==
 
-"@volar-plugins/prettier@^1.1.4":
+"@volar-plugins/prettier@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@volar-plugins/prettier/-/prettier-1.1.5.tgz#8aacbd1b76f0f1818b8bdace828cc8ff82b8b003"
   integrity sha512-a4Wli+9wj1MYh+W9NS8zAeXQLNN0U207BM16DkbbaIx/2RROuNlj39TJyz9B0WdvCFuIxfKwc76qRYWrwVd6Ng==

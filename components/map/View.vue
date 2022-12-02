@@ -10,7 +10,14 @@
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet'
 import { Permission, PosFragment } from '~/graphql/generated'
-import { DynmapOptions } from '~/types/options'
+import type { World } from '~~/composables/useMap'
+
+interface DynmapOptions {
+   defaultmap: string
+   defaultworld: string
+   defaultzoom: number
+   worlds: World[]
+}
 
 const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', {
    transform: r => JSON.parse(r as unknown as string),

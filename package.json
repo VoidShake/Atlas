@@ -37,7 +37,7 @@
       "@types/marked": "^4.0.7",
       "@types/node": "18.8.0",
       "@types/sanitize-html": "^2.6.2",
-      "@volar-plugins/prettier": "^1.1.4",
+      "@volar-plugins/prettier": "^1.1.5",
       "@vue-leaflet/vue-leaflet": "^0.6.1",
       "@vueform/multiselect": "^2.5.6",
       "core-js": "^3.26.1",

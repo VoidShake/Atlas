@@ -32,7 +32,7 @@ export default defineNuxtConfig({
    },
 
    apollo: {
-      clients: { default: './graphql/client.ts' },
+      clients: { default: 'config/apollo.config.ts' },
    },
 
    i18n: {
@@ -52,6 +52,14 @@ export default defineNuxtConfig({
       lazy: true,
       langDir: 'lang',
       defaultLocale: 'en',
+   },
+
+   formkit: {
+      configFile: 'config/formkit.config.ts',
+   },
+
+   tailwindcss: {
+      configPath: 'config/tailwind.config.ts',
    },
 
    typescript: {
