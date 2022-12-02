@@ -1,5 +1,5 @@
 <template>
-   <g>
+   <g v-tooltip="$t(`network.node_type.${node.type.toLowerCase()}`)">
       <circle v-if="isCircle" :r="config.radius * scale" :fill="color" />
       <rect
          v-else
