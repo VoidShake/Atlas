@@ -1,4 +1,7 @@
 # Atlas <img src="https://raw.githubusercontent.com/VoidShake/Emblem/main/icon.svg" align="right" height="100" />
+![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/VoidShake/Atlas?include_prereleases&label=version)
+[![Test](https://github.com/VoidShake/Atlas/actions/workflows/test.yml/badge.svg)](https://github.com/VoidShake/Atlas/actions/workflows/test.yml)
+[![Translation status](https://weblate.macarena.ceo/widgets/void-shake/-/atlas/svg-badge.svg)](https://weblate.macarena.ceo/engage/void-shake/)
 
 ## Build Setup
 
