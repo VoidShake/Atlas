@@ -94,3 +94,4 @@ sw.*
 #graphql/generated.ts
 
 public
+.vscode
