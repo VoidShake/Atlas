@@ -1,6 +1,6 @@
 <template>
    <section>
-      <StyledTitle> Browse all Places </StyledTitle>
+      <StyledTitle> {{ $t('browse.places') }} </StyledTitle>
 
       <ActionLink v-if="hasPermission(Permission.CreateLocation, Permission.ProposeLocation)" to="/places/create">
          <PencilIcon />

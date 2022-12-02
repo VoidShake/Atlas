@@ -1,6 +1,6 @@
 <template>
    <section>
-      <StyledTitle> Your Place Drafts </StyledTitle>
+      <StyledTitle> {{ $t('browse.place_drafts') }} </StyledTitle>
 
       <ActionLink v-if="hasPermission(Permission.DraftLocation)" to="/places/create?draft">
          <PencilIcon />
@@ -9,7 +9,7 @@
       <PaginatedList
          v-if="result"
          :connection="result.connection"
-         verb="place drafts"
+         verb="place_drafts"
          @next="next"
          @previous="previous"
       >

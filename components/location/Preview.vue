@@ -1,7 +1,7 @@
 <template>
    <StyledPanel>
       <h3>{{ location.name }}</h3>
-      <p>
+      <p v-if="location.tales">
          <em> referenced in {{ location.tales.totalCount }} tales </em>
       </p>
    </StyledPanel>
@@ -11,6 +11,6 @@
 import { MapLocationFragment, SubjectSummaryFragment } from '~/graphql/generated'
 
 defineProps<{
-   location: MapLocationFragment & SubjectSummaryFragment
+   location: MapLocationFragment & Partial<Pick<SubjectSummaryFragment, 'tales'>>
 }>()
 </script>

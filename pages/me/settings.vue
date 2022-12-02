@@ -1,7 +1,8 @@
 <template>
    <section>
-      <StyledTitle> Settings </StyledTitle>
+      <StyledTitle> {{ $t('settings.title') }} </StyledTitle>
       <ThemeChooser />
+      <LangChooser />
    </section>
 </template>
 
