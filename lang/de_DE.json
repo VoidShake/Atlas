@@ -1,25 +1,30 @@
 {
-    "search": {
-        "found": "{0} gefunden"
-    },
-    "enumeration": {
-        "places": "kein Orte | ein Ort | {n} Orte",
-        "place_drafts": "kein Ort-Entwürfe | ein Ort-Entwurf | {n} Ort Entwürfe",
-        "areas": "keine Gebiete | ein Gebiet | {n} Gebiete",
-        "area_drafts": "keine Gebiet-Entwürfe | ein Gebiet-Entwürfe | {n} Gebiet-Entwürfe",
-        "tales": "keine Geschichten | eine Geschichte | {n} Geschichten",
-        "tale_drafts": "keine Geschichts-Entwürfe | eine Geschichts-Entwürfe | {n} Geschichts-Entwürfe",
-        "places_drafts": "keine Orts-Entwürfe | einen Orts-Entwurf | {n} Orts-Entwürfe"
-    },
-    "settings": {
-        "title": "Einstellungen"
-    },
-    "browse": {
-        "areas": "Gebiete erkunden",
-        "place_drafts": "Deine Orts-Entwürfe",
-        "places": "Orte erkunden",
-        "tales": "Bibliothek durchsuchen",
-        "area_drafts": "Deine Gebiets-Entwürfe",
-        "tale_drafts": "Deine Geschichts-Entwürfe"
-    }
+   "search": {
+      "found": "{0} gefunden"
+   },
+   "enumeration": {
+      "places": "kein Orte | ein Ort | {n} Orte",
+      "place_drafts": "kein Ort-Entwürfe | ein Ort-Entwurf | {n} Ort Entwürfe",
+      "areas": "keine Gebiete | ein Gebiet | {n} Gebiete",
+      "area_drafts": "keine Gebiet-Entwürfe | ein Gebiet-Entwürfe | {n} Gebiet-Entwürfe",
+      "tales": "keine Geschichten | eine Geschichte | {n} Geschichten",
+      "tale_drafts": "keine Geschichts-Entwürfe | eine Geschichts-Entwürfe | {n} Geschichts-Entwürfe",
+      "places_drafts": "keine Orts-Entwürfe | einen Orts-Entwurf | {n} Orts-Entwürfe"
+   },
+   "settings": {
+      "title": "Einstellungen"
+   },
+   "browse": {
+      "areas": "Gebiete erkunden",
+      "place_drafts": "Deine Orts-Entwürfe",
+      "places": "Orte erkunden",
+      "tales": "Bibliothek durchsuchen",
+      "area_drafts": "Deine Gebiets-Entwürfe",
+      "tale_drafts": "Deine Geschichts-Entwürfe"
+   },
+   "network": {
+      "config": {
+         "visible_nodes": "Sichtbare Knotentypen"
+      }
+   }
 }

@@ -1,10 +1,15 @@
 <template>
    <section>
       <div class="flex items-center gap-5">
-         <FormKit v-model="shownTypes" type="multi" :options="possibleTypes" label="Visible Nodes" />
+         <FormKit
+            v-model="shownTypes"
+            type="multi"
+            :options="possibleTypes"
+            :label="$t('network.config.visible_nodes')"
+         />
          <div>
-            <FormKit v-model="showConnectionLess" type="checkbox" label="Show Connection-Less" />
-            <FormKit v-model="networkConfig.node.draggable" type="checkbox" label="Draggable" />
+            <FormKit v-model="showConnectionLess" type="checkbox" :label="$t('network.config.show_connection_less')" />
+            <FormKit v-model="networkConfig.node.draggable" type="checkbox" :label="$t('network.config.draggable')" />
          </div>
       </div>
       <v-network-graph
@@ -34,6 +39,8 @@
 import { defineConfigs } from 'v-network-graph'
 import { ForceLayout } from 'v-network-graph/lib/force-layout'
 import { RelationsGraphDocument } from '~~/graphql/generated'
+
+const { t } = useI18n()
 
 const networkConfig = reactive(
    defineConfigs({
@@ -68,8 +75,12 @@ const { result } = useQuery(RelationsGraphDocument)
 
 const showConnectionLess = ref(false)
 
-const possibleTypes = ['Species', 'Character', 'Area', 'Place', 'Tale']
-const shownTypes = useState(() => possibleTypes)
+const possibleTypes = ['Species', 'Character', 'Area', 'Place', 'Tale'].map(it => ({
+   value: it,
+   label: t(`network.node_type.${it.toLowerCase()}`),
+}))
+
+const shownTypes = useState(() => possibleTypes.map(it => it.value))
 
 function isShown({ type }: { type: string }) {
    return shownTypes.value.includes(type)
