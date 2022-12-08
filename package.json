@@ -19,7 +19,7 @@
       "@formkit/nuxt": "^1.0.0-beta.11",
       "@formkit/themes": "^1.0.0-beta.12",
       "@graphql-codegen/add": "^3.2.1",
-      "@graphql-codegen/cli": "^2.13.7",
+      "@graphql-codegen/cli": "^2.16.1",
       "@graphql-codegen/fragment-matcher": "^3.3.1",
       "@graphql-codegen/typed-document-node": "^2.3.7",
       "@graphql-codegen/typescript": "^2.7.4",
