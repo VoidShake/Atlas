@@ -1641,10 +1641,10 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@pssbletrngle/assets-renderer@1.3.0":
-  version "1.3.0"
-  resolved "https://npm.pkg.github.com/download/@pssbletrngle/assets-renderer/1.3.0/d7b5e8d2cd6d2ae003c9867ef0bd43dd0f6fde9f#d7b5e8d2cd6d2ae003c9867ef0bd43dd0f6fde9f"
-  integrity sha512-KcjCdm2G7hz7PiFbNnzdr4Mn4yZyKsT3g3rSvUjbS0RzLmUBiRMxjhHgpBWFrIixEskQnxmVGYX/HZ5h6X559w==
+"@pssbletrngle/assets-renderer@1.3.1":
+  version "1.3.1"
+  resolved "https://npm.pkg.github.com/download/@pssbletrngle/assets-renderer/1.3.1/331cbaa3712e291b29a745ed6615c019d4152468#331cbaa3712e291b29a745ed6615c019d4152468"
+  integrity sha512-YA4iBUXT1PO+07NBmlTJ5ZS5sJrmYHtfMKjiPvmZTeejTtaicBoW3ZdTYiNSKEzSQ96G/vlRrUIAtGZaJLzv9g==
   dependencies:
     "@pssbletrngle/pack-resolver" "1.2.0"
     "@pssbletrngle/resource-merger" "1.2.4"

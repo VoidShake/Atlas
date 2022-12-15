@@ -22,7 +22,7 @@ async function generateIcons() {
    if (!existsSync(output)) mkdirSync(output)
    if (!existsSync(cachedResources)) mkdirSync(cachedResources)
 
-   await renderFrom({ from }, { output, keep: true }, { cachedResources })
+   await renderFrom(from, { output, keep: true }, { cachedResources })
    console.groupEnd()
 }
 
@@ -30,7 +30,7 @@ export default defineNuxtModule({
    setup(_, nuxt) {
       nuxt.hook('build:before', async () => {
          copyFavicon()
-         await generateIcons()
+         // await generateIcons()
       })
    },
 })
