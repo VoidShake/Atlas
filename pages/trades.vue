@@ -4,16 +4,20 @@
          <input type="file" @change="loadFile" />
       </div>
       <div v-if="parsed" class="professions">
-         <div v-for="profession in parsed.professions" :key="profession.id">
-            <h4>{{ profession.id }}</h4>
-            <div v-for="({ trades }, level) in profession.levels" :key="level" class="grid justify-center my-3">
-               <p>Level {{ level }}</p>
-               <div v-for="trade in trades" :key="trade" class="flex items-center justify-center">
-                  <ItemIcon v-for="(item, i) in parsed.trades[trade].wants" :key="i" v-bind="item" />
-                  <ArrowRightIcon class="h-[1em]" />
-                  <ItemIcon v-bind="parsed.trades[trade].sells" />
+         <div v-for="profession in parsed.professions" :key="profession.id" class="rounded border-solid-700 border-2">
+            <h4 class="py-3">{{ profession.id }}</h4>
+            <template v-for="({ trades }, level) in profession.levels" :key="level">
+               <div v-if="trades.length" class="grid justify-center py-4 even:bg-solid-700">
+                  <p class="mb-2">
+                     <strong> Level {{ level }} </strong>
+                  </p>
+                  <div v-for="trade in trades" :key="trade" class="flex items-center justify-end">
+                     <ItemIcon v-for="(item, i) in parsed.trades[trade].wants" :key="i" v-bind="item" show-size />
+                     <ArrowRightIcon class="h-[1em] mx-2" />
+                     <ItemIcon v-bind="parsed.trades[trade].sells" show-size />
+                  </div>
                </div>
-            </div>
+            </template>
          </div>
       </div>
    </section>
@@ -56,7 +60,7 @@ async function loadFile(event: Event) {
 
 <style scoped>
 .professions {
-   @apply grid gap-1 justify-center text-center;
+   @apply grid gap-4 justify-center text-center;
    grid-template-columns: repeat(auto-fill, 14em);
 }
 </style>

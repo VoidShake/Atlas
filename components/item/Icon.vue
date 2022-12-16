@@ -1,5 +1,8 @@
 <template>
-   <img :src="`/icons/${icon}.png`" :alt="tooltip" :title="tooltip" @error="fallback" />
+   <div class="relative">
+      <img :src="`/icons/${icon}.png`" :alt="tooltip" :title="tooltip" @error="fallback" />
+      <span v-if="showSize && count && count > 1"> {{ count }} </span>
+   </div>
 </template>
 
 <script lang="ts" setup>
@@ -9,9 +12,13 @@ export interface Ingredient {
    tag?: string
 }
 
-const props = defineProps<Ingredient>()
+interface Props extends Ingredient {
+   showSize?: boolean
+}
 
-const tooltip = computed(() => props.item)
+const props = defineProps<Props>()
+
+const tooltip = computed(() => props.item ?? `#${props.tag}`)
 
 function itemIcon({ item }: Ingredient) {
    if (!item) return 'missing'
@@ -35,5 +42,13 @@ function fallback() {
 img {
    height: 3em;
    color: transparent;
+}
+
+span {
+   @apply text-e-sm text-left;
+   width: 1.2em;
+   position: absolute;
+   bottom: 0;
+   right: 0;
 }
 </style>
