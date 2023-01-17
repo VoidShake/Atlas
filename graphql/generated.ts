@@ -29,6 +29,16 @@ export type AbstractArea = {
   world: Scalars['String'];
 };
 
+export type AbstractCharacter = {
+  author: Account;
+  authorId: Scalars['Int'];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  speciesId: Scalars['Int'];
+  timestamps: Timestamps;
+};
+
 export type AbstractDraft = {
   author: Account;
   authorId: Scalars['Int'];
@@ -61,12 +71,23 @@ export type AbstractProposal = {
   timestamps: Timestamps;
 };
 
+export type AbstractSpecies = {
+  author: Account;
+  authorId: Scalars['Int'];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  timestamps: Timestamps;
+};
+
 export type AbstractTale = {
   areas: AreaConnection;
   author: Account;
   authorId: Scalars['Int'];
+  characters: CharacterConnection;
   id: Scalars['Int'];
   places: PlaceConnection;
+  species: SpeciesConnection;
   text: Scalars['String'];
   timestamps: Timestamps;
   title: Scalars['String'];
@@ -78,7 +99,17 @@ export type AbstractTaleAreasArgs = {
 };
 
 
+export type AbstractTaleCharactersArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
 export type AbstractTalePlacesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type AbstractTaleSpeciesArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
@@ -231,6 +262,81 @@ export type AreaProposalEdge = {
   node: AreaProposal;
 };
 
+export type Character = AbstractCharacter & Entity & Owned & TaleSubject & Timestamped & {
+  __typename?: 'Character';
+  approverId: Scalars['Int'];
+  author: Account;
+  authorId: Scalars['Int'];
+  description: Scalars['String'];
+  draft?: Maybe<CharacterDraft>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  speciesId: Scalars['Int'];
+  taleDrafts: TaleDraftConnection;
+  tales: TaleConnection;
+  timestamps: Timestamps;
+};
+
+
+export type CharacterTaleDraftsArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type CharacterTalesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+export type CharacterConnection = {
+  __typename?: 'CharacterConnection';
+  edges: Array<CharacterEdge>;
+  nodes: Array<Character>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type CharacterDraft = AbstractCharacter & AbstractDraft & Entity & Owned & Timestamped & {
+  __typename?: 'CharacterDraft';
+  author: Account;
+  authorId: Scalars['Int'];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  originalId?: Maybe<Scalars['Int']>;
+  speciesId: Scalars['Int'];
+  timestamps: Timestamps;
+};
+
+export type CharacterDraftConnection = {
+  __typename?: 'CharacterDraftConnection';
+  edges: Array<CharacterDraftEdge>;
+  nodes: Array<CharacterDraft>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type CharacterDraftEdge = {
+  __typename?: 'CharacterDraftEdge';
+  cursor: Scalars['String'];
+  node: CharacterDraft;
+};
+
+export type CharacterEdge = {
+  __typename?: 'CharacterEdge';
+  cursor: Scalars['String'];
+  node: Character;
+};
+
+export type CharacterFilter = {
+  author?: InputMaybe<Scalars['Int']>;
+  createdAfter?: InputMaybe<Scalars['DateTime']>;
+  createdBefore?: InputMaybe<Scalars['DateTime']>;
+  modifiedAfter?: InputMaybe<Scalars['DateTime']>;
+  modifiedBefore?: InputMaybe<Scalars['DateTime']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateAreaInput = {
   maxY: Scalars['Int'];
   minY: Scalars['Int'];
@@ -239,12 +345,23 @@ export type CreateAreaInput = {
   world: Scalars['String'];
 };
 
+export type CreateCharacterInput = {
+  description: Scalars['String'];
+  name: Scalars['String'];
+  species: Scalars['Int'];
+};
+
 export type CreatePlaceInput = {
   name: Scalars['String'];
   world: Scalars['String'];
   x: Scalars['Int'];
   y?: InputMaybe<Scalars['Int']>;
   z: Scalars['Int'];
+};
+
+export type CreateSpeciesInput = {
+  description: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type CreateTaleInput = {
@@ -287,12 +404,23 @@ export type ModifyAreaInput = {
   world?: InputMaybe<Scalars['String']>;
 };
 
+export type ModifyCharacterInput = {
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  species?: InputMaybe<Scalars['Int']>;
+};
+
 export type ModifyPlaceInput = {
   name?: InputMaybe<Scalars['String']>;
   world?: InputMaybe<Scalars['String']>;
   x?: InputMaybe<Scalars['Int']>;
   y?: InputMaybe<Scalars['Int']>;
   z?: InputMaybe<Scalars['Int']>;
+};
+
+export type ModifySpeciesInput = {
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type ModifyTaleInput = {
@@ -312,21 +440,33 @@ export type Mutation = {
   approveTale: Scalars['Int'];
   createArea: Area;
   createAreaDraft: AreaDraft;
+  createCharacter: Character;
+  createCharacterDraft: CharacterDraft;
   createPlace: Place;
   createPlaceDraft: PlaceDraft;
+  createSpecies: Species;
+  createSpeciesDraft: SpeciesDraft;
   createTale: Tale;
   createTaleDraft: TaleDraft;
   deleteArea: Scalars['Boolean'];
   deleteAreaDraft: Scalars['Boolean'];
+  deleteCharacter: Scalars['Boolean'];
+  deleteCharacterDraft: Scalars['Boolean'];
   deletePlace: Scalars['Boolean'];
   deletePlaceDraft: Scalars['Boolean'];
+  deleteSpecies: Scalars['Boolean'];
+  deleteSpeciesDraft: Scalars['Boolean'];
   deleteTale: Scalars['Boolean'];
   deleteTaleDraft: Scalars['Boolean'];
   impersonate: TokenResponse;
   modifyArea: Area;
   modifyAreaDraft: AreaDraft;
+  modifyCharacter: Character;
+  modifyCharacterDraft: CharacterDraft;
   modifyPlace: Place;
   modifyPlaceDraft: PlaceDraft;
+  modifySpecies: Species;
+  modifySpeciesDraft: SpeciesDraft;
   modifyTale: Tale;
   modifyTaleDraft: TaleDraft;
   proposeArea: Scalars['Boolean'];
@@ -404,6 +544,18 @@ export type MutationCreateAreaDraftArgs = {
 
 
 /** Mutation object */
+export type MutationCreateCharacterArgs = {
+  input: CreateCharacterInput;
+};
+
+
+/** Mutation object */
+export type MutationCreateCharacterDraftArgs = {
+  input: CreateCharacterInput;
+};
+
+
+/** Mutation object */
 export type MutationCreatePlaceArgs = {
   input: CreatePlaceInput;
 };
@@ -412,6 +564,18 @@ export type MutationCreatePlaceArgs = {
 /** Mutation object */
 export type MutationCreatePlaceDraftArgs = {
   input: CreatePlaceInput;
+};
+
+
+/** Mutation object */
+export type MutationCreateSpeciesArgs = {
+  input: CreateSpeciesInput;
+};
+
+
+/** Mutation object */
+export type MutationCreateSpeciesDraftArgs = {
+  input: CreateSpeciesInput;
 };
 
 
@@ -440,6 +604,18 @@ export type MutationDeleteAreaDraftArgs = {
 
 
 /** Mutation object */
+export type MutationDeleteCharacterArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationDeleteCharacterDraftArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Mutation object */
 export type MutationDeletePlaceArgs = {
   id: Scalars['Int'];
 };
@@ -447,6 +623,18 @@ export type MutationDeletePlaceArgs = {
 
 /** Mutation object */
 export type MutationDeletePlaceDraftArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationDeleteSpeciesArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Mutation object */
+export type MutationDeleteSpeciesDraftArgs = {
   id: Scalars['Int'];
 };
 
@@ -484,6 +672,20 @@ export type MutationModifyAreaDraftArgs = {
 
 
 /** Mutation object */
+export type MutationModifyCharacterArgs = {
+  id: Scalars['Int'];
+  input: ModifyCharacterInput;
+};
+
+
+/** Mutation object */
+export type MutationModifyCharacterDraftArgs = {
+  id: Scalars['Int'];
+  input: ModifyCharacterInput;
+};
+
+
+/** Mutation object */
 export type MutationModifyPlaceArgs = {
   id: Scalars['Int'];
   input: ModifyPlaceInput;
@@ -494,6 +696,20 @@ export type MutationModifyPlaceArgs = {
 export type MutationModifyPlaceDraftArgs = {
   id: Scalars['Int'];
   input: ModifyPlaceInput;
+};
+
+
+/** Mutation object */
+export type MutationModifySpeciesArgs = {
+  id: Scalars['Int'];
+  input: ModifySpeciesInput;
+};
+
+
+/** Mutation object */
+export type MutationModifySpeciesDraftArgs = {
+  id: Scalars['Int'];
+  input: ModifySpeciesInput;
 };
 
 
@@ -614,11 +830,17 @@ export type Pagination = {
 };
 
 export enum Permission {
+  CreateCharacter = 'CREATE_CHARACTER',
   CreateLocation = 'CREATE_LOCATION',
+  CreateSpecies = 'CREATE_SPECIES',
+  DraftCharacter = 'DRAFT_CHARACTER',
   DraftLocation = 'DRAFT_LOCATION',
+  DraftSpecies = 'DRAFT_SPECIES',
   DraftTale = 'DRAFT_TALE',
   PromoteAdmin = 'PROMOTE_ADMIN',
+  ProposeCharacter = 'PROPOSE_CHARACTER',
   ProposeLocation = 'PROPOSE_LOCATION',
+  ProposeSpecies = 'PROPOSE_SPECIES',
   ProposeTale = 'PROPOSE_TALE',
   TellTale = 'TELL_TALE',
   ViewOtherPermissions = 'VIEW_OTHER_PERMISSIONS',
@@ -736,8 +958,15 @@ export type Query = {
   areaProposal: AreaProposal;
   areaProposals: AreaProposalConnection;
   areas: AreaConnection;
+  character: Character;
+  characterBySlug: Character;
+  characterDraft: CharacterDraft;
+  characterDrafts: CharacterDraftConnection;
+  characters: CharacterConnection;
   createAreaDraftFrom: AreaDraft;
+  createCharacterDraftFrom: CharacterDraft;
   createPlaceDraftFrom: PlaceDraft;
+  createSpeciesDraftFrom: SpeciesDraft;
   createTaleDraftFrom: TaleDraft;
   me?: Maybe<Account>;
   place: Place;
@@ -748,6 +977,11 @@ export type Query = {
   placeProposals: PlaceProposalConnection;
   places: PlaceConnection;
   settings: ApiSettings;
+  species: Species;
+  speciesBySlug: Species;
+  speciesDraft: SpeciesDraft;
+  speciesDrafts: SpeciesDraftConnection;
+  speciess: SpeciesConnection;
   tale: Tale;
   taleDraft: TaleDraft;
   taleDrafts: TaleDraftConnection;
@@ -817,13 +1051,57 @@ export type QueryAreasArgs = {
 
 
 /** Query object */
+export type QueryCharacterArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QueryCharacterBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+/** Query object */
+export type QueryCharacterDraftArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QueryCharacterDraftsArgs = {
+  filter?: InputMaybe<CharacterFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
+export type QueryCharactersArgs = {
+  filter?: InputMaybe<CharacterFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
 export type QueryCreateAreaDraftFromArgs = {
   original: Scalars['Int'];
 };
 
 
 /** Query object */
+export type QueryCreateCharacterDraftFromArgs = {
+  original: Scalars['Int'];
+};
+
+
+/** Query object */
 export type QueryCreatePlaceDraftFromArgs = {
+  original: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QueryCreateSpeciesDraftFromArgs = {
   original: Scalars['Int'];
 };
 
@@ -879,6 +1157,38 @@ export type QueryPlacesArgs = {
 
 
 /** Query object */
+export type QuerySpeciesArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QuerySpeciesBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+/** Query object */
+export type QuerySpeciesDraftArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** Query object */
+export type QuerySpeciesDraftsArgs = {
+  filter?: InputMaybe<SpeciesFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
+export type QuerySpeciessArgs = {
+  filter?: InputMaybe<SpeciesFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+/** Query object */
 export type QueryTaleArgs = {
   id: Scalars['Int'];
 };
@@ -921,15 +1231,90 @@ export type QueryWorldArgs = {
   id: Scalars['String'];
 };
 
+export type Species = AbstractSpecies & Entity & Owned & TaleSubject & Timestamped & {
+  __typename?: 'Species';
+  approverId: Scalars['Int'];
+  author: Account;
+  authorId: Scalars['Int'];
+  description: Scalars['String'];
+  draft?: Maybe<SpeciesDraft>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  taleDrafts: TaleDraftConnection;
+  tales: TaleConnection;
+  timestamps: Timestamps;
+};
+
+
+export type SpeciesTaleDraftsArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type SpeciesTalesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+export type SpeciesConnection = {
+  __typename?: 'SpeciesConnection';
+  edges: Array<SpeciesEdge>;
+  nodes: Array<Species>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type SpeciesDraft = AbstractDraft & AbstractSpecies & Entity & Owned & Timestamped & {
+  __typename?: 'SpeciesDraft';
+  author: Account;
+  authorId: Scalars['Int'];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  originalId?: Maybe<Scalars['Int']>;
+  timestamps: Timestamps;
+};
+
+export type SpeciesDraftConnection = {
+  __typename?: 'SpeciesDraftConnection';
+  edges: Array<SpeciesDraftEdge>;
+  nodes: Array<SpeciesDraft>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Long'];
+};
+
+export type SpeciesDraftEdge = {
+  __typename?: 'SpeciesDraftEdge';
+  cursor: Scalars['String'];
+  node: SpeciesDraft;
+};
+
+export type SpeciesEdge = {
+  __typename?: 'SpeciesEdge';
+  cursor: Scalars['String'];
+  node: Species;
+};
+
+export type SpeciesFilter = {
+  author?: InputMaybe<Scalars['Int']>;
+  createdAfter?: InputMaybe<Scalars['DateTime']>;
+  createdBefore?: InputMaybe<Scalars['DateTime']>;
+  modifiedAfter?: InputMaybe<Scalars['DateTime']>;
+  modifiedBefore?: InputMaybe<Scalars['DateTime']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type Tale = AbstractTale & Entity & Owned & Timestamped & {
   __typename?: 'Tale';
   approverId: Scalars['Int'];
   areas: AreaConnection;
   author: Account;
   authorId: Scalars['Int'];
+  characters: CharacterConnection;
   draft?: Maybe<TaleDraft>;
   id: Scalars['Int'];
   places: PlaceConnection;
+  species: SpeciesConnection;
   text: Scalars['String'];
   timestamps: Timestamps;
   title: Scalars['String'];
@@ -941,7 +1326,17 @@ export type TaleAreasArgs = {
 };
 
 
+export type TaleCharactersArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
 export type TalePlacesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type TaleSpeciesArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
@@ -958,12 +1353,14 @@ export type TaleDraft = AbstractDraft & AbstractTale & Entity & Owned & Timestam
   areas: AreaConnection;
   author: Account;
   authorId: Scalars['Int'];
+  characters: CharacterConnection;
   id: Scalars['Int'];
   original?: Maybe<Tale>;
   originalId?: Maybe<Scalars['Int']>;
   places: PlaceConnection;
   proposal?: Maybe<TaleProposal>;
   proposed: Scalars['Boolean'];
+  species: SpeciesConnection;
   text: Scalars['String'];
   timestamps: Timestamps;
   title: Scalars['String'];
@@ -975,7 +1372,17 @@ export type TaleDraftAreasArgs = {
 };
 
 
+export type TaleDraftCharactersArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
 export type TaleDraftPlacesArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type TaleDraftSpeciesArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
@@ -1309,7 +1716,7 @@ export type ModifyPlaceMutation = { __typename?: 'Mutation', modified: { __typen
 export type RelationsGraphQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RelationsGraphQuery = { __typename?: 'Query', tales: { __typename?: 'TaleConnection', nodes: Array<{ __typename?: 'Tale', id: number, authorId: number, title: string, places: { __typename?: 'PlaceConnection', nodes: Array<{ __typename?: 'Place', id: number }> }, areas: { __typename?: 'AreaConnection', nodes: Array<{ __typename?: 'Area', id: number }> } }> }, places: { __typename?: 'PlaceConnection', nodes: Array<{ __typename?: 'Place', id: number, authorId: number, name: string }> }, areas: { __typename?: 'AreaConnection', nodes: Array<{ __typename?: 'Area', id: number, authorId: number, name: string }> } };
+export type RelationsGraphQuery = { __typename?: 'Query', tales: { __typename?: 'TaleConnection', nodes: Array<{ __typename?: 'Tale', id: number, authorId: number, title: string, places: { __typename?: 'PlaceConnection', nodes: Array<{ __typename?: 'Place', id: number }> }, areas: { __typename?: 'AreaConnection', nodes: Array<{ __typename?: 'Area', id: number }> }, species: { __typename?: 'SpeciesConnection', nodes: Array<{ __typename?: 'Species', id: number }> }, characters: { __typename?: 'CharacterConnection', nodes: Array<{ __typename?: 'Character', id: number }> } }> }, places: { __typename?: 'PlaceConnection', nodes: Array<{ __typename?: 'Place', id: number, authorId: number, name: string }> }, areas: { __typename?: 'AreaConnection', nodes: Array<{ __typename?: 'Area', id: number, authorId: number, name: string }> }, species: { __typename?: 'SpeciesConnection', nodes: Array<{ __typename?: 'Species', id: number, authorId: number, name: string }> }, characters: { __typename?: 'CharacterConnection', nodes: Array<{ __typename?: 'Character', id: number, authorId: number, speciesId: number, name: string }> } };
 
 type WithTime_Account_Fragment = { __typename?: 'Account', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
@@ -1319,11 +1726,19 @@ type WithTime_AreaDraft_Fragment = { __typename?: 'AreaDraft', timestamps: { __t
 
 type WithTime_AreaProposal_Fragment = { __typename?: 'AreaProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
+type WithTime_Character_Fragment = { __typename?: 'Character', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+
+type WithTime_CharacterDraft_Fragment = { __typename?: 'CharacterDraft', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+
 type WithTime_Place_Fragment = { __typename?: 'Place', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
 type WithTime_PlaceDraft_Fragment = { __typename?: 'PlaceDraft', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
 type WithTime_PlaceProposal_Fragment = { __typename?: 'PlaceProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+
+type WithTime_Species_Fragment = { __typename?: 'Species', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
+
+type WithTime_SpeciesDraft_Fragment = { __typename?: 'SpeciesDraft', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
 type WithTime_Tale_Fragment = { __typename?: 'Tale', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
@@ -1331,13 +1746,17 @@ type WithTime_TaleDraft_Fragment = { __typename?: 'TaleDraft', timestamps: { __t
 
 type WithTime_TaleProposal_Fragment = { __typename?: 'TaleProposal', timestamps: { __typename?: 'Timestamps', createdAt: number, modifiedAt: number } };
 
-export type WithTimeFragment = WithTime_Account_Fragment | WithTime_Area_Fragment | WithTime_AreaDraft_Fragment | WithTime_AreaProposal_Fragment | WithTime_Place_Fragment | WithTime_PlaceDraft_Fragment | WithTime_PlaceProposal_Fragment | WithTime_Tale_Fragment | WithTime_TaleDraft_Fragment | WithTime_TaleProposal_Fragment;
+export type WithTimeFragment = WithTime_Account_Fragment | WithTime_Area_Fragment | WithTime_AreaDraft_Fragment | WithTime_AreaProposal_Fragment | WithTime_Character_Fragment | WithTime_CharacterDraft_Fragment | WithTime_Place_Fragment | WithTime_PlaceDraft_Fragment | WithTime_PlaceProposal_Fragment | WithTime_Species_Fragment | WithTime_SpeciesDraft_Fragment | WithTime_Tale_Fragment | WithTime_TaleDraft_Fragment | WithTime_TaleProposal_Fragment;
 
 type SubjectSummary_Area_Fragment = { __typename?: 'Area', tales: { __typename?: 'TaleConnection', totalCount: any } };
 
+type SubjectSummary_Character_Fragment = { __typename?: 'Character', tales: { __typename?: 'TaleConnection', totalCount: any } };
+
 type SubjectSummary_Place_Fragment = { __typename?: 'Place', tales: { __typename?: 'TaleConnection', totalCount: any } };
 
-export type SubjectSummaryFragment = SubjectSummary_Area_Fragment | SubjectSummary_Place_Fragment;
+type SubjectSummary_Species_Fragment = { __typename?: 'Species', tales: { __typename?: 'TaleConnection', totalCount: any } };
+
+export type SubjectSummaryFragment = SubjectSummary_Area_Fragment | SubjectSummary_Character_Fragment | SubjectSummary_Place_Fragment | SubjectSummary_Species_Fragment;
 
 export type GetTaleDraftsQueryVariables = Exact<{
   pagination?: InputMaybe<Pagination>;
@@ -1496,7 +1915,7 @@ export const GetPlaceDocument = {"kind":"Document","definitions":[{"kind":"Opera
 export const GetPlaceByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPlaceById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"place"},"name":{"kind":"Name","value":"place"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Place"}}]}}]}},...PlaceFragmentDoc.definitions,...PlaceSummaryFragmentDoc.definitions,...MapPlaceFragmentDoc.definitions,...PosFragmentDoc.definitions,...SubjectSummaryFragmentDoc.definitions]} as unknown as DocumentNode<GetPlaceByIdQuery, GetPlaceByIdQueryVariables>;
 export const CreatePlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createPlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<CreatePlaceMutation, CreatePlaceMutationVariables>;
 export const ModifyPlaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"modifyPlace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ModifyPlaceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"modified"},"name":{"kind":"Name","value":"modifyPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<ModifyPlaceMutation, ModifyPlaceMutationVariables>;
-export const RelationsGraphDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"relationsGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RelationsGraphQuery, RelationsGraphQueryVariables>;
+export const RelationsGraphDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"relationsGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"species"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"characters"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"places"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"areas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"species"},"name":{"kind":"Name","value":"speciess"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"characters"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"speciesId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RelationsGraphQuery, RelationsGraphQueryVariables>;
 export const GetTaleDraftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleDrafts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"connection"},"name":{"kind":"Name","value":"taleDrafts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaleSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageInfo"}}]}}]}}]}},...TaleSummaryFragmentDoc.definitions,...WithTimeFragmentDoc.definitions,...PageInfoFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleDraftsQuery, GetTaleDraftsQueryVariables>;
 export const GetTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Tale"}},{"kind":"Field","name":{"kind":"Name","value":"proposed"}}]}}]}},...TaleFragmentDoc.definitions,...TaleSummaryFragmentDoc.definitions,...WithTimeFragmentDoc.definitions,...MapPlaceFragmentDoc.definitions,...PosFragmentDoc.definitions,...MapAreaFragmentDoc.definitions,...FlatPosFragmentDoc.definitions]} as unknown as DocumentNode<GetTaleDraftQuery, GetTaleDraftQueryVariables>;
 export const CreateTaleDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTaleDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTaleInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"created"},"name":{"kind":"Name","value":"createTaleDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateTaleDraftMutation, CreateTaleDraftMutationVariables>;
@@ -1522,9 +1941,15 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
       "Area",
       "AreaDraft"
     ],
+    "AbstractCharacter": [
+      "Character",
+      "CharacterDraft"
+    ],
     "AbstractDraft": [
       "AreaDraft",
+      "CharacterDraft",
       "PlaceDraft",
+      "SpeciesDraft",
       "TaleDraft"
     ],
     "AbstractLocation": [
@@ -1542,6 +1967,10 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
       "PlaceProposal",
       "TaleProposal"
     ],
+    "AbstractSpecies": [
+      "Species",
+      "SpeciesDraft"
+    ],
     "AbstractTale": [
       "Tale",
       "TaleDraft"
@@ -1551,9 +1980,13 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
       "Area",
       "AreaDraft",
       "AreaProposal",
+      "Character",
+      "CharacterDraft",
       "Place",
       "PlaceDraft",
       "PlaceProposal",
+      "Species",
+      "SpeciesDraft",
       "Tale",
       "TaleDraft",
       "TaleProposal"
@@ -1561,23 +1994,33 @@ export const ModifyTaleDocument = {"kind":"Document","definitions":[{"kind":"Ope
     "Owned": [
       "Area",
       "AreaDraft",
+      "Character",
+      "CharacterDraft",
       "Place",
       "PlaceDraft",
+      "Species",
+      "SpeciesDraft",
       "Tale",
       "TaleDraft"
     ],
     "TaleSubject": [
       "Area",
-      "Place"
+      "Character",
+      "Place",
+      "Species"
     ],
     "Timestamped": [
       "Account",
       "Area",
       "AreaDraft",
       "AreaProposal",
+      "Character",
+      "CharacterDraft",
       "Place",
       "PlaceDraft",
       "PlaceProposal",
+      "Species",
+      "SpeciesDraft",
       "Tale",
       "TaleDraft",
       "TaleProposal"
