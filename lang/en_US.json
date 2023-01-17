@@ -20,5 +20,19 @@
    },
    "settings": {
       "title": "Settings"
+   },
+   "network": {
+      "config": {
+         "visible_nodes": "Visible Node-Types",
+         "show_connection_less": "Show Connection-Less",
+         "draggable": "Draggable"
+      },
+      "node_type": {
+         "area": "Area",
+         "place": "Place",
+         "tale": "Tale",
+         "species": "Species",
+         "character": "Character"
+      }
    }
 }

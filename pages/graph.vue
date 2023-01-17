@@ -1,138 +1,116 @@
 <template>
    <section>
-      <v-network-graph v-if="network" class="graph" :nodes="network.nodes" :edges="network.edges" :configs="config">
-         <template #override-node-label="{ scale, text, x, y, config, textAnchor, dominantBaseline }">
-            <text
-               x="0"
-               y="0"
-               :font-size="9 * scale"
-               text-anchor="middle"
-               dominant-baseline="central"
-               :fill="config.color"
-            >
-               {{ text.type }}
-            </text>
-            <text
+      <div class="flex items-center gap-5">
+         <FormKit
+            v-model="shownTypes"
+            type="multi"
+            :options="possibleTypes"
+            :label="$t('network.config.visible_nodes')"
+         />
+         <div>
+            <FormKit v-model="showConnectionLess" type="checkbox" :label="$t('network.config.show_connection_less')" />
+            <FormKit v-model="networkConfig.node.draggable" type="checkbox" :label="$t('network.config.draggable')" />
+         </div>
+      </div>
+      <v-network-graph
+         v-if="network"
+         class="graph"
+         :nodes="network.nodes"
+         :edges="network.edges"
+         :configs="networkConfig"
+      >
+         <template #override-node="{ scale, nodeId, x, y, config, textAnchor, dominantBaseline }">
+            <NetworkNode
+               :key="nodeId"
+               :node="network.nodes[nodeId]"
                :x="x"
                :y="y"
-               :font-size="config.fontSize * scale"
+               :scale="scale"
+               :config="config"
                :text-anchor="textAnchor"
                :dominant-baseline="dominantBaseline"
-               :fill="config.color"
-            >
-               {{ text.name }}
-            </text>
+            />
          </template>
       </v-network-graph>
    </section>
 </template>
 
 <script lang="ts" setup>
-import { defineConfigs, ShapeType } from 'v-network-graph'
-import { ForceLayout, ForceNodeDatum, ForceEdgeDatum } from 'v-network-graph/lib/force-layout'
-import { Connection } from '~~/composables/pagination'
-import { Entity, RelationsGraphDocument } from '~~/graphql/generated'
+import { defineConfigs } from 'v-network-graph'
+import { ForceLayout } from 'v-network-graph/lib/force-layout'
+import { RelationsGraphDocument } from '~~/graphql/generated'
 
-type NodeType = 'Tale' | 'Place' | 'Area'
+const { t } = useI18n()
 
-type NodeConnection<T> = Pick<Connection<T>, 'nodes'>
-
-interface NodeEntity {
-   id: Entity['id']
-   __typename?: string
-}
-
-interface Node extends ForceNodeDatum {
-   values: {
-      type: NodeType
-      name: string
-   }
-}
-
-const colors: Record<NodeType, string> = {
-   Tale: 'solid-400',
-   Place: 'solid-500',
-   Area: 'solid-600',
-}
-
-const shapes: Record<NodeType, ShapeType> = {
-   Tale: 'rect',
-   Place: 'circle',
-   Area: 'circle',
-}
-
-const config = defineConfigs({
-   node: {
-      draggable: true,
-      normal: {
-         type: node => shapes[(node as Node).values.type],
-         color: node => `var(--${colors[(node as Node).values.type]})`,
+const networkConfig = reactive(
+   defineConfigs({
+      node: {
+         draggable: false,
+         hover: {
+            color: 'var(--accent-500)',
+         },
+         label: {
+            color: 'white',
+            text: 'values',
+         },
       },
-      hover: {
-         color: 'var(--accent-500)',
+      edge: {
+         normal: {
+            color: '#FFF2',
+         },
+         hover: {
+            color: 'var(--accent-500)',
+         },
       },
-      label: {
-         color: 'white',
-         text: 'values',
+      view: {
+         layoutHandler: new ForceLayout({
+            positionFixedByDrag: false,
+            positionFixedByClickWithAltKey: true,
+         }),
       },
-   },
-   edge: {
-      normal: {
-         color: '#FFF2',
-      },
-      hover: {
-         color: 'var(--accent-500)',
-      },
-   },
-   view: {
-      layoutHandler: new ForceLayout({
-         positionFixedByDrag: false,
-         positionFixedByClickWithAltKey: true,
-      }),
-   },
-})
-
-const nodeId = (node: NodeEntity) => `${node.__typename}#${node.id.toString()}`
-
-function toNode<T extends NodeEntity>(getName: (node: T) => string) {
-   return (node: T): Node => {
-      const type = (node.__typename as NodeType) ?? 'Unknown Type'
-      const id = nodeId(node)
-      const name = getName(node)
-      return {
-         id,
-         values: { type, name },
-      }
-   }
-}
-
-function createEdges<T extends NodeEntity>(
-   connection: NodeConnection<T>,
-   accessor: (node: T) => NodeConnection<NodeEntity>,
-) {
-   return connection.nodes.flatMap(node =>
-      accessor(node).nodes.map(it => ({ source: nodeId(node), target: nodeId(it) })),
-   )
-}
+   }),
+)
 
 const { result } = useQuery(RelationsGraphDocument)
 
-const network = computed(() => {
-   if (!result.value) return null
-   const { tales, areas, places } = result.value
+const showConnectionLess = ref(false)
 
-   const nodesArray: Node[] = [
-      ...areas.nodes.map(toNode(it => it.name)),
-      ...places.nodes.map(toNode(it => it.name)),
-      ...tales.nodes.map(toNode(it => it.title)),
-   ]
-   const edgesArray: ForceEdgeDatum[] = [...createEdges(tales, it => it.areas), ...createEdges(tales, it => it.places)]
+const possibleTypes = ['Species', 'Character', 'Area', 'Place', 'Tale'].map(it => ({
+   value: it,
+   label: t(`network.node_type.${it.toLowerCase()}`),
+}))
 
-   const nodes = Object.fromEntries(nodesArray.map(({ id, ...node }) => [id, node]))
-   const edges = Object.fromEntries(edgesArray.map(edge => [`${edge.source} -${edge.target} `, edge]))
+const shownTypes = useState(() => possibleTypes.map(it => it.value))
 
-   return { nodes, edges }
-})
+function isShown({ type }: { type: string }) {
+   return shownTypes.value.includes(type)
+}
+
+const nodesArray = computed(() =>
+   result.value
+      ? [
+           ...result.value.areas.nodes.map(toNode(it => it.name)),
+           ...result.value.places.nodes.map(toNode(it => it.name)),
+           ...result.value.species.nodes.map(toNode(it => it.name)),
+           ...result.value.characters.nodes.map(toNode(it => it.name)),
+           ...result.value.tales.nodes.map(toNode(it => it.title)),
+        ].filter(isShown)
+      : [],
+)
+
+const edgesArray = computed(() =>
+   result.value
+      ? [
+           ...createEdges(result.value.tales, it => it.areas),
+           ...createEdges(result.value.tales, it => it.places),
+           ...createEdges(result.value.tales, it => it.species),
+           ...createEdges(result.value.tales, it => it.characters),
+           ...createEdge(result.value.characters, it => ({ id: it.speciesId, __typename: 'Species' })),
+        ].filter(it => isShown(it.sourceNode) && isShown(it.targetNode))
+      : [],
+)
+
+const network = useNetwork(nodesArray, edgesArray, showConnectionLess)
 </script>
 
 <style scoped>
