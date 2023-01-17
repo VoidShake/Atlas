@@ -26,6 +26,9 @@ jobs:
 
          - name: Install Dependencies
            run: yarn
+           env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-         - name: run eslint
-           run: npm run lint:ci
+         - run: yarn run lint:ci
+           env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
