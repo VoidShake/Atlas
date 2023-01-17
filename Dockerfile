@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY . .
 
+ARG github_token
+ENV GITHUB_TOKEN=$github_token
+
 RUN yarn install \
   --prefer-offline \
   --frozen-lockfile \
@@ -24,9 +27,9 @@ FROM node:16
 
 WORKDIR /app
 
-COPY --from=builder /app  .
+COPY --from=builder /app/.output  .
 
 ENV HOST 0.0.0.0
 EXPOSE 3000
 
-CMD [ "node", ".output/server/index.mjs" ]
+CMD [ "node", "server/index.mjs" ]
