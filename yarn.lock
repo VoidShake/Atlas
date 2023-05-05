@@ -2738,10 +2738,10 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.47.tgz#e597ef75086c6e896ff5478a6bfc0a7aa4bbd14c"
   integrity sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==
 
-"@vueform/multiselect@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@vueform/multiselect/-/multiselect-2.6.1.tgz#c3aa1abfe46d2fb461e8408dfa877fdeb44826d1"
-  integrity sha512-3Di5PWMfNzGDZKPg/FE3hs++jC7oTsgwSTVbZ96w+IRFRHGDGjgrX1DO/UeR2swBfUNUS39uJBI86JkDbzWXtA==
+"@vueform/multiselect@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@vueform/multiselect/-/multiselect-2.6.2.tgz#2a14c5f7d9cf4ea07853b7f9b491c039bbfadf40"
+  integrity sha512-4BFvXyzyi0Pqi/lsYdGwONsQy+ypiVzuQbmoDUlttTxuoujFtf9AdeHi1ZhfIorXG9BiysK1HcQSfYB6USgwfQ==
 
 "@whatwg-node/events@^0.0.3":
   version "0.0.3"
