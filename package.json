@@ -55,7 +55,7 @@
       "nuxt": "^3.4.3",
       "postcss-for": "^2.1.1",
       "postcss-html": "^1.5.0",
-      "prettier": "^2.8.3",
+      "prettier": "^2.8.8",
       "sanitize-html": "^2.8.1",
       "sass": "^1.60.0",
       "sass-loader": "^13.1.0",
