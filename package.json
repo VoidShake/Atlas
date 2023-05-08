@@ -50,7 +50,7 @@
       "graphql": "^16.6.0",
       "leaflet": "^1.9.2",
       "lodash-es": "^4.17.21",
-      "marked": "^4.2.12",
+      "marked": "^5.0.1",
       "mini-svg-data-uri": "^1.4.4",
       "nuxt": "^3.4.3",
       "postcss-for": "^2.1.1",
