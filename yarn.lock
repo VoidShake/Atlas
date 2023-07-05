@@ -10092,12 +10092,13 @@ uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
-v-network-graph@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/v-network-graph/-/v-network-graph-0.7.0.tgz#0d2abbacd67ce0a6853e3c2d0b42a7ac45623480"
-  integrity sha512-Ez4T2VCm3fnPXDsQVVZCIBDWlQVIsyTap+GGzg005gJJyuL0nXK1y3M7KEiE8kOnWr2Zj7G5lh+XnrQAQ1xa/w==
+v-network-graph@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/v-network-graph/-/v-network-graph-0.9.5.tgz#451fd3d5080711d32ba1e864f13ed870a98b378a"
+  integrity sha512-jpXFBt/d0OlC1KqsRZjFrUGwsDLtcz/nG67eNQOfKqA0FZRXJnObhdCVX8rl0vuBRuTgwh5Oj5olSJicuzEVXQ==
   dependencies:
     "@dash14/svg-pan-zoom" "^3.6.9"
+    lodash-es "^4.17.21"
     mitt "^3.0.0"
 
 v8-compile-cache@^2.3.0:
