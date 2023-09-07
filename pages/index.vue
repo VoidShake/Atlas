@@ -5,7 +5,9 @@
          <StyledTitle> Atlas </StyledTitle>
          <NuxtLink v-for="link in links" :key="link.label" :to="link.to">
             <StyledPanel class="my-3 text-3xl">
-               <InlineIcon> <component :is="link.icon" /> </InlineIcon>
+               <InlineIcon>
+                  <component :is="link.icon" />
+               </InlineIcon>
                <span class="ml-5"> {{ link.label }} </span>
             </StyledPanel>
          </NuxtLink>
@@ -14,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { MapIcon, BookOpenIcon } from '@heroicons/vue/24/outline'
+import { BookOpenIcon, MapIcon } from '@heroicons/vue/24/outline';
 
 const links = [
    { to: '/map', label: 'Map', icon: MapIcon },

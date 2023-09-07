@@ -20,7 +20,10 @@ interface DynmapOptions {
 }
 
 const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', {
-   transform: r => JSON.parse(r as unknown as string),
+   transform: r => {
+     console.log(r)
+     return JSON.parse(r as unknown as string)
+   },
 })
 
 const context = useMap()

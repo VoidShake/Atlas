@@ -18,17 +18,16 @@ export default defineNuxtConfig({
 
    nitro: {
       devProxy: {
-         '/api/': 'http://localhost:8080/api',
-         '/auth/': 'http://localhost:8080/auth',
-         '/dynmap/': {
-            target: 'https://map.somethingcatchy.net/',
-            changeOrigin: true,
+         '/api': 'http://localhost:8080/api',
+         '/auth': 'http://localhost:8080/auth',
+         '/dynmap': {
+            target: 'http://localhost:8123',
          },
       },
    },
 
    build: {
-      transpile: ['graphql', '@heroicons/vue', 'lodash'],
+      transpile: ['graphql'],
    },
 
    apollo: {
@@ -65,5 +64,9 @@ export default defineNuxtConfig({
    typescript: {
       strict: true,
       shim: false,
+   },
+
+   runtimeConfig: {
+      apiUrl: 'http://localhost:3000/api',
    },
 })

@@ -3,7 +3,8 @@ import introspectionResult from '../graphql/generated'
 import typePolicies from '../graphql/typePolicies'
 
 export default defineApolloClient({
-   httpEndpoint: '/api/graphql',
+   // will be overridden by plugins/apollo.ts using the runtimeConfig
+   httpEndpoint: 'http://localhost:3000/api/graphql',
    inMemoryCacheOptions: {
       typePolicies,
       possibleTypes: introspectionResult.possibleTypes,
