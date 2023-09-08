@@ -6,7 +6,7 @@
       </NuxtLink>
       <section class="flex gap-4 ml-auto">
          <ThemeButton />
-         <ProfileIcon v-if="loggedIn" />
+         <ProfileIcon v-if="account" :account="account" />
          <NuxtLink v-else to="/login" class="px-2"> Login </NuxtLink>
       </section>
    </nav>
@@ -26,7 +26,7 @@ const links = ref([
 
 const active = computed(() => [...links.value].reverse().find(it => route.path.startsWith(it.to))?.to)
 
-const { loggedIn } = useSession()
+const { account } = useSession()
 </script>
 
 <style lang="scss" scoped>

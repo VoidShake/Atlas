@@ -5,11 +5,10 @@
       zoom-animation
       fade-animation
       :crs="crs"
-      :min-zoom="context?.minZoom"
-      :max-zoom="context?.maxZoom"
+      :min-zoom="context?.minZoom!"
+      :max-zoom="context?.maxZoom!"
       :max-native-zoom="context?.maxNativeZoom"
-      @contextmenu="emitWithPos('contextmenu', $event)"
-      @click="emitWithPos('click', $event)"
+      @ready="ready"
    >
       <MapTiles />
       <MapLocations />
@@ -18,13 +17,18 @@
 
 <script lang="ts" setup>
 import { LMap } from '@vue-leaflet/vue-leaflet'
-import { CRS, LeafletMouseEvent } from 'leaflet'
+import { CRS, LeafletMouseEvent, Map } from 'leaflet'
 import { PosFragment } from '~/graphql/generated'
 
 const emit = defineEmits<{
    (e: 'click', pos: PosFragment, event: LeafletMouseEvent): void
    (e: 'contextmenu', pos: PosFragment, event: LeafletMouseEvent): void
 }>()
+
+function ready(map: Map) {
+   map.on('contextmenu', e => emitWithPos('contextmenu', e))
+   map.on('click', e => emitWithPos('click', e))
+}
 
 function emitWithPos(e: 'click' | 'contextmenu', event: LeafletMouseEvent | PointerEvent) {
    if ('latlng' in event) {

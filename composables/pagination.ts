@@ -2,6 +2,7 @@ import { TypedDocumentNode } from '@graphql-typed-document-node/core'
 import type { OperationDefinitionNode } from 'graphql'
 import type { Ref } from 'vue'
 import { Exact, PageInfo, Pagination } from '~/graphql/generated'
+import useDeferred from '~/composables/deferred'
 
 export interface Connection<T> {
    nodes: T[]
@@ -60,5 +61,7 @@ export function usePagination<T, Q extends ConnectionQuery<T>, F>(
       }
    }
 
-   return { next, previous, result, error }
+   const deferredResult = useDeferred(result)
+
+   return { next, previous, result: deferredResult, error }
 }

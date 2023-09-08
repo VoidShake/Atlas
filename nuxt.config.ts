@@ -20,14 +20,12 @@ export default defineNuxtConfig({
       devProxy: {
          '/api': 'http://localhost:8080/api',
          '/auth': 'http://localhost:8080/auth',
-         '/dynmap': {
-            target: 'http://localhost:8123',
-         },
+         '/dynmap': 'http://localhost:8123',
       },
    },
 
    build: {
-      transpile: ['graphql'],
+      transpile: ['graphql', 'tslib'],
    },
 
    apollo: {
@@ -67,6 +65,8 @@ export default defineNuxtConfig({
    },
 
    runtimeConfig: {
-      apiUrl: 'http://localhost:3000/api',
+      public: {
+         apiUrl: 'http://localhost:3000/api',
+      }
    },
 })

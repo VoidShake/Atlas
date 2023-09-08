@@ -1,4 +1,10 @@
-FROM node:16 as builder
+FROM node:18-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+ENV CI=true
+
+FROM base AS builder
 
 WORKDIR /app
 
@@ -7,27 +13,11 @@ COPY . .
 ARG github_token
 ENV GITHUB_TOKEN=$github_token
 
-# Required packages for headless-gl to work, which is used to render the icon assets
-# RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64
-# RUN chmod +x /usr/local/bin/dumb-init
-RUN apt-get update && apt-get install -y --no-install-recommends -y \
-  mesa-utils \
-  xvfb \
-  xauth \
-  libgl1-mesa-dri \
-  libglapi-mesa \
-  libosmesa6
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-RUN yarn install \
-  --prefer-offline \
-  --frozen-lockfile \
-  --non-interactive \
-  --production=false
+RUN pnpm run build
 
-RUN xvfb-run yarn icongen
-RUN yarn build
-
-FROM node:18
+FROM base AS runner
 
 WORKDIR /app
 

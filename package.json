@@ -1,6 +1,7 @@
 {
    "name": "atlas",
    "version": "1.0.0",
+   "packageManager": "pnpm@8.6.12",
    "private": true,
    "scripts": {
       "build": "nuxt build",
@@ -14,11 +15,11 @@
       "lint:ci": "eslint **/*.{vue,ts}",
       "lint:code": "eslint **/*.{vue,ts,gql}",
       "lint:style": "stylelint **/*.vue",
-      "lint": "yarn lint:code && yarn lint:style"
+      "lint": "pnpm lint:code && pnpm lint:style"
    },
    "devDependencies": {
-      "@formkit/nuxt": "^0.19.3",
-      "@formkit/themes": "^0.19.3",
+      "@formkit/nuxt": "^1.0.0",
+      "@formkit/themes": "^1.0.0",
       "@graphql-codegen/add": "^4.0.1",
       "@graphql-codegen/cli": "^3.3.1",
       "@graphql-codegen/fragment-matcher": "^4.0.1",
@@ -30,7 +31,7 @@
       "@nuxtjs/apollo": "^5.0.0-alpha.6",
       "@nuxtjs/color-mode": "^3.1.8",
       "@nuxtjs/eslint-config-typescript": "^12.0.0",
-      "@nuxtjs/i18n": "^8.0.0-beta.11",
+      "@nuxtjs/i18n": "^v8.0.0-rc.4",
       "@nuxtjs/tailwindcss": "^6.8.0",
       "@types/leaflet": "^1.8.0",
       "@types/lodash-es": "^4.17.7",

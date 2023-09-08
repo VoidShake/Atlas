@@ -2,7 +2,9 @@ name: Test
 
 on:
    push:
-   merge_group:
+     branches: [main]
+   pull_request:
+     types: [opened, synchronize]
 
 jobs:
    lint:
@@ -10,26 +12,35 @@ jobs:
       steps:
          - uses: actions/checkout@v3
 
-         - uses: actions/setup-node@v3
+         - name: Install Node.js
+           uses: actions/setup-node@v3
            with:
-              node-version: 16
+             node-version: 16
 
-         - name: Get yarn cache directory path
-           id: yarn
-           run: echo "::set-output name=dir::$(yarn cache dir)"
+         - name: Install pnpm
+           uses: pnpm/action-setup@v2
+           with:
+             version: 8
+             run_install: false
+
+         - name: Get pnpm store directory
+           shell: bash
+           run: |
+             echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
          - uses: actions/cache@v3
+           name: Setup pnpm cache
            with:
-              path: ${{ steps.yarn.outputs.dir }}
-              key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-              restore-keys: |
-                 ${{ runner.os }}-yarn-
+             path: ${{ env.STORE_PATH }}
+             key: ${{ runner.os }}-pnpm-store-${{ hashFiles('web/**/pnpm-lock.yaml') }}
+             restore-keys: |
+               ${{ runner.os }}-pnpm-store-
 
-         - name: Install Dependencies
-           run: yarn
+         - name: Install dependencies
+           run: pnpm install --frozen-lockfile --strict-peer-dependencies
+           working-directory: web
            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-         - run: yarn run lint:ci
-           env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         - name: Lint
+           run: pnpm run lint:ci

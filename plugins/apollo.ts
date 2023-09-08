@@ -15,15 +15,12 @@ export default defineNuxtPlugin(nuxtApp => {
       token.value = cookie.value
    })
 
-   return;
-
    const config = useRuntimeConfig()
    const apollo = nuxtApp.$apollo as { defaultClient: ApolloClient<unknown> }
 
-   const authLink = setContext((_, { headers }) => {
+   const authLink = setContext(async (_, { headers }) => {
       const token = ref<string | null>(null)
-      nuxtApp.callHook('apollo:auth', { token, client: 'default' })
-      //const token = { value: null }
+      await nuxtApp.callHook('apollo:auth', { token, client: 'default' })
 
       if (!token.value) return { headers }
       return {
@@ -35,7 +32,7 @@ export default defineNuxtPlugin(nuxtApp => {
    })
 
    const httpLink = createHttpLink({
-      uri: `${config.apiUrl}/graphql`,
+      uri: `${config.public.apiUrl}/graphql`,
    })
 
    const errorLink = onError(error => {
@@ -43,5 +40,5 @@ export default defineNuxtPlugin(nuxtApp => {
    })
 
    const link = from([errorLink, authLink, httpLink])
-   //apollo.defaultClient.setLink(link)
+   apollo.defaultClient.setLink(link)
 })

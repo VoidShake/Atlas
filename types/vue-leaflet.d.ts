@@ -1,4 +1,4 @@
-declare module '@vue-leaflet/vue-leaflet' {
+declare module '@vue-leaflet/vue-leaflett' {
    import type { DefineComponent } from 'vue'
    export const LMap: DefineComponent
    export const LIcon: DefineComponent

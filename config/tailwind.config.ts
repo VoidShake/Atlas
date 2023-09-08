@@ -17,7 +17,7 @@ function reverse<T extends object>(value: T) {
 
 const config: Partial<Config> = {
    plugins: [formKitTailwind],
-   content: ['formkit.config.ts'],
+   content: ['config/formkit.config.ts'],
    theme: {
       extend: {
          colors: {

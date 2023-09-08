@@ -1,11 +1,13 @@
 <template>
    <NuxtLink to="/me" class="w-12 h-12 justify-self-end">
-      <img v-if="result?.me" alt="your avatar" :src="result.me.avatar!!" class="rounded-full" />
+      <img v-if="account" alt="your avatar" :src="account.avatar!!" class="rounded-full" />
    </NuxtLink>
 </template>
 
 <script lang="ts" setup>
-import { MeDocument } from '~/graphql/generated'
+import { SelfFragment } from "~/graphql/generated";
 
-const { result } = useQuery(MeDocument)
+defineProps<{
+  account: SelfFragment
+}>()
 </script>
