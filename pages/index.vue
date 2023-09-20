@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BookOpenIcon, MapIcon } from '@heroicons/vue/24/outline';
+import { BookOpenIcon, MapIcon } from '@heroicons/vue/24/outline'
 
 const links = [
    { to: '/map', label: 'Map', icon: MapIcon },

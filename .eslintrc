@@ -37,7 +37,8 @@
          }
       ],
       "import/no-named-as-default": "off",
-      "import/order": "off"
+      "import/order": "off",
+      "vue/max-attributes-per-line": "off"
    },
    "overrides": [
       {

@@ -26,7 +26,7 @@
       "@graphql-codegen/typed-document-node": "^4.0.1",
       "@graphql-codegen/typescript": "^3.0.4",
       "@graphql-codegen/typescript-operations": "^3.0.4",
-      "@graphql-eslint/eslint-plugin": "^3.18.0",
+      "@graphql-eslint/eslint-plugin": "^3.20.1",
       "@heroicons/vue": "^2.0.17",
       "@nuxtjs/apollo": "^5.0.0-alpha.6",
       "@nuxtjs/color-mode": "^3.1.8",

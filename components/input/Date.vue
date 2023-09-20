@@ -12,6 +12,4 @@ function inputRaw(value: string, node: FormKitNode) {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

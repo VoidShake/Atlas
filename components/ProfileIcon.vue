@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-import { SelfFragment } from "~/graphql/generated";
+import { SelfFragment } from '~/graphql/generated'
 
 defineProps<{
-  account: SelfFragment
+   account: SelfFragment
 }>()
 </script>

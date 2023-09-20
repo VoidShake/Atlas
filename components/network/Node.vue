@@ -1,8 +1,14 @@
 <template>
    <g v-tooltip="$t(`network.node_type.${node.type.toLowerCase()}`)">
       <circle v-if="isCircle" :r="config.radius * scale" :fill="color" />
-      <rect v-else :height="config.height * scale" :width="config.width * scale" :x="config.height * scale * -0.5"
-         :y="config.width * scale * -0.5" :fill="color" />
+      <rect
+         v-else
+         :height="config.height * scale"
+         :width="config.width * scale"
+         :x="config.height * scale * -0.5"
+         :y="config.width * scale * -0.5"
+         :fill="color"
+      />
       <component :is="icon" v-if="icon" v-svg-size="{ ...config, scale: scale * 0.6 }" />
       <text :x="0" y="3em" :font-size="9 * scale" text-anchor="middle" fill="#FFF">
          {{ node.name }}

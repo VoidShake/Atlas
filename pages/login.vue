@@ -1,13 +1,18 @@
 <template>
    <div id="buttons">
       <a href="/auth/discord">
-         <StyledButton id="discord"> Login via Discord </StyledButton>
+         <StyledButton id="discord"> Login via Discord</StyledButton>
       </a>
       <div v-if="result?.settings.development">
-         <FormKit type="form" :classes="{ form: 'grid grid-flow-col gap-2 mt-1 items-stretch' }" submit-label="Login"
+         <FormKit
+            type="form"
+            :classes="{ form: 'grid grid-flow-col gap-2 mt-1 items-stretch' }"
+            submit-label="Login"
             :submit-attrs="{
                'suffix-icon': 'chevron-right',
-            }" @submit="seededLogin">
+            }"
+            @submit="seededLogin"
+         >
             <FormKit type="text" name="email" placeholder="E-Mail" help="Login as seeded user" />
          </FormKit>
       </div>
@@ -15,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ApiSettingsDocument, ImpersonateDocument, ImpersonateMutationVariables } from '~/graphql/generated';
+import { ApiSettingsDocument, ImpersonateDocument, ImpersonateMutationVariables } from '~/graphql/generated'
 
 definePageMeta({
    layout: 'center',
