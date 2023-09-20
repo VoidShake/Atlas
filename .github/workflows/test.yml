@@ -2,9 +2,9 @@ name: Test
 
 on:
    push:
-     branches: [main]
+      branches: [main]
    pull_request:
-     types: [opened, synchronize]
+      types: [opened, synchronize]
 
 jobs:
    lint:
@@ -15,32 +15,33 @@ jobs:
          - name: Install Node.js
            uses: actions/setup-node@v3
            with:
-             node-version: 16
+              node-version: 16
 
          - name: Install pnpm
            uses: pnpm/action-setup@v2
            with:
-             version: 8
-             run_install: false
+              version: 8
+              run_install: false
 
          - name: Get pnpm store directory
            shell: bash
            run: |
-             echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+              echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+           env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
          - uses: actions/cache@v3
            name: Setup pnpm cache
            with:
-             path: ${{ env.STORE_PATH }}
-             key: ${{ runner.os }}-pnpm-store-${{ hashFiles('web/**/pnpm-lock.yaml') }}
-             restore-keys: |
-               ${{ runner.os }}-pnpm-store-
+              path: ${{ env.STORE_PATH }}
+              key: ${{ runner.os }}-pnpm-store-${{ hashFiles('web/**/pnpm-lock.yaml') }}
+              restore-keys: |
+                 ${{ runner.os }}-pnpm-store-
 
          - name: Install dependencies
            run: pnpm install --frozen-lockfile --strict-peer-dependencies
-           working-directory: web
            env:
-             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
          - name: Lint
            run: pnpm run lint:ci
