@@ -72,8 +72,8 @@ devDependencies:
     specifier: ^0.9.0
     version: 0.9.0(@types/leaflet@1.8.0)(leaflet@1.9.2)
   '@vueform/multiselect':
-    specifier: ^2.6.2
-    version: 2.6.2
+    specifier: ^2.6.6
+    version: 2.6.6
   core-js:
     specifier: ^3.30.0
     version: 3.30.0
@@ -3479,8 +3479,8 @@ packages:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
     dev: true
 
-  /@vueform/multiselect@2.6.2:
-    resolution: {integrity: sha512-4BFvXyzyi0Pqi/lsYdGwONsQy+ypiVzuQbmoDUlttTxuoujFtf9AdeHi1ZhfIorXG9BiysK1HcQSfYB6USgwfQ==}
+  /@vueform/multiselect@2.6.6:
+    resolution: {integrity: sha512-JDWesVRmyGz9HmHp2Ooy1cb8XgKohiztwMDtjm8c0/Th+7wEZENZuYa0iY5CTvaJNANl3LVqh9BNnCc/YlM/Bg==}
     dev: true
 
   /@webassemblyjs/ast@1.11.6:
