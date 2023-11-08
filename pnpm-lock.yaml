@@ -141,8 +141,8 @@ devDependencies:
     specifier: ^6.1.0
     version: 6.1.0(postcss@8.4.29)(stylelint@15.6.1)
   v-network-graph:
-    specifier: ^0.9.1
-    version: 0.9.1(d3-force@3.0.0)(vue@3.3.4)
+    specifier: ^0.9.11
+    version: 0.9.11(d3-force@3.0.0)(vue@3.3.4)
 
 packages:
 
@@ -10653,8 +10653,8 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /v-network-graph@0.9.1(d3-force@3.0.0)(vue@3.3.4):
-    resolution: {integrity: sha512-3oB2+wBqaDSNSeg7iFZa4ekSqw/3Ec+qQ9mHvMKT/BKU6Jt2LePh6pMPXCiNo5k4S+NJ6LCTlRYz4cGT2W+4Iw==}
+  /v-network-graph@0.9.11(d3-force@3.0.0)(vue@3.3.4):
+    resolution: {integrity: sha512-mFGFEEEBaInVdUxqsgnTMti/xhqapvlStKCuHrfpjWhD2YfDkeMuogyKuSVvIcl4M5P3hS+Srdxr89R0WvPkPw==}
     peerDependencies:
       d3-force: ^3.0.0
       vue: ^3.2.45
