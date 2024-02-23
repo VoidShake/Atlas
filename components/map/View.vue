@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { LeafletMouseEvent } from 'leaflet'
-import { Permission, PosFragment } from '~/graphql/generated'
-import type { World } from '~~/composables/useMap'
+import type { LeafletMouseEvent } from 'leaflet';
+import { Permission, PosFragment } from '~/graphql/generated';
+import type { World } from '~~/composables/useMap';
 
 interface DynmapOptions {
    defaultmap: string
@@ -43,7 +43,10 @@ function mapMenu(pos: PosFragment, e: LeafletMouseEvent) {
    })
 }
 
-effect(() => refresh())
+effect(() => {
+   const id = setTimeout(refresh, 0)
+   return () => clearTimeout(id)
+})
 
 watch(options, value => {
    if (!value || context.value) return
