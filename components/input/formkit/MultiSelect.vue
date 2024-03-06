@@ -1,8 +1,10 @@
 <template>
    <div>
-      <multi-select :placeholder="context.placeholder" :mode="context.mode ?? 'tags'" :model-value="context._value ?? null"
+      <multi-select
+:placeholder="context.placeholder" :mode="context.mode ?? 'tags'" :model-value="context._value ?? null"
          searchable :close-on-select="false" :loading="context.loading" :options="context.options"
-         :classes="{ tagsSearch: 'multiselect-tags-search bg-transparent text-white' }" @update:model-value="select" />
+         :classes="{ tagsSearch: 'multiselect-tags-search bg-transparent text-white' }" @update:model-value="select"
+/>
    </div>
 </template>
 

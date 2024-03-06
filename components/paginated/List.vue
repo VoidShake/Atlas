@@ -7,9 +7,11 @@
       <StyledList>
          <slot />
       </StyledList>
-      <PaginatedControls v-if="connection.pageInfo.hasPreviousPage || connection.pageInfo.hasNextPage"
+      <PaginatedControls
+v-if="connection.pageInfo.hasPreviousPage || connection.pageInfo.hasNextPage"
          :connection="connection" :page-size="connection.nodes.length" @next="$emit('next')"
-         @previous="$emit('previous')" />
+         @previous="$emit('previous')"
+/>
    </section>
 </template>
 

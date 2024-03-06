@@ -23,7 +23,7 @@ defineEmits<{
 }>()
 </script>
 
-<styled lang="scss" scoped>
+<style lang="scss" scoped>
 .buttons {
    @apply text-xl grid grid-flow-col gap-2;
 
@@ -35,4 +35,4 @@ defineEmits<{
       }
    }
 }
-</styled>
+</style>

@@ -23,4 +23,3 @@ const { hasPermission } = useSession()
 const limit = ref(24)
 const { result, next, previous } = usePagination(GetTaleDraftsDocument, limit)
 </script>
-
