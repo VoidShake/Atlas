@@ -1,5 +1,4 @@
-import { Ref } from 'nuxt/dist/app/compat/capi'
-import { MeDocument, Permission, SelfFragment } from '~/graphql/generated'
+import { MeDocument, Permission, type SelfFragment } from '~/graphql/generated'
 
 export function login(token: string) {
    const cookie = useToken()

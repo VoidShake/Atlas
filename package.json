@@ -1,7 +1,7 @@
 {
    "name": "atlas",
    "version": "1.0.0",
-   "packageManager": "pnpm@8.6.12",
+   "packageManager": "pnpm@8.12.0",
    "private": true,
    "scripts": {
       "build": "nuxt build",
@@ -18,8 +18,8 @@
       "lint": "pnpm lint:code && pnpm lint:style"
    },
    "devDependencies": {
-      "@formkit/nuxt": "^1.0.0",
-      "@formkit/themes": "^1.0.0",
+      "@formkit/nuxt": "^1.5.9",
+      "@formkit/themes": "^1.5.9",
       "@graphql-codegen/add": "^4.0.1",
       "@graphql-codegen/cli": "^3.3.1",
       "@graphql-codegen/fragment-matcher": "^4.0.1",
@@ -28,11 +28,11 @@
       "@graphql-codegen/typescript-operations": "^3.0.4",
       "@graphql-eslint/eslint-plugin": "^3.20.1",
       "@heroicons/vue": "^2.0.17",
-      "@nuxtjs/apollo": "^5.0.0-alpha.6",
-      "@nuxtjs/color-mode": "^3.1.8",
+      "@nuxtjs/apollo": "^5.0.0-alpha.10",
+      "@nuxtjs/color-mode": "^3.3.2",
       "@nuxtjs/eslint-config-typescript": "^12.0.0",
-      "@nuxtjs/i18n": "^v8.0.0-rc.4",
-      "@nuxtjs/tailwindcss": "^6.8.0",
+      "@nuxtjs/i18n": "^v8.1.1",
+      "@nuxtjs/tailwindcss": "^6.11.4",
       "@types/leaflet": "^1.8.0",
       "@types/lodash-es": "^4.17.7",
       "@types/marked": "^4.0.8",
@@ -40,7 +40,7 @@
       "@types/sanitize-html": "^2.9.0",
       "@volar-plugins/prettier": "^2.0.0",
       "@vue-leaflet/vue-leaflet": "^0.9.0",
-      "@vueform/multiselect": "^2.6.2",
+      "@vueform/multiselect": "^2.6.6",
       "core-js": "^3.30.0",
       "d3-force": "^3.0.0",
       "eslint": "^8.39.0",
@@ -52,7 +52,7 @@
       "lodash-es": "^4.17.21",
       "marked": "^4.2.12",
       "mini-svg-data-uri": "^1.4.4",
-      "nuxt": "^3.5.3",
+      "nuxt": "^3.10.3",
       "postcss-for": "^2.1.1",
       "postcss-html": "^1.5.0",
       "prettier": "^2.8.8",
@@ -64,5 +64,8 @@
       "stylelint-config-recommended-vue": "^1.4.0",
       "stylelint-config-standard-scss": "^6.1.0",
       "v-network-graph": "^0.9.1"
+   },
+   "dependencies": {
+      "vue": "v3.4.8"
    }
 }

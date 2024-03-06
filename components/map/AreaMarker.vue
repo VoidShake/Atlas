@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { LPolygon } from '@vue-leaflet/vue-leaflet'
-import { LatLng } from 'leaflet'
-import { MapAreaFragment } from '~/graphql/generated'
+import { LPolygon } from '@vue-leaflet/vue-leaflet';
+import { LatLng } from 'leaflet';
+import type { MapAreaFragment } from '~/graphql/generated';
 
 const context = useMap()
 

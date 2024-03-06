@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Point } from '~~/graphql/generated'
+import type { Point } from '~~/graphql/generated';
 
 const props = defineProps<{
    initial?: Partial<Point>

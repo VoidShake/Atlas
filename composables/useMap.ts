@@ -1,4 +1,4 @@
-import { PosFragment } from '~~/graphql/generated'
+import type { PosFragment } from '~~/graphql/generated'
 
 export type ProjectionMatrix = [number, number, number, number, number, number, number, number, number]
 

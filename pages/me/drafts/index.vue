@@ -3,15 +3,19 @@
       <StyledTitle> Your Drafts </StyledTitle>
 
       <div class="links">
-         <NuxtLink to="/me/drafts/locations">
+         <NuxtLink to="/me/drafts/places">
             <StyledButton>
-               <InlineIcon> <MapPinIcon /> </InlineIcon>
-               Locations
+               <InlineIcon>
+                  <MapPinIcon />
+               </InlineIcon>
+               Places
             </StyledButton>
          </NuxtLink>
          <NuxtLink to="/me/drafts/tales">
             <StyledButton>
-               <InlineIcon> <BookOpenIcon /> </InlineIcon>
+               <InlineIcon>
+                  <BookOpenIcon />
+               </InlineIcon>
                Tales
             </StyledButton>
          </NuxtLink>
@@ -20,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BookOpenIcon, MapPinIcon } from '@heroicons/vue/24/solid'
+import { BookOpenIcon, MapPinIcon } from '@heroicons/vue/24/solid';
 
 definePageMeta({
    layout: 'profile',

@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet';
-import { Permission, PosFragment } from '~/graphql/generated';
+import { Permission, type PosFragment } from '~/graphql/generated';
 import type { World } from '~~/composables/useMap';
 
 interface DynmapOptions {

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { FormKitOptionsItem } from '@formkit/inputs'
+import { type FormKitOptionsItem } from '@formkit/inputs';
 
 const { locale, locales, setLocale } = useI18n()
 const options = computed(() =>

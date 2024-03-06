@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { FormKitNode } from '@formkit/core'
+import type { FormKitNode } from '@formkit/core';
 
 function inputRaw(value: string, node: FormKitNode) {
    const date = new Date(value)

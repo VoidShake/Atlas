@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PencilIcon } from '@heroicons/vue/24/solid'
-import { GetTalesDocument, Permission, TaleFilter } from '~/graphql/generated'
+import { PencilIcon } from '@heroicons/vue/24/solid';
+import { GetTalesDocument, Permission, type TaleFilter } from '~/graphql/generated';
 
 const { hasPermission } = useSession()
 

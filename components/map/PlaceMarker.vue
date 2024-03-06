@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { LMarker } from '@vue-leaflet/vue-leaflet'
-import { LatLng } from 'leaflet'
-import { MapPlaceFragment } from '~/graphql/generated'
+import { LMarker } from '@vue-leaflet/vue-leaflet';
+import { LatLng } from 'leaflet';
+import type { MapPlaceFragment } from '~/graphql/generated';
 
 const context = useMap()
 

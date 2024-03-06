@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts" setup>
-import { TrashIcon, CheckIcon } from '@heroicons/vue/24/solid'
-import { AbstractProposal } from '~~/graphql/generated'
+import { CheckIcon, TrashIcon } from '@heroicons/vue/24/solid';
+import type { AbstractProposal } from '~~/graphql/generated';
 
 defineProps<{
    draftId: AbstractProposal['draftId']

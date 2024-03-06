@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Connection } from '~~/composables/pagination'
+import type { Connection } from '~~/composables/pagination';
 
 defineProps<{
    connection: Connection<unknown>
@@ -29,11 +29,11 @@ defineEmits<{
    @apply border-separate border-spacing-x-2;
 
    &:deep(td) {
-      @apply p-3  bg-solid-600;
+      @apply p-3 bg-solid-600;
    }
 
    &:deep(th) {
-      @apply p-3  bg-solid-700;
+      @apply p-3 bg-solid-700;
    }
 }
 </style>

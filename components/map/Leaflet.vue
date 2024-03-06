@@ -1,24 +1,15 @@
 <template>
-   <l-map
-      :zoom="zoom"
-      :center="center"
-      zoom-animation
-      fade-animation
-      :crs="crs"
-      :min-zoom="context?.minZoom!"
-      :max-zoom="context?.maxZoom!"
-      :max-native-zoom="context?.maxNativeZoom"
-      @ready="ready"
-   >
+   <l-map :zoom="zoom" :center="center" zoom-animation fade-animation :crs="crs" :min-zoom="context?.minZoom!"
+      :max-zoom="context?.maxZoom!" :max-native-zoom="context?.maxNativeZoom" @ready="ready">
       <MapTiles />
       <MapLocations />
    </l-map>
 </template>
 
 <script lang="ts" setup>
-import { LMap } from '@vue-leaflet/vue-leaflet'
-import { CRS, LeafletMouseEvent, Map } from 'leaflet'
-import { PosFragment } from '~/graphql/generated'
+import { LMap } from '@vue-leaflet/vue-leaflet';
+import { CRS, Map, type LeafletMouseEvent } from 'leaflet';
+import type { PosFragment } from '~/graphql/generated';
 
 const emit = defineEmits<{
    (e: 'click', pos: PosFragment, event: LeafletMouseEvent): void

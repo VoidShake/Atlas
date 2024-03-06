@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PencilIcon } from '@heroicons/vue/24/solid'
-import { GetTaleDraftsDocument, Permission } from '~~/graphql/generated'
+import { PencilIcon } from '@heroicons/vue/24/solid';
+import { GetTaleDraftsDocument, Permission } from '~~/graphql/generated';
 
 const { hasPermission } = useSession()
 
@@ -24,4 +24,3 @@ const limit = ref(24)
 const { result, next, previous } = usePagination(GetTaleDraftsDocument, limit)
 </script>
 
-<style lang="scss" scoped></style>

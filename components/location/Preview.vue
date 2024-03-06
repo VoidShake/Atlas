@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { MapLocationFragment, SubjectSummaryFragment } from '~/graphql/generated'
+import type { MapLocationFragment, SubjectSummaryFragment, } from '~/graphql/generated';
 
 defineProps<{
    location: MapLocationFragment & Partial<Pick<SubjectSummaryFragment, 'tales'>>

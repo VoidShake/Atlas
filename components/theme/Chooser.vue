@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { FormKitOptionsItem } from '@formkit/inputs'
+import { type FormKitOptionsItem } from '@formkit/inputs';
 
 const options: FormKitOptionsItem[] = [
    { value: 'system', label: 'System' },

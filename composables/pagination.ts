@@ -1,8 +1,8 @@
-import { TypedDocumentNode } from '@graphql-typed-document-node/core'
+import type { TypedDocumentNode } from '@graphql-typed-document-node/core'
 import type { OperationDefinitionNode } from 'graphql'
 import type { Ref } from 'vue'
-import { Exact, PageInfo, Pagination } from '~/graphql/generated'
 import useDeferred from '~/composables/deferred'
+import type { Exact, PageInfo, Pagination } from '~/graphql/generated'
 
 export interface Connection<T> {
    nodes: T[]

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PosFragment } from '~/graphql/generated'
+import type { PosFragment } from '~/graphql/generated';
 
 defineProps<{
    pos: PosFragment

@@ -10,12 +10,8 @@
          <div id="buttons">
             <slot name="buttons" :valid="valid" :value="value as CreateTaleInput">
                <FormKit v-if="!onlyDraft" type="submit" :disabled="!valid" @click.prevent="save(value, false)" />
-               <FormKit
-                  type="submit"
-                  :disabled="!valid"
-                  :classes="{ input: 'bg-solid-600' }"
-                  @click.prevent="save(value, true)"
-               >
+               <FormKit type="submit" :disabled="!valid" :classes="{ input: 'bg-solid-600' }"
+                  @click.prevent="save(value, true)">
                   Save as Draft
                </FormKit>
             </slot>
@@ -25,16 +21,16 @@
 </template>
 
 <script lang="ts" setup>
-import { DeepPartial } from 'ts-essentials'
+import type { DeepPartial } from 'ts-essentials';
 import {
-   AbstractTale,
    CreateTaleDocument,
    CreateTaleDraftDocument,
-   CreateTaleDraftMutation,
-   CreateTaleInput,
-   CreateTaleMutation,
    Permission,
-} from '~~/graphql/generated'
+   type AbstractTale,
+   type CreateTaleDraftMutation,
+   type CreateTaleInput,
+   type CreateTaleMutation,
+} from '~~/graphql/generated';
 
 const { hasPermission } = useSession()
 const { query } = useRoute()

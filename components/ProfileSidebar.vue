@@ -13,6 +13,7 @@
 
    a {
       @apply block p-2 text-center;
+
       &:hover {
          text-decoration: underline;
       }

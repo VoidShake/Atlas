@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CreatePlaceMutation, CreatePlaceDraftMutation } from '~~/graphql/generated'
+import type { CreatePlaceDraftMutation, CreatePlaceMutation } from '~~/graphql/generated';
 
 const router = useRouter()
 

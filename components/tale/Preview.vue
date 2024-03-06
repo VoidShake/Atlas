@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TaleSummaryFragment } from '~/graphql/generated'
+import type { TaleSummaryFragment } from '~/graphql/generated';
 
 defineProps<{
    tale: TaleSummaryFragment
