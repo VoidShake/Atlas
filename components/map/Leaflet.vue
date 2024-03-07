@@ -62,6 +62,14 @@ const background = computed(() => {
 .leaflet-container {
    @apply rounded-lg overflow-hidden;
    background: v-bind('background');
+
+   .leaflet-control-attribution {
+      @apply bg-solid-700 text-inherit p-1 rounded-tl-lg;
+
+      a {
+         @apply text-accent-400;
+      }
+   }
 }
 
 img.leaflet-tile {
