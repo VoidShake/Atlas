@@ -1,7 +1,7 @@
 <template>
    <NuxtLayout name="default">
       <div class="layout">
-         <MapView />
+         <MapInteractive />
          <slot />
       </div>
    </NuxtLayout>
@@ -13,7 +13,6 @@
    grid-template-columns: 1fr auto;
 
    #map-wrap {
-      @apply rounded-lg overflow-hidden;
       height: 100%;
    }
 }

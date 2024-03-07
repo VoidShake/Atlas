@@ -1,16 +1,28 @@
 <template>
    <div id="map-wrap">
-      <DialogCreatePlace v-if="selected?.action == 'add-marker'" :pos="selected.pos" @close="selected = null" />
+      <slot />
       <client-only v-if="context">
-         <MapLeaflet @click="closeMenu" @contextmenu="mapMenu" />
+         <MapLeaflet :center="center" :zoom="zoom" :disableControls="disableControls"
+            @click="(...args) => emit('click', ...args)" @contextmenu="(...args) => emit('contextmenu', ...args)" />
       </client-only>
    </div>
 </template>
 
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet';
-import { Permission, type PosFragment } from '~/graphql/generated';
+import { type PosFragment } from '~/graphql/generated';
 import type { World } from '~~/composables/useMap';
+
+defineProps<{
+   center?: PosFragment
+   zoom?: number
+   disableControls?: boolean
+}>()
+
+const emit = defineEmits<{
+   (e: 'click', pos: PosFragment, event: LeafletMouseEvent): void
+   (e: 'contextmenu', pos: PosFragment, event: LeafletMouseEvent): void
+}>()
 
 interface DynmapOptions {
    defaultmap: string
@@ -24,24 +36,6 @@ const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/con
 })
 
 const context = useMap()
-
-const selected = ref<null | {
-   pos: PosFragment
-   action: 'add-marker'
-}>(null)
-
-function mapMenu(pos: PosFragment, e: LeafletMouseEvent) {
-   openMenu(e.originalEvent, {
-      title: formatPos(pos),
-      buttons: [
-         {
-            text: 'Create Marker',
-            permission: Permission.CreateLocation,
-            click: () => (selected.value = { action: 'add-marker', pos }),
-         },
-      ],
-   })
-}
 
 effect(() => {
    const id = setTimeout(refresh, 0)

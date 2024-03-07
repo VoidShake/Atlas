@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PencilIcon } from '@heroicons/vue/24/solid'
-import { PlaceFragment, PlaceDraftFragment, AreaFragment } from '~~/graphql/generated'
+import { PencilIcon } from '@heroicons/vue/24/solid';
+import type { AreaFragment, PlaceDraftFragment, PlaceFragment } from '~~/graphql/generated';
 
 const props = defineProps<{
    location: PlaceFragment | PlaceDraftFragment | AreaFragment
