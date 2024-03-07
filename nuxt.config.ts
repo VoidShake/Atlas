@@ -69,4 +69,8 @@ export default defineNuxtConfig({
          apiUrl: 'http://localhost:3000/api',
       },
    },
+
+   experimental: {
+      externalVue: false,
+   },
 })
