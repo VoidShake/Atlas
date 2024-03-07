@@ -70,6 +70,19 @@ const background = computed(() => {
          @apply text-accent-400;
       }
    }
+
+   .leaflet-control-zoom {
+      @apply bg-solid-500;
+
+      .leaflet-control-zoom-in,
+      .leaflet-control-zoom-out {
+         @apply bg-solid-700 text-inherit border-none;
+
+         &.leaflet-disabled {
+            @apply text-solid-500;
+         }
+      }
+   }
 }
 
 img.leaflet-tile {
