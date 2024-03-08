@@ -2,8 +2,8 @@
    <l-map :zoom="zoom ?? 0" :center="initialCenter" zoom-animation fade-animation :crs="crs"
       :min-zoom="context?.minZoom!" :max-zoom="context?.maxZoom!" :max-native-zoom="context?.maxNativeZoom"
       :options="options" @ready="ready">
+      <slot />
       <MapTiles />
-      <MapLocations />
    </l-map>
 </template>
 

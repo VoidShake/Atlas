@@ -6,7 +6,9 @@
                <h3>{{ tale.title }}</h3>
                <MarkdownPreview :value="tale.text" />
             </StyledPanel>
-            <MapView :center="result.place.pos" :zoom="8" disable-controls />
+            <MapView :center="result.place.pos" :zoom="8" disable-controls>
+               <MapPlaceMarker :place="result.place" />
+            </MapView>
          </section>
       </LocationPage>
    </section>

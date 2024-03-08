@@ -1,6 +1,10 @@
 <template>
    <MapView @click="closeMenu" @contextmenu="mapMenu">
-      <DialogCreatePlace v-if="selected?.action == 'add-marker'" :pos="selected.pos" @close="selected = null" />
+      <template #dialogs>
+         <DialogCreatePlace v-if="selected?.action == 'add-marker'" :pos="selected.pos" @close="selected = null" />
+      </template>
+
+      <MapLocations />
    </MapView>
 </template>
 
