@@ -1,18 +1,15 @@
 <template>
    <div class="grid grid-flow-col gap-4">
-      <FormKit name="x" validation="required" label="X" type="number" step="1" :value="floored?.x"
-         @node="xNode = $event" />
+      <FormKit name="x" validation="required" label="X" type="number" step="1" v-model="xRef" />
       <FormKit name="y" placeholder="optional" label="Y" type="number" step="1" :value="floored?.y" />
-      <FormKit name="z" validation="required" label="Z" type="number" step="1" :value="floored?.z"
-         @node="zNode = $event" />
+      <FormKit name="z" validation="required" label="Z" type="number" step="1" v-model="zRef" />
    </div>
-   <MapView v-if="showMap" id="map" :zoom="8" :center="marker" no-controls>
+   <MapView v-if="showMap" id="map" :zoom="8" :center="marker" no-controls @click="moveTo">
       <MapDraggableMarker v-if="marker" :pos="marker" @dragend="moveTo" />
    </MapView>
 </template>
 
 <script lang="ts" setup>
-import type { FormKitNode } from '@formkit/core';
 import { type Point, type PosFragment } from '~~/graphql/generated';
 
 const props = defineProps<{
@@ -21,18 +18,21 @@ const props = defineProps<{
 }>()
 
 const floored = computed(() => props.initial && roundPos(props.initial))
+
+const xRef = ref<number | undefined>(floored.value?.x)
+const zRef = ref<number | undefined>(floored.value?.z)
+
 const marker = computed(() => {
-   if (notNull(floored.value?.x) && notNull(floored.value?.z)) return floored.value as PosFragment
+   const x = xRef?.value
+   const z = zRef?.value
+   if (notNull(x) && notNull(z)) return { x, z } as PosFragment
    return undefined
 })
 
-const xNode = ref<FormKitNode>()
-const zNode = ref<FormKitNode>()
-
 function moveTo(pos: PosFragment) {
    const { x, z } = roundPos(pos)
-   xNode.value?.input(x)
-   zNode.value?.input(z)
+   xRef.value = x
+   zRef.value = z
 }
 </script>
 
