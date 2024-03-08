@@ -3,17 +3,15 @@
       <FormKit v-slot="{ value, state: { valid } }" type="form" :actions="false" :errors="errors">
          <FormKit name="world" validation="required" type="hidden" :value="initial?.pos?.world ?? 'overworld'" />
 
-         <InputPos :initial="initial?.pos" />
-
          <FormKit name="name" :value="initial?.name" validation="required" label="Name" type="text" />
+
+         <InputPos :initial="initial?.pos" :show-map="!hideMap" />
 
          <div id="buttons">
             <slot name="buttons" :valid="valid" :value="value">
                <FormKit v-if="!onlyDraft" type="submit" :disabled="!valid" @click.prevent="save(value, false)" />
-               <FormKit
-type="submit" :disabled="!valid" :classes="{ input: 'bg-solid-600' }"
-                  @click.prevent="save(value, true)"
->
+               <FormKit type="submit" :disabled="!valid" :classes="{ input: 'bg-solid-600' }"
+                  @click.prevent="save(value, true)">
                   Save as Draft
                </FormKit>
             </slot>
@@ -49,6 +47,7 @@ const emit = defineEmits<{
 defineProps<{
    updateId?: number
    initial?: DeepPartial<AbstractPlace>
+   hideMap?: boolean
 }>()
 
 const refetchQueries = ['getPlace', 'getPlaces']

@@ -1,6 +1,6 @@
 <template>
    <DialogBase title="Add Marker">
-      <FormCreatePlace :initial="{ pos }" @saved="closeDialog" />
+      <FormCreatePlace :initial="{ pos }" hide-map @saved="closeDialog" />
    </DialogBase>
 </template>
 

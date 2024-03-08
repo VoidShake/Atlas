@@ -5,7 +5,7 @@
          <slot name="title" />
       </h1>
 
-      <ActionLink :to="`${$route.path}/edit`">
+      <ActionLink v-if="hasPermission(Permission.CreateLocation)" :to="`${$route.path}/edit`">
          <PencilIcon />
       </ActionLink>
 
@@ -18,7 +18,9 @@
 
 <script lang="ts" setup>
 import { PencilIcon } from '@heroicons/vue/24/solid';
-import type { AreaFragment, PlaceDraftFragment, PlaceFragment } from '~~/graphql/generated';
+import { Permission, type AreaFragment, type PlaceDraftFragment, type PlaceFragment } from '~~/graphql/generated';
+
+const { hasPermission } = useSession()
 
 const props = defineProps<{
    location: PlaceFragment | PlaceDraftFragment | AreaFragment
