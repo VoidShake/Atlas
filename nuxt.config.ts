@@ -70,6 +70,11 @@ export default defineNuxtConfig({
       },
    },
 
+   appConfig: {
+      buildName: process.env.BUILD_NAME ?? 'dev',
+      buildLink: process.env.BUILD_LINK ?? '',
+   },
+
    experimental: {
       externalVue: false,
    },

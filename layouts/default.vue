@@ -5,13 +5,15 @@
          <section id="action-buttons" />
          <slot />
       </main>
+
+      <Footer />
    </section>
 </template>
 
 <style scoped>
 main {
    @apply p-5;
-   height: calc(100vh - theme(spacing.14));
+   min-height: calc(100vh - theme(spacing.14) - theme(spacing.14));
 }
 
 #action-buttons {
