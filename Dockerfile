@@ -13,6 +13,12 @@ COPY . .
 ARG github_token
 ENV GITHUB_TOKEN=$github_token
 
+ARG build_link
+ENV BUILD_LINK=$build_link
+
+ARG build_name
+ENV BUILD_NAME=$build_name
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm run build
