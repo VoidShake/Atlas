@@ -1,23 +1,30 @@
 <template>
    <div id="map-wrap">
-      <slot />
+      <slot name="dialogs" />
       <client-only v-if="context">
-         <MapLeaflet :center="center" :zoom="zoom" :disableControls="disableControls"
-            @click="(...args) => emit('click', ...args)" @contextmenu="(...args) => emit('contextmenu', ...args)" />
+         <MapLeaflet :center="center" :zoom="zoom" :disable-controls="disableControls" :ref="ready"
+            @click="(...args) => emit('click', ...args)" @contextmenu="(...args) => emit('contextmenu', ...args)">
+            <slot />
+         </MapLeaflet>
       </client-only>
    </div>
 </template>
 
 <script lang="ts" setup>
-import type { LeafletMouseEvent } from 'leaflet';
+import type { Bounds, LeafletMouseEvent, Map } from 'leaflet';
 import { type PosFragment } from '~/graphql/generated';
 import type { World } from '~~/composables/useMap';
 
-defineProps<{
+const props = defineProps<{
    center?: PosFragment
    zoom?: number
+   bounds?: Bounds
    disableControls?: boolean
 }>()
+
+function ready(map?: { leaflet: Map }) {
+   if (props.bounds) map?.leaflet?.fitBounds(props.bounds)
+}
 
 const emit = defineEmits<{
    (e: 'click', pos: PosFragment, event: LeafletMouseEvent): void

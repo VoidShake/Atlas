@@ -2,11 +2,16 @@
    <section>
       <LocationPage v-if="result" :location="result.place">
          <section class="content">
-            <StyledPanel v-for="tale in result.place.tales.nodes" :key="tale.id" class="mt-4">
-               <h3>{{ tale.title }}</h3>
-               <MarkdownPreview :value="tale.text" />
-            </StyledPanel>
-            <MapView :center="result.place.pos" :zoom="8" disable-controls />
+            <section>
+               <StyledPanel v-for="tale in result.place.tales.nodes" :key="tale.id" class="mt-4">
+                  <h3>{{ tale.title }}</h3>
+                  <MarkdownPreview :value="tale.text" />
+               </StyledPanel>
+            </section>
+
+            <MapView :center="result.place.pos" :zoom="8" disable-controls>
+               <MapPlaceMarker :place="result.place" />
+            </MapView>
          </section>
       </LocationPage>
    </section>

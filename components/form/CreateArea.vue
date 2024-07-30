@@ -5,7 +5,12 @@
 
          <FormKit name="name" :value="initial?.name" validation="required" label="Name" type="text" />
 
-         <InputPos :initial="initial?.pos" :show-map="!hideMap" />
+         <div class="grid grid-flow-col gap-4">
+            <FormKit name="minY" label="Min-Y" type="number" step="1" :value="-64" />
+            <FormKit name="maxY" label="Max-Y" type="number" step="1" :value="320" />
+         </div>
+
+         <InputArea :initial="initial?.points" />
 
          <div id="buttons">
             <slot name="buttons" :valid="valid" :value="value">
@@ -21,15 +26,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { DeepPartial } from 'ts-essentials';
 import {
-   CreatePlaceDocument,
-   CreatePlaceDraftDocument,
+   CreateAreaDocument,
+   CreateAreaDraftDocument,
    Permission,
-   type AbstractPlace,
-   type CreatePlaceDraftMutation,
-   type CreatePlaceInput,
-   type CreatePlaceMutation,
+   type AbstractArea,
+   type CreateAreaDraftMutation,
+   type CreateAreaInput,
+   type CreateAreaMutation,
 } from '~~/graphql/generated';
 
 const { hasPermission } = useSession()
@@ -41,18 +45,17 @@ const onlyDraft = computed(() => {
 })
 
 const emit = defineEmits<{
-   (e: 'saved', data: CreatePlaceMutation | CreatePlaceDraftMutation): void
+   (e: 'saved', data: CreateAreaMutation | CreateAreaDraftMutation): void
 }>()
 
 defineProps<{
    updateId?: number
-   initial?: DeepPartial<AbstractPlace>
-   hideMap?: boolean
+   initial?: Partial<AbstractArea>
 }>()
 
-const refetchQueries = ['getPlace', 'getPlaces']
-const { mutate: createPlace, error } = useMutation(CreatePlaceDocument, { refetchQueries })
-const { mutate: createPlaceDraft, error: draftError } = useMutation(CreatePlaceDraftDocument, { refetchQueries })
+const refetchQueries = ['getArea', 'getAreas']
+const { mutate: createArea, error } = useMutation(CreateAreaDocument, { refetchQueries })
+const { mutate: createAreaDraft, error: draftError } = useMutation(CreateAreaDraftDocument, { refetchQueries })
 const errors = computed(() =>
    [error, draftError]
       .map(it => it.value)
@@ -60,8 +63,8 @@ const errors = computed(() =>
       .flatMap(extractMessages),
 )
 
-async function save(input: CreatePlaceInput, draft: boolean) {
-   const create = draft ? createPlaceDraft : createPlace
+async function save(input: CreateAreaInput, draft: boolean) {
+   const create = draft ? createAreaDraft : createArea
    const response = await create({ input })
    const data = response?.data
    if (data) emit('saved', data)

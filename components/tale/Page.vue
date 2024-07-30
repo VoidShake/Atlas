@@ -5,7 +5,7 @@
          <slot name="title" />
       </h1>
 
-      <ActionLink :to="`${route.path}/edit`">
+      <ActionLink v-if="hasPermission(Permission.TellTale)" :to="`${route.path}/edit`">
          <PencilIcon />
       </ActionLink>
 
@@ -25,9 +25,11 @@
 
 <script lang="ts" setup>
 import { FlagIcon, MapPinIcon, PencilIcon } from '@heroicons/vue/24/solid';
-import type { MapLocationFragment, TaleFragment } from '~~/graphql/generated';
+import { Permission, type MapLocationFragment, type TaleFragment } from '~~/graphql/generated';
 
 const route = useRoute()
+
+const { hasPermission } = useSession()
 
 const props = defineProps<{
    tale: TaleFragment

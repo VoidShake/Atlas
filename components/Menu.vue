@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { MenuButton, MenuOptions } from '~/composables/useMenu'
+import type { MenuButton, MenuOptions } from '~/composables/useMenu';
 
 const menu = useMenu()
 
@@ -37,6 +37,8 @@ async function click(button: MenuButton) {
    z-index: 1000;
    top: 0;
    left: 0;
+
+   min-width: 200px;
 
    @apply bg-solid-700;
 
