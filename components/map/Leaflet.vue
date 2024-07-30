@@ -9,12 +9,13 @@
 
 <script lang="ts" setup>
 import { LMap } from '@vue-leaflet/vue-leaflet';
-import { CRS, Map, type LeafletMouseEvent } from 'leaflet';
+import { CRS, type Bounds, type LeafletMouseEvent, type Map } from 'leaflet';
 import type { PosFragment } from '~/graphql/generated';
 
 const props = defineProps<{
    center?: PosFragment
    zoom?: number
+   bounds?: Bounds
    disableControls?: boolean
 }>()
 
@@ -23,9 +24,14 @@ const emit = defineEmits<{
    (e: 'contextmenu', pos: PosFragment, event: LeafletMouseEvent): void
 }>()
 
+const leaflet = ref<Map>()
+
+defineExpose({ leaflet })
+
 function ready(map: Map) {
    map.on('contextmenu', e => emitWithPos('contextmenu', e))
    map.on('click', e => emitWithPos('click', e))
+   leaflet.value = map
 }
 
 function emitWithPos(e: 'click' | 'contextmenu', event: LeafletMouseEvent | PointerEvent) {

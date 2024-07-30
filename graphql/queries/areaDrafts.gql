@@ -1,0 +1,38 @@
+fragment AreaDraft on AreaDraft {
+   ...MapArea
+   proposed
+}
+
+query getAreaDrafts($pagination: Pagination) {
+   connection: areaDrafts(pagination: $pagination) {
+      totalCount
+      nodes {
+         ...MapArea
+      }
+      pageInfo {
+         ...PageInfo
+      }
+   }
+}
+
+query getAreaDraft($id: Int!) {
+   areaDraft: areaDraft(id: $id) {
+      ...AreaDraft
+   }
+}
+
+mutation createAreaDraft($input: CreateAreaInput!) {
+   created: createAreaDraft(input: $input) {
+      id
+   }
+}
+
+mutation modifyAreaDraft($id: Int!, $input: ModifyAreaInput!) {
+   modified: modifyAreaDraft(id: $id, input: $input) {
+      id
+   }
+}
+
+mutation proposeArea($draft: Int!) {
+   proposal: proposeArea(draftId: $draft)
+}

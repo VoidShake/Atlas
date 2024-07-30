@@ -1,5 +1,5 @@
 <template>
-   <l-polygon :lat-lngs="latLngs" color="#41b782" :fill="true" :fill-opacity="0.5" fill-color="#41b782" />
+   <l-polygon :lat-lngs="latLngs" color="#41b782" :fill="true" :fill-opacity="0.2" fill-color="#41b782" />
 </template>
 
 <script lang="ts" setup>

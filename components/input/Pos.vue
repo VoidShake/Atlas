@@ -4,7 +4,7 @@
       <FormKit name="y" placeholder="optional" label="Y" type="number" step="1" :value="floored?.y" />
       <FormKit name="z" validation="required" label="Z" type="number" step="1" v-model="zRef" />
    </div>
-   <MapView v-if="showMap" id="map" :zoom="8" :center="marker" no-controls @click="moveTo">
+   <MapView v-if="showMap" id="map" :zoom="8" :center="marker" @click="moveTo">
       <MapDraggableMarker v-if="marker" :pos="marker" @dragend="moveTo" />
    </MapView>
 </template>
