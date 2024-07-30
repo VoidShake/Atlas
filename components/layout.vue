@@ -1,7 +1,13 @@
 <template>
-   <Layout>
-      <slot />
-   </Layout>
+   <section>
+      <Nav />
+      <main>
+         <section id="action-buttons" />
+         <slot />
+      </main>
+
+      <Footer />
+   </section>
 </template>
 
 <style scoped>
