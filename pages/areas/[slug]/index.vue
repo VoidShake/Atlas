@@ -38,7 +38,6 @@ definePageMeta({
 })
 </script>
 
-
 <style lang="scss" scoped>
 .content {
    @apply grid gap-3;

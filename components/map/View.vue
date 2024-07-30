@@ -15,7 +15,6 @@ import type { Bounds, LeafletMouseEvent, Map } from 'leaflet';
 import { type PosFragment } from '~/graphql/generated';
 import type { World } from '~~/composables/useMap';
 
-
 const props = defineProps<{
    center?: PosFragment
    zoom?: number
