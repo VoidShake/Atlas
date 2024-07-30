@@ -36,9 +36,9 @@ jobs:
               images: ${{ env.REGISTRY }}/${{ env.GITHUB_REPO }}
               tags: |
                  type=raw,value=latest
-                 type=raw,value=stable,enabled=${{ github.event_name == 'release' }}
-                 type=semver,pattern={{version}},enabled=${{ github.event_name == 'release' }}
-                 type=sha,priority=250,enabled=${{ github.event_name == 'workflow_dispatch' }}
+                 type=raw,value=stable,enable=${{ github.event_name == 'release' }}
+                 type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
+                 type=sha,priority=250,enable=${{ github.event_name == 'workflow_dispatch' }}
 
          - name: Set outputs
            id: vars
