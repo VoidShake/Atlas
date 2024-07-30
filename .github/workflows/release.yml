@@ -3,6 +3,7 @@ name: Build Container
 on:
    release:
       types: [created]
+   workflow_dispatch:
 
 env:
    REGISTRY: ghcr.io
@@ -33,6 +34,11 @@ jobs:
            uses: docker/metadata-action@v5
            with:
               images: ${{ env.REGISTRY }}/${{ env.GITHUB_REPO }}
+              tags: |
+                 type=raw,value=latest
+                 type=raw,value=stable,enabled=${{ github.event_name == 'release' }}
+                 type=semver,pattern={{version}},enabled=${{ github.event_name == 'release' }}
+                 type=sha,priority=250,enabled=${{ github.event_name == 'workflow_dispatch' }}
 
          - name: Set outputs
            id: vars
@@ -48,4 +54,4 @@ jobs:
               build-args: |
                  github_token=${{ secrets.GITHUB_TOKEN }}
                  build_link=https://github.com/${{ env.GITHUB_REPO }}/tree/${{ github.sha }}
-                 build_sha=${{ steps.vars.outputs.sha_short }}
+                 build_name=${{ steps.vars.outputs.sha_short }}
