@@ -10,7 +10,7 @@
             </section>
 
             <MapView id="map" disable-controls :bounds="bounds">
-               <MapAreaMarker :area="result.area" @ready="zoomTo" />
+               <MapAreaMarker :area="result.area" />
             </MapView>
          </section>
       </LocationPage>
@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { Bounds, Polygon } from 'leaflet';
 import { GetAreaDocument } from '~/graphql/generated';
 
 const route = useRoute()
@@ -27,11 +26,7 @@ const { result } = useQuery(GetAreaDocument, () => ({
    slug: route.params.slug as string,
 }))
 
-const bounds = ref<Bounds>()
-
-function zoomTo(polygon: Polygon) {
-   bounds.value = polygon.getBounds()
-}
+const bounds = computed(() => result.value?.area.points && getBounds(result.value.area.points))
 
 definePageMeta({
    layout: 'confined',

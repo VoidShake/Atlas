@@ -1,8 +1,9 @@
 <template>
    <FormKit v-model="points" name="points" placeholder="optional" label="Max-Y" type="hidden" />
-   <MapView id="map" :zoom="8" @click="addPoint">
+   <MapView id="map" :zoom="8" :bounds="bounds" @click="addPoint">
       <l-polygon :lat-lngs="latLngs" color="#41b782" :fill="true" :fill-opacity="0.5" fill-color="#41b782" />
-      <MapDraggableMarker v-for="point, i in points" :key="i" :pos="point" @dragend="updatePoint(i, $event)" />
+      <MapDraggableMarker v-for="point, i in points" :key="i" :pos="point" @dragend="updatePoint(i, $event)"
+         @contextmenu="removePoint(i)" />
    </MapView>
 </template>
 
@@ -20,6 +21,8 @@ const props = defineProps<{
 const points = ref<FlatPoint[]>(props.initial ?? [])
 
 const latLngs = computed(() => points.value.map(it => toMapPos(context.value!.map, it)))
+
+const bounds = computed(() => props.initial && getBounds(props.initial))
 
 function distance(a: FlatPoint, b: FlatPoint) {
    return Math.sqrt((a.x - b.x) ** 2 + (a.z - b.z) ** 2)
@@ -49,6 +52,10 @@ function addPoint(pos: PosFragment) {
    } else {
       points.value = [...points.value, { x, z }]
    }
+}
+
+function removePoint(index: number) {
+   points.value = points.value.toSpliced(index, 1)
 }
 
 function updatePoint(index: number, { x, z }: PosFragment) {

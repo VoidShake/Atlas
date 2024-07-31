@@ -11,19 +11,22 @@
 </template>
 
 <script lang="ts" setup>
-import type { Bounds, LeafletMouseEvent, Map } from 'leaflet';
+import type { LeafletMouseEvent, Map } from 'leaflet';
 import { type PosFragment } from '~/graphql/generated';
 import type { World } from '~~/composables/useMap';
 
 const props = defineProps<{
    center?: PosFragment
    zoom?: number
-   bounds?: Bounds
+   bounds?: [PosFragment, PosFragment]
    disableControls?: boolean
 }>()
 
 function ready(map?: { leaflet: Map }) {
-   if (props.bounds) map?.leaflet?.fitBounds(props.bounds)
+   if (props.bounds) {
+      const latLngBounds = props.bounds.map(it => toMapPos(context.value!.map, it))
+      map?.leaflet?.fitBounds(latLngBounds)
+   }
 }
 
 const emit = defineEmits<{
@@ -39,7 +42,10 @@ interface DynmapOptions {
 }
 
 const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', {
-   transform: r => JSON.parse(r as unknown as string),
+   transform: r => {
+      if (typeof r === 'string') return JSON.parse(r)
+      return r;
+   },
 })
 
 const context = useMap()
