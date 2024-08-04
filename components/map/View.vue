@@ -1,8 +1,8 @@
 <template>
    <div id="map-wrap">
       <slot name="dialogs" />
-      <client-only v-if="context">
-         <MapLeaflet :center="center" :zoom="zoom" :disable-controls="disableControls" :ref="ready"
+      <client-only>
+         <MapLeaflet v-if="context" :center="center" :zoom="zoom" :disable-controls="disableControls" :ref="ready"
             @click="(...args) => emit('click', ...args)" @contextmenu="(...args) => emit('contextmenu', ...args)">
             <slot />
          </MapLeaflet>
