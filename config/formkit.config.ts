@@ -1,7 +1,7 @@
 import { generateClasses } from '@formkit/themes'
-import { DefaultConfigOptions } from '@formkit/vue'
+import type { DefaultConfigOptions } from '@formkit/vue'
 import { mapValues } from 'lodash-es'
-import multi from '~/components/input/formkit/multi'
+import { icon, multi } from '~/components/input/formkit/custom'
 
 const inputBase: Record<string, string> = {
    inner: `
@@ -15,7 +15,7 @@ const inputBase: Record<string, string> = {
 }
 
 const innerFlex = 'flex items-center gap-1'
-const icon = 'inline h-12 -m-2 py-4 px-2 align-stretch flex align-center'
+const iconStyle = 'inline h-12 -m-2 py-4 px-2 align-stretch flex align-center'
 
 const button = {
    input: `
@@ -42,7 +42,7 @@ function extend(values: Record<string, string>) {
 }
 
 const config: DefaultConfigOptions = {
-   inputs: { multi },
+   inputs: { multi, icon },
    config: {
       classes: generateClasses({
          global: {
@@ -52,8 +52,8 @@ const config: DefaultConfigOptions = {
             help: 'text-xs text-gray-500',
             messages: 'list-none p-0 mt-1 mb-0',
             message: 'mb-1 text-xs text-red-500 dark:text-red-400',
-            prefixIcon: icon,
-            suffixIcon: icon,
+            prefixIcon: iconStyle,
+            suffixIcon: iconStyle,
          },
          text: inputBase,
          number: inputBase,

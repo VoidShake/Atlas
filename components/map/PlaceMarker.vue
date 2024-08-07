@@ -1,9 +1,11 @@
 <template>
-   <l-marker :lat-lng="latLng" :name="place.name" :icon="icon" />
+   <l-marker :lat-lng="latLng" :name="place.name">
+      <l-icon :icon-url="iconUrl" :icon-size="[32, 32]" :icon-anchor="[16, 16]" />
+   </l-marker>
 </template>
 
 <script lang="ts" setup>
-import { LMarker } from '@vue-leaflet/vue-leaflet';
+import { LIcon, LMarker } from '@vue-leaflet/vue-leaflet';
 import { IconProvider, type MapPlaceFragment } from '~/graphql/generated';
 
 const context = useMap()
@@ -20,15 +22,6 @@ const iconUrl = computed(() => {
       default:
          return undefined
    }
-})
-
-const icon = computed(() => {
-   if (!iconUrl.value) return undefined
-   return L.icon({
-      iconUrl: iconUrl.value,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
-   })
 })
 
 const latLng = computed(() => toMapPos(context.value!.map, props.place.pos))

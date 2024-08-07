@@ -5,6 +5,8 @@
 
          <FormKit name="name" :value="initial?.name" validation="required" label="Name" type="text" />
 
+         <InputIcon :initial="initial?.icon" />
+
          <InputPos :initial="initial?.pos" :show-map="!hideMap" />
 
          <div id="buttons">
