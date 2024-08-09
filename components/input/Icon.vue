@@ -10,5 +10,4 @@ defineProps<{
    initial?: Partial<IconFragment>
 }>()
 
-
 </script>
