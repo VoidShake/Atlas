@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { GetPlacesDocument } from '~/graphql/generated'
+import { GetPlacesDocument } from '~/graphql/generated';
 
 const { result } = useQuery(GetPlacesDocument)
 
