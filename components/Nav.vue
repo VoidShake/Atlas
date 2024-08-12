@@ -7,13 +7,14 @@
       <section class="flex gap-4 ml-auto">
          <ThemeButton />
          <ProfileIcon v-if="account" :account="account" />
-         <NuxtLink v-else to="/login" class="px-2"> Login </NuxtLink>
+         <NuxtLink v-else :to="loginLink" class="px-2"> Login </NuxtLink>
       </section>
    </nav>
 </template>
 
 <script lang="ts" setup>
 import { BookOpenIcon, FlagIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
+import type { RouteLocationRaw } from 'vue-router'
 
 const route = useRoute()
 
@@ -25,6 +26,8 @@ const links = ref([
 ])
 
 const active = computed(() => [...links.value].reverse().find(it => route.path.startsWith(it.to))?.to)
+
+const loginLink = computed((): RouteLocationRaw => ({ name: 'login', query: { from: route.path } }))
 
 const { account } = useSession()
 </script>

@@ -1,13 +1,24 @@
 import { MeDocument, Permission, type SelfFragment } from '~/graphql/generated'
 
+function refresh() {
+   const apollo = useApolloClient()
+   apollo.client.refetchQueries({ include: 'all' })
+}
+
 export function login(token: string) {
    const cookie = useToken()
    cookie.value = token
+
+   refresh()
 }
 
 export function logout() {
    const cookie = useToken()
    cookie.value = null
+
+   if (import.meta.client) {
+      window.location.reload()
+   }
 }
 
 interface Session {

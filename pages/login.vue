@@ -1,6 +1,6 @@
 <template>
    <div id="buttons">
-      <a href="/auth/discord">
+      <a :href="`/auth/discord?from=${redirectTo}`">
          <StyledButton id="discord"> Login via Discord</StyledButton>
       </a>
       <div v-if="result?.settings.development">
@@ -30,10 +30,12 @@ const { query } = useRoute()
 const router = useRouter()
 const { result } = useQuery(ApiSettingsDocument)
 
+const redirectTo = computed(() => query.from?.toString() || '/me')
+
 onMounted(() => {
    if (query.token && typeof query.token === 'string') {
       login(query.token)
-      router.replace('/me')
+      router.replace(redirectTo.value)
    }
 })
 
@@ -44,7 +46,7 @@ async function seededLogin(values: ImpersonateMutationVariables) {
    const token = reponse?.data?.impersonate?.token
    if (token) {
       login(token)
-      router.push('/me')
+      router.push(redirectTo.value)
    }
 }
 </script>
