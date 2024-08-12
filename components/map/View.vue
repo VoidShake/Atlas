@@ -4,10 +4,10 @@
       <client-only>
          <MapLeaflet
             v-if="context"
+            :ref="ready"
             :center="center"
             :zoom="zoom"
             :disable-controls="disableControls"
-            :ref="ready"
             @click="(...args) => emit('click', ...args)"
             @contextmenu="(...args) => emit('contextmenu', ...args)"
          >

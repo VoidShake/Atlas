@@ -12,7 +12,7 @@
       "icongen": "render --output public/icons",
       "codegen": "graphql-codegen",
       "format": "prettier --write **/*.{vue,ts}",
-      "lint:ci": "eslint **/*.{vue,ts}",
+      "fix": "pnpm run format && pnpm run lint:code --fix",
       "lint:code": "eslint **/*.{vue,ts,gql}",
       "lint:style": "stylelint **/*.vue",
       "lint": "pnpm lint:code && pnpm lint:style"

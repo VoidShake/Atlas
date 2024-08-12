@@ -14,7 +14,7 @@
                <img :src="`${ICON_HOST}/${icon.url}`" :alt="icon.name" @click="select(icon)" />
             </li>
          </ul>
-         <p class="p-4" v-if="items.length === 0">No matches :/</p>
+         <p v-if="items.length === 0" class="p-4">No matches :/</p>
       </div>
    </div>
 </template>

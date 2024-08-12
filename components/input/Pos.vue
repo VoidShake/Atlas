@@ -1,8 +1,8 @@
 <template>
    <div class="grid grid-flow-col gap-4">
-      <FormKit name="x" validation="required" label="X" type="number" step="1" v-model="xRef" />
+      <FormKit v-model="xRef" name="x" validation="required" label="X" type="number" step="1" />
       <FormKit name="y" placeholder="optional" label="Y" type="number" step="1" :value="floored?.y" />
-      <FormKit name="z" validation="required" label="Z" type="number" step="1" v-model="zRef" />
+      <FormKit v-model="zRef" name="z" validation="required" label="Z" type="number" step="1" />
    </div>
    <MapView v-if="showMap" id="map" :zoom="8" :center="marker" @click="moveTo">
       <MapDraggableMarker v-if="marker" :pos="marker" @dragend="moveTo" />

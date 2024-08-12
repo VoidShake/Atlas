@@ -29,4 +29,4 @@ jobs:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
          - name: Lint
-           run: pnpm run lint:ci
+           run: pnpm run lint:code
