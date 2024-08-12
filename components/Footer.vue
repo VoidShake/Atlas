@@ -17,10 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import { GitHubIcon, WeblateIcon } from 'vue3-simple-icons';
+import { GitHubIcon, WeblateIcon } from 'vue3-simple-icons'
 
 const { buildName, buildLink } = useAppConfig()
-
 </script>
 
 <style lang="scss" scoped>

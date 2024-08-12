@@ -1,16 +1,25 @@
 <template>
-   <l-map :zoom="zoom ?? 0" :center="initialCenter" zoom-animation fade-animation :crs="crs"
-      :min-zoom="context?.minZoom!" :max-zoom="context?.maxZoom!" :max-native-zoom="context?.maxNativeZoom"
-      :options="options" @ready="ready">
+   <l-map
+      :zoom="zoom ?? 0"
+      :center="initialCenter"
+      zoom-animation
+      fade-animation
+      :crs="crs"
+      :min-zoom="context?.minZoom!"
+      :max-zoom="context?.maxZoom!"
+      :max-native-zoom="context?.maxNativeZoom"
+      :options="options"
+      @ready="ready"
+   >
       <slot />
       <MapTiles />
    </l-map>
 </template>
 
 <script lang="ts" setup>
-import { LMap } from '@vue-leaflet/vue-leaflet';
-import { CRS, type Bounds, type LeafletMouseEvent, type Map } from 'leaflet';
-import type { PosFragment } from '~/graphql/generated';
+import { LMap } from '@vue-leaflet/vue-leaflet'
+import { CRS, type Bounds, type LeafletMouseEvent, type Map } from 'leaflet'
+import type { PosFragment } from '~/graphql/generated'
 
 const props = defineProps<{
    center?: PosFragment

@@ -5,11 +5,14 @@
       </a>
       <div v-if="result?.settings.development">
          <FormKit
-type="form" :classes="{ form: 'grid grid-flow-col gap-2 mt-1 items-stretch' }" submit-label="Login"
+            type="form"
+            :classes="{ form: 'grid grid-flow-col gap-2 mt-1 items-stretch' }"
+            submit-label="Login"
             :submit-attrs="{
-         'suffix-icon': 'chevron-right',
-      }" @submit="seededLogin"
->
+               'suffix-icon': 'chevron-right',
+            }"
+            @submit="seededLogin"
+         >
             <FormKit type="text" name="email" placeholder="E-Mail" help="Login as seeded user" />
          </FormKit>
       </div>
@@ -17,7 +20,7 @@ type="form" :classes="{ form: 'grid grid-flow-col gap-2 mt-1 items-stretch' }" s
 </template>
 
 <script lang="ts" setup>
-import { ApiSettingsDocument, ImpersonateDocument, type ImpersonateMutationVariables } from '~/graphql/generated';
+import { ApiSettingsDocument, ImpersonateDocument, type ImpersonateMutationVariables } from '~/graphql/generated'
 
 definePageMeta({
    layout: 'center',

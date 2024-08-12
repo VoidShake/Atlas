@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { CreateTaleDraftMutation, CreateTaleMutation } from '~~/graphql/generated';
+import type { CreateTaleDraftMutation, CreateTaleMutation } from '~~/graphql/generated'
 
 const router = useRouter()
 

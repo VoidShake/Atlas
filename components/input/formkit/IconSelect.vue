@@ -5,20 +5,22 @@
       <FormKit v-model="query" ignore :delay="250" :placeholder="context.placeholder" />
       <div class="bg-solid-900 p-2 rounded w-full col-span-2">
          <ul>
-            <li v-for="icon in items" :key="icon.url" :class="{ selected: props.context._value === icon.name }"
-               :title="icon.name">
+            <li
+               v-for="icon in items"
+               :key="icon.url"
+               :class="{ selected: props.context._value === icon.name }"
+               :title="icon.name"
+            >
                <img :src="`${ICON_HOST}/${icon.url}`" :alt="icon.name" @click="select(icon)" />
             </li>
          </ul>
-         <p class="p-4" v-if="items.length === 0">
-            No matches :/
-         </p>
+         <p class="p-4" v-if="items.length === 0">No matches :/</p>
       </div>
    </div>
 </template>
 
 <script lang="ts" setup>
-import type { FormKitFrameworkContext } from '@formkit/core';
+import type { FormKitFrameworkContext } from '@formkit/core'
 
 type IconResult = {
    url: string
@@ -50,7 +52,7 @@ function select({ name }: IconResult) {
 const { data: icons } = await useFetch<IconPage>(`${ICON_HOST}/browse.json`, {
    query: {
       query,
-      limit: 45
+      limit: 45,
    },
    transform: page => {
       return { ...page, items: page.items.map(it => ({ ...it, name: `${it.namespace}/${it.id}` })) }
@@ -58,7 +60,6 @@ const { data: icons } = await useFetch<IconPage>(`${ICON_HOST}/browse.json`, {
 })
 
 const items = computed(() => icons.value?.items ?? [])
-
 </script>
 
 <style scoped>

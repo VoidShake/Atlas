@@ -2,15 +2,20 @@
    <FormKit v-model="points" name="points" placeholder="optional" label="Max-Y" type="hidden" />
    <MapView id="map" :zoom="8" :bounds="bounds" @click="addPoint">
       <l-polygon :lat-lngs="latLngs" color="#41b782" :fill="true" :fill-opacity="0.5" fill-color="#41b782" />
-      <MapDraggableMarker v-for="point, i in points" :key="i" :pos="point" @dragend="updatePoint(i, $event)"
-         @contextmenu="removePoint(i)" />
+      <MapDraggableMarker
+         v-for="(point, i) in points"
+         :key="i"
+         :pos="point"
+         @dragend="updatePoint(i, $event)"
+         @contextmenu="removePoint(i)"
+      />
    </MapView>
 </template>
 
 <script lang="ts" setup>
-import { LPolygon } from '@vue-leaflet/vue-leaflet';
-import { minBy } from 'lodash-es';
-import type { FlatPoint, PosFragment } from '~/graphql/generated';
+import { LPolygon } from '@vue-leaflet/vue-leaflet'
+import { minBy } from 'lodash-es'
+import type { FlatPoint, PosFragment } from '~/graphql/generated'
 
 const context = useMap()
 
@@ -38,7 +43,10 @@ function addPoint(pos: PosFragment) {
    const current = points.value
    const closest = findClosest({ x, z }, current)
    if (notNull(closest)) {
-      const neighbours = [current[(closest - 1 + current.length) % current.length], current[(closest + 1) % current.length]]
+      const neighbours = [
+         current[(closest - 1 + current.length) % current.length],
+         current[(closest + 1) % current.length],
+      ]
       const closestNeighbour = findClosest({ x, z }, neighbours)!
 
       const newPoints = [...current]

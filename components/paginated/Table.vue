@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Connection } from '~~/composables/pagination';
+import type { Connection } from '~~/composables/pagination'
 
 defineProps<{
    connection: Connection<unknown>

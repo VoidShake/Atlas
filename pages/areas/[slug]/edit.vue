@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { GetAreaDocument, ModifyAreaDocument, type ModifyAreaInput } from '~~/graphql/generated';
+import { GetAreaDocument, ModifyAreaDocument, type ModifyAreaInput } from '~~/graphql/generated'
 
 const router = useRouter()
 const route = useRoute()

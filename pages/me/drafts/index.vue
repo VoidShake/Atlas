@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BookOpenIcon, MapPinIcon } from '@heroicons/vue/24/solid';
+import { BookOpenIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 
 definePageMeta({
    layout: 'profile',

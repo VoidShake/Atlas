@@ -1,17 +1,23 @@
 <template>
    <div>
       <multi-select
-:placeholder="context.placeholder" :mode="context.mode ?? 'tags'" :model-value="context._value ?? null"
-         searchable :close-on-select="false" :loading="context.loading" :options="context.options"
-         :classes="{ tagsSearch: 'multiselect-tags-search bg-transparent text-white' }" @update:model-value="select"
-/>
+         :placeholder="context.placeholder"
+         :mode="context.mode ?? 'tags'"
+         :model-value="context._value ?? null"
+         searchable
+         :close-on-select="false"
+         :loading="context.loading"
+         :options="context.options"
+         :classes="{ tagsSearch: 'multiselect-tags-search bg-transparent text-white' }"
+         @update:model-value="select"
+      />
    </div>
 </template>
 
 <script lang="ts" setup>
-import type { FormKitFrameworkContext } from '@formkit/core';
-import type { FormKitOptionsItem } from '@formkit/inputs';
-import MultiSelect from '@vueform/multiselect';
+import type { FormKitFrameworkContext } from '@formkit/core'
+import type { FormKitOptionsItem } from '@formkit/inputs'
+import MultiSelect from '@vueform/multiselect'
 
 const props = defineProps<{
    context: Pick<FormKitFrameworkContext, 'node' | '_value'> & {

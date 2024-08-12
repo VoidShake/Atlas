@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { MenuButton, MenuOptions } from '~/composables/useMenu';
+import type { MenuButton, MenuOptions } from '~/composables/useMenu'
 
 const menu = useMenu()
 

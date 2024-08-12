@@ -8,15 +8,17 @@
          <slot />
       </StyledList>
       <PaginatedControls
-v-if="connection.pageInfo.hasPreviousPage || connection.pageInfo.hasNextPage"
-         :connection="connection" :page-size="connection.nodes.length" @next="$emit('next')"
+         v-if="connection.pageInfo.hasPreviousPage || connection.pageInfo.hasNextPage"
+         :connection="connection"
+         :page-size="connection.nodes.length"
+         @next="$emit('next')"
          @previous="$emit('previous')"
-/>
+      />
    </section>
 </template>
 
 <script lang="ts" setup>
-import type { Connection } from '~~/composables/pagination';
+import type { Connection } from '~~/composables/pagination'
 
 defineProps<{
    connection: Connection<unknown>

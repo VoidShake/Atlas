@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { SelfFragment } from '~/graphql/generated';
+import type { SelfFragment } from '~/graphql/generated'
 
 defineProps<{
    account: SelfFragment

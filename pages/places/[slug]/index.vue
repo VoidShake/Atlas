@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { GetPlaceDocument } from '~/graphql/generated';
+import { GetPlaceDocument } from '~/graphql/generated'
 
 const route = useRoute()
 
@@ -34,8 +34,7 @@ definePageMeta({
 <style lang="scss" scoped>
 .content {
    @apply grid gap-3;
-   grid-template:
-      "text map" / 3fr 1fr;
+   grid-template: 'text map' / 3fr 1fr;
 }
 
 #map-wrap {

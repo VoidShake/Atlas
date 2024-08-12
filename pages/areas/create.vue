@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { CreateAreaDraftMutation, CreateAreaMutation } from '~~/graphql/generated';
+import type { CreateAreaDraftMutation, CreateAreaMutation } from '~~/graphql/generated'
 
 const router = useRouter()
 

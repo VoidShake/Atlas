@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PencilIcon } from '@heroicons/vue/24/solid';
-import { Permission, type AreaFragment, type PlaceDraftFragment, type PlaceFragment } from '~~/graphql/generated';
+import { PencilIcon } from '@heroicons/vue/24/solid'
+import { Permission, type AreaFragment, type PlaceDraftFragment, type PlaceFragment } from '~~/graphql/generated'
 
 const { hasPermission } = useSession()
 

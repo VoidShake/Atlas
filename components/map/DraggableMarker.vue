@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { LMarker } from '@vue-leaflet/vue-leaflet';
-import type { DragEndEvent, LeafletMouseEvent } from 'leaflet';
-import type { FlatPoint, PosFragment } from '~/graphql/generated';
+import { LMarker } from '@vue-leaflet/vue-leaflet'
+import type { DragEndEvent, LeafletMouseEvent } from 'leaflet'
+import type { FlatPoint, PosFragment } from '~/graphql/generated'
 
 const context = useMap()
 

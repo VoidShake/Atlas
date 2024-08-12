@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type Point, type PosFragment } from '~~/graphql/generated';
+import { type Point, type PosFragment } from '~~/graphql/generated'
 
 const props = defineProps<{
    initial?: Partial<Point>

@@ -2,8 +2,15 @@
    <div id="map-wrap">
       <slot name="dialogs" />
       <client-only>
-         <MapLeaflet v-if="context" :center="center" :zoom="zoom" :disable-controls="disableControls" :ref="ready"
-            @click="(...args) => emit('click', ...args)" @contextmenu="(...args) => emit('contextmenu', ...args)">
+         <MapLeaflet
+            v-if="context"
+            :center="center"
+            :zoom="zoom"
+            :disable-controls="disableControls"
+            :ref="ready"
+            @click="(...args) => emit('click', ...args)"
+            @contextmenu="(...args) => emit('contextmenu', ...args)"
+         >
             <slot />
          </MapLeaflet>
       </client-only>
@@ -11,9 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { LeafletMouseEvent, Map } from 'leaflet';
-import { type PosFragment } from '~/graphql/generated';
-import type { World } from '~~/composables/useMap';
+import type { LeafletMouseEvent, Map } from 'leaflet'
+import { type PosFragment } from '~/graphql/generated'
+import type { World } from '~~/composables/useMap'
 
 const props = defineProps<{
    center?: PosFragment
@@ -44,7 +51,7 @@ interface DynmapOptions {
 const { data: options, refresh } = await useFetch<DynmapOptions>('/dynmap/up/configuration', {
    transform: r => {
       if (typeof r === 'string') return JSON.parse(r)
-      return r;
+      return r
    },
 })
 

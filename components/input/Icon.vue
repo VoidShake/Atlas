@@ -4,10 +4,9 @@
 </template>
 
 <script lang="ts" setup>
-import { type IconFragment, IconProvider } from '~~/graphql/generated';
+import { type IconFragment, IconProvider } from '~~/graphql/generated'
 
 defineProps<{
    initial?: Partial<IconFragment>
 }>()
-
 </script>

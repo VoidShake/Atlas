@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BookOpenIcon, FlagIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid';
+import { BookOpenIcon, FlagIcon, MapIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 

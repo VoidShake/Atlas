@@ -1,20 +1,25 @@
 <template>
    <div v-if="result">
       <MapPlaceMarker
-v-for="it in result.places.nodes" :key="it.id" :place="it" @click="click(it, $event)"
-         @mouseenter="$emit('mouseenter', it, $event)" @contextmenu="menu(it, $event)"
-/>
+         v-for="it in result.places.nodes"
+         :key="it.id"
+         :place="it"
+         @click="click(it, $event)"
+         @mouseenter="$emit('mouseenter', it, $event)"
+         @contextmenu="menu(it, $event)"
+      />
       <MapAreaMarker v-for="it in result.areas.nodes" :key="it.id" :area="it" />
       <DialogCreateTale
-v-if="selected?.action == 'add-lore'" :initial-places="[selected.location.id]"
+         v-if="selected?.action == 'add-lore'"
+         :initial-places="[selected.location.id]"
          @close="selected = null"
-/>
+      />
    </div>
 </template>
 
 <script lang="ts" setup>
-import type { LeafletMouseEvent } from 'leaflet';
-import { MapLocationsDocument, Permission, type MapLocationFragment, type MapPlaceFragment } from '~/graphql/generated';
+import type { LeafletMouseEvent } from 'leaflet'
+import { MapLocationsDocument, Permission, type MapLocationFragment, type MapPlaceFragment } from '~/graphql/generated'
 
 const router = useRouter()
 

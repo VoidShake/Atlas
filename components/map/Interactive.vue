@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { LeafletMouseEvent } from 'leaflet';
-import { Permission, type PosFragment } from '~/graphql/generated';
+import type { LeafletMouseEvent } from 'leaflet'
+import { Permission, type PosFragment } from '~/graphql/generated'
 
 const selected = ref<null | {
    pos: PosFragment

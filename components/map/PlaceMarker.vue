@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts" setup>
-import { LIcon, LMarker } from '@vue-leaflet/vue-leaflet';
-import { IconProvider, type MapPlaceFragment } from '~/graphql/generated';
+import { LIcon, LMarker } from '@vue-leaflet/vue-leaflet'
+import { IconProvider, type MapPlaceFragment } from '~/graphql/generated'
 
 const context = useMap()
 

@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import { FlagIcon, MapPinIcon, PencilIcon } from '@heroicons/vue/24/solid';
-import { Permission, type MapLocationFragment, type TaleFragment } from '~~/graphql/generated';
+import { FlagIcon, MapPinIcon, PencilIcon } from '@heroicons/vue/24/solid'
+import { Permission, type MapLocationFragment, type TaleFragment } from '~~/graphql/generated'
 
 const route = useRoute()
 
