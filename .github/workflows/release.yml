@@ -53,5 +53,6 @@ jobs:
               labels: ${{ steps.meta.outputs.labels }}
               build-args: |
                  github_token=${{ secrets.GITHUB_TOKEN }}
+                 sentry_token=${{ secrets.SENTRY_TOKEN }}
                  build_link=https://github.com/${{ env.GITHUB_REPO }}/tree/${{ github.sha }}
                  build_name=${{ steps.vars.outputs.sha_short }}

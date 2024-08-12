@@ -1,3 +1,5 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin'
+
 export default defineNuxtConfig({
    modules: [
       './modules/assets',
@@ -64,9 +66,25 @@ export default defineNuxtConfig({
       shim: false,
    },
 
+   vite: {
+      build: {
+         sourcemap: true, // Source map generation must be turned on
+      },
+      plugins: [
+         // Put the Sentry vite plugin after all other plugins
+         sentryVitePlugin({
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: 'possible-triangle',
+            project: 'atlas',
+         }),
+      ],
+   },
+
    runtimeConfig: {
       public: {
          apiUrl: 'http://localhost:3000/api',
+         sentryEnvironment: 'development',
+         sentryDsn: '<replace-me>',
       },
    },
 

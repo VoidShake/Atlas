@@ -98,3 +98,5 @@ public
 
 assets/icons
 resources
+# Sentry Config File
+.env.sentry-build-plugin

@@ -13,6 +13,9 @@ COPY . .
 ARG github_token
 ENV GITHUB_TOKEN=$github_token
 
+ARG sentry_token
+ENV SENTRY_AUTH_TOKEN=$sentry_token
+
 ARG build_link
 ENV BUILD_LINK=$build_link
 

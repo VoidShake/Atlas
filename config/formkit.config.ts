@@ -1,5 +1,6 @@
 import { generateClasses } from '@formkit/themes'
 import type { DefaultConfigOptions } from '@formkit/vue'
+import { captureException } from '@sentry/vue'
 import { mapValues } from 'lodash-es'
 import { icon, multi } from '~/components/input/formkit/custom'
 
@@ -71,8 +72,9 @@ const config: DefaultConfigOptions = {
          const response = await fetch(`https://cdn.jsdelivr.net/npm/heroicons/outline/${iconName}.svg`)
          const icon = await response.text()
          if (icon.startsWith('<svg')) return icon
-      } catch {}
-      console.warn(`Unable to find icon '${iconName}'`)
+      } catch (err) {
+         captureException(err)
+      }
    },
 }
 
