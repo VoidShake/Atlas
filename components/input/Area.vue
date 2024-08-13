@@ -1,7 +1,14 @@
 <template>
-   <FormKit v-model="points" name="points" placeholder="optional" label="Max-Y" type="hidden" />
+   <FormKit v-model="points" name="points" placeholder="optional" label="Max-Y" type="hidden" validation="length:3" />
    <MapView id="map" :zoom="8" :bounds="bounds" @click="addPoint">
-      <l-polygon :lat-lngs="latLngs" color="#41b782" :fill="true" :fill-opacity="0.5" fill-color="#41b782" />
+      <l-polygon
+         :lat-lngs="latLngs"
+         :fill="true"
+         :fill-opacity="0.5"
+         color="#41b782"
+         fill-color="#41b782"
+         :clickable="false"
+      />
       <MapDraggableMarker
          v-for="(point, i) in points"
          :key="i"
@@ -9,12 +16,20 @@
          @dragend="updatePoint(i, $event)"
          @contextmenu="removePoint(i)"
       />
+      <l-polyline
+         v-for="(latLng, i) in latLngs"
+         :key="i"
+         color="transparent"
+         :lat-lngs="[latLng, latLngs[(i + 1) % latLngs.length]]"
+         :weight="30"
+         @click="splitEdge(i + 1, $event)"
+      />
    </MapView>
 </template>
 
 <script lang="ts" setup>
-import { LPolygon } from '@vue-leaflet/vue-leaflet'
-import { minBy } from 'lodash-es'
+import { LPolygon, LPolyline } from '@vue-leaflet/vue-leaflet'
+import type { LeafletMouseEvent } from 'leaflet'
 import type { FlatPoint, PosFragment } from '~/graphql/generated'
 
 const context = useMap()
@@ -29,37 +44,20 @@ const latLngs = computed(() => points.value.map(it => toMapPos(context.value!.ma
 
 const bounds = computed(() => props.initial && getBounds(props.initial))
 
-function distance(a: FlatPoint, b: FlatPoint) {
-   return Math.sqrt((a.x - b.x) ** 2 + (a.z - b.z) ** 2)
-}
+function splitEdge(index: number, event: LeafletMouseEvent) {
+   L.DomEvent.stopPropagation(event)
 
-function findClosest(point: FlatPoint, between: FlatPoint[]) {
-   const min = minBy(between, it => distance(point, it))
-   return min && between.indexOf(min)
+   const { x, z } = roundPos(toWorldPos(context.value!.map, event.latlng))
+
+   const newPoints = [...points.value]
+   newPoints.splice(index, 0, { x, z })
+   points.value = newPoints
 }
 
 function addPoint(pos: PosFragment) {
+   if (points.value.length > 2) return
    const { x, z } = roundPos(pos)
-   const current = points.value
-   const closest = findClosest({ x, z }, current)
-   if (notNull(closest)) {
-      const neighbours = [
-         current[(closest - 1 + current.length) % current.length],
-         current[(closest + 1) % current.length],
-      ]
-      const closestNeighbour = findClosest({ x, z }, neighbours)!
-
-      const newPoints = [...current]
-      if (closestNeighbour === 0) {
-         newPoints.splice(closest, 0, { x, z })
-      } else {
-         newPoints.splice((closest + 1) % current.length, 0, { x, z })
-      }
-
-      points.value = newPoints
-   } else {
-      points.value = [...points.value, { x, z }]
-   }
+   points.value = [...points.value, { x, z }]
 }
 
 function removePoint(index: number) {
