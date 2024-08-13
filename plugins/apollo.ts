@@ -4,9 +4,10 @@ import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
 
 export default defineNuxtPlugin(nuxtApp => {
-   nuxtApp.hook('apollo:error', error => {
-      if ((error.networkError as ServerError)?.statusCode === 401) {
+   nuxtApp.hook('apollo:error', ({ networkError, forward, operation }) => {
+      if ((networkError as ServerError)?.statusCode === 401) {
          logout()
+         return forward(operation)
       }
    })
 
