@@ -35,8 +35,6 @@ type IconPage = {
    items: IconResult[]
 }
 
-const ICON_HOST = 'https://icons.macarena.ceo'
-
 const props = defineProps<{
    context: Pick<FormKitFrameworkContext<string>, 'node' | '_value'> & {
       placeholder?: string
@@ -49,11 +47,20 @@ function select({ name }: IconResult) {
    props.context.node.input(name)
 }
 
-const { data: icons } = await useFetch<IconPage>(`${ICON_HOST}/browse.json`, {
-   query: {
-      query,
+const queryBody = computed(() => {
+   const queries: unknown[] = [{ $or: ICON_NAMESPACES.map(namespace => ({ namespace })) }]
+   if (query.value.trim()) queries.push(query.value)
+   return {
+      query: {
+         $and: queries,
+      },
       limit: 45,
-   },
+   }
+})
+
+const { data: icons } = await useFetch<IconPage>(`${ICON_HOST}/browse.json`, {
+   method: 'POST',
+   body: queryBody,
    transform: page => {
       return { ...page, items: page.items.map(it => ({ ...it, name: `${it.namespace}/${it.id}` })) }
    },
