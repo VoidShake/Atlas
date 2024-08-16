@@ -8,7 +8,7 @@
          @mouseenter="$emit('mouseenter', it, $event)"
          @contextmenu="menu(it, $event)"
       />
-      <MapAreaMarker v-for="it in result.areas.nodes" :key="it.id" :area="it" />
+      <MapAreaMarker v-for="it in result.areas.nodes" :key="it.id" :area="it" @click="click(it, $event)" />
       <DialogCreateTale
          v-if="selected?.action == 'add-lore'"
          :initial-places="[selected.location.id]"
@@ -19,7 +19,13 @@
 
 <script lang="ts" setup>
 import type { LeafletMouseEvent } from 'leaflet'
-import { MapLocationsDocument, Permission, type MapLocationFragment, type MapPlaceFragment } from '~/graphql/generated'
+import {
+   MapLocationsDocument,
+   Permission,
+   type MapAreaFragment,
+   type MapLocationFragment,
+   type MapPlaceFragment,
+} from '~/graphql/generated'
 
 const router = useRouter()
 
@@ -48,10 +54,13 @@ function menu(location: MapLocationFragment, event: LeafletMouseEvent) {
    })
 }
 
-function click(location: MapPlaceFragment, event: LeafletMouseEvent) {
+function click(location: MapPlaceFragment | MapAreaFragment, event: LeafletMouseEvent) {
    emit('click', location, event)
    if (location.__typename === 'Place') {
-      router.push(`/map/${location.slug}`)
+      router.push(`/map/place/${location.slug}`)
+   }
+   if (location.__typename === 'Area') {
+      router.push(`/map/area/${location.slug}`)
    }
 }
 

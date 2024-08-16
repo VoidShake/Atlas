@@ -94,4 +94,22 @@ h5 {
 h6 {
    @apply text-e-base;
 }
+
+::-webkit-scrollbar {
+   width: 10px;
+}
+
+::-webkit-scrollbar-track {
+   background: var(--solid-600);
+   border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+   background: var(--solid-400);
+   border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: var(--solid-300);
+}
 </style>
