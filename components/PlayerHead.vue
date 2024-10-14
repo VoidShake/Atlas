@@ -1,13 +1,11 @@
 <template>
-   <div class="head" :style="{ backgroundImage: `url(${texture})` }" />
+   <div class="head" :style="{ backgroundImage: `url(https://mineskin.eu/avatar/${uuid}/32.png)` }" />
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
+defineProps<{
    uuid: string
 }>()
-
-const texture = await useSkin(props.uuid)
 </script>
 
 <style scoped>
