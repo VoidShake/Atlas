@@ -23,6 +23,10 @@ export default defineNuxtConfig({
          '/api': 'http://localhost:8080/api',
          '/auth': 'http://localhost:8080/auth',
          '/dynmap': 'http://localhost:8123',
+         '/skins': {
+            target: 'https://sessionserver.mojang.com/session/minecraft/profile/',
+            changeOrigin: true,
+         },
       },
    },
 

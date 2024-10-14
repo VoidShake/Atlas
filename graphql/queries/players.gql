@@ -1,0 +1,12 @@
+fragment MapPlayer on PlayerInfo {
+   uuid
+   pos {
+      ...Pos
+   }
+}
+
+query getPlayers {
+   players {
+      ...MapPlayer
+   }
+}

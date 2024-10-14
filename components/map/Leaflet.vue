@@ -13,6 +13,7 @@
    >
       <slot />
       <MapTiles />
+      <MapPlayers />
    </l-map>
 </template>
 
@@ -102,5 +103,10 @@ const background = computed(() => {
 
 img.leaflet-tile {
    image-rendering: pixelated;
+}
+
+.leaflet-div-icon {
+   border: none;
+   background: none;
 }
 </style>
