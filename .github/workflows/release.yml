@@ -4,6 +4,12 @@ on:
    release:
       types: [created]
    workflow_dispatch:
+   push:
+      branches: [main]
+
+concurrency:
+   group: ${{ github.workflow }}-${{ github.ref }}
+   cancel-in-progress: true
 
 env:
    REGISTRY: ghcr.io
@@ -38,7 +44,7 @@ jobs:
                  type=raw,value=latest
                  type=raw,value=stable,enable=${{ github.event_name == 'release' }}
                  type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
-                 type=sha,priority=250,enable=${{ github.event_name == 'workflow_dispatch' }}
+                 type=sha,priority=250,enable=${{ github.event_name != 'release' }}
 
          - name: Set outputs
            id: vars
