@@ -1,8 +1,10 @@
 <template>
    <l-marker :lat-lng="latLng">
-      <l-icon :icon-size="[32, 32]" :icon-anchor="[16, 16]" class="icon">
-         <PlayerHead :uuid="player.uuid" />
-      </l-icon>
+      <l-icon
+         :icon-size="[32, 32]"
+         :icon-anchor="[16, 16]"
+         :icon-url="`https://mineskin.eu/avatar/${player.uuid}/32.png`"
+      />
    </l-marker>
 </template>
 
